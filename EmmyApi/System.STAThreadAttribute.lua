@@ -1,0 +1,1 @@
+﻿---@class STAThreadAttribute : Attribute

@@ -1,0 +1,16 @@
+﻿---@class PackageInfo
+---@field public packageId string
+---@field public version string
+---@field public source number
+---@field public resolvedPath string
+---@field public assetPath string
+---@field public name string
+---@field public displayName string
+---@field public category string
+---@field public description string
+---@field public status number
+---@field public errors Error[]
+---@field public versions VersionsInfo
+---@field public dependencies DependencyInfo[]
+---@field public resolvedDependencies DependencyInfo[]
+---@field public keywords String[]

@@ -9,7 +9,7 @@ namespace DrbFramework.Logger
             get
             {
                 if (s_LogSystem == null)
-                    s_LogSystem = SystemFacade.GetSystem<ILogSystem>();
+                    s_LogSystem = SystemManager.GetSystem<ILogSystem>();
                 return s_LogSystem;
             }
         }

@@ -1,0 +1,1 @@
+﻿---@class MultiTargetImpl : DataSetObjectTargetImpl

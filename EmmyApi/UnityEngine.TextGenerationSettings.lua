@@ -1,0 +1,23 @@
+﻿---@class TextGenerationSettings : ValueType
+---@field public font Font
+---@field public color Color
+---@field public fontSize number
+---@field public lineSpacing number
+---@field public richText bool
+---@field public scaleFactor number
+---@field public fontStyle number
+---@field public textAnchor number
+---@field public alignByGeometry bool
+---@field public resizeTextForBestFit bool
+---@field public resizeTextMinSize number
+---@field public resizeTextMaxSize number
+---@field public updateBounds bool
+---@field public verticalOverflow number
+---@field public horizontalOverflow number
+---@field public generationExtents Vector2
+---@field public pivot Vector2
+---@field public generateOutOfBounds bool
+---@public
+---@param other TextGenerationSettings
+---@return bool
+function TextGenerationSettings:Equals(other) end

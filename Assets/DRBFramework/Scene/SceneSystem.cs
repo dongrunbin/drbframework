@@ -14,7 +14,7 @@ namespace DrbFramework.Scene
 
         public SceneSystem()
         {
-            m_ResourceSystem = SystemFacade.GetSystem<IResourceSystem>();
+            m_ResourceSystem = SystemManager.GetSystem<IResourceSystem>();
         }
 
         public int Priority

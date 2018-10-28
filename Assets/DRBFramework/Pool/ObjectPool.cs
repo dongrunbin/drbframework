@@ -8,14 +8,13 @@ using System.Collections.Generic;
 
 namespace DrbFramework.Pool
 {
-    public class ObjectPool : IObjectPool
+    public class ObjectPool<T> : IObjectPool<T>
     {
-        private readonly Stack<object> m_Stack = new Stack<object>();
+        private readonly Stack<T> m_Stack = new Stack<T>();
 
-        public ObjectPool(string name, Type type)
+        public ObjectPool(string name)
         {
             Name = name;
-            ObjectType = type;
         }
 
         public string Name { get; private set; }
@@ -42,14 +41,16 @@ namespace DrbFramework.Pool
             }
         }
 
-        public Type ObjectType { get; private set; }
-
-        public T Spawn<T>()
+        public Type ObjectType
         {
-            if (typeof(T) != ObjectType)
+            get
             {
-                throw new DrbException("对象类型不一致");
+                return typeof(T);
             }
+        }
+
+        public T Spawn()
+        {
             T t;
             if (m_Stack.Count == 0)
             {
@@ -58,17 +59,13 @@ namespace DrbFramework.Pool
             }
             else
             {
-                t = (T)m_Stack.Pop();
+                t = m_Stack.Pop();
             }
             return t;
         }
 
-        public void Despawn<T>(T element)
+        public void Despawn(T element)
         {
-            if (typeof(T) != ObjectType)
-            {
-                throw new DrbException("对象类型不一致");
-            }
             if (m_Stack.Count > 0 && ReferenceEquals(m_Stack.Peek(), element))
             {
                 throw new DrbException("该对象已被回收");

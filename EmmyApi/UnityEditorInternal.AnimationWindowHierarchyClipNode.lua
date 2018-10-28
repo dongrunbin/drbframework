@@ -1,0 +1,1 @@
+﻿---@class AnimationWindowHierarchyClipNode : AnimationWindowHierarchyNode

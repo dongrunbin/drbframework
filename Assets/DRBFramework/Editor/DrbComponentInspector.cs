@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 using DrbFramework.Extensions;
+using System;
 
 namespace DrbFramework.Editor
 {
@@ -35,11 +36,21 @@ namespace DrbFramework.Editor
 
         private SerializedProperty m_SettingHandlerTypeName;
 
+        private SerializedProperty m_EnabledProcedureTypeNames;
+        private SerializedProperty m_StartProcedureTypeName;
+
         private string[] m_DataTableParserTypeNames;
         private int m_DataTableParserTypeNamesIndex;
 
         private string[] m_SettingHandlerTypeNames;
         private int m_SettingHandlerTypeNamesIndex;
+
+        private List<string> m_SelectedProcedureTypeNames = new List<string>();
+        private string[] m_AllCSProcedureTypeNames;
+        private List<string> m_AllLuaProcedureNames = new List<string>();
+        private int m_StartProcedureIndex;
+
+        private string m_NewLuaProcedureName;
 
         protected override void OnEnable()
         {
@@ -55,6 +66,8 @@ namespace DrbFramework.Editor
             m_WebRequesterComponent = serializedObject.FindProperty("m_WebRequesterComponent");
             m_DataTableParserTypeName = serializedObject.FindProperty("m_DataTableParserTypeName");
             m_SettingHandlerTypeName = serializedObject.FindProperty("m_SettingHandlerTypeName");
+            m_EnabledProcedureTypeNames = serializedObject.FindProperty("m_EnabledProcedureTypeNames");
+            m_StartProcedureTypeName = serializedObject.FindProperty("m_StartProcedureTypeName");
 
             {
                 List<string> dataTableParserTypeNames = new List<string>();
@@ -88,6 +101,23 @@ namespace DrbFramework.Editor
                     }
                 }
                 m_SettingHandlerTypeNames = settingHandlerTypeNames.ToArray();
+            }
+
+            {
+                List<string> procedureTypeNames = new List<string>();
+                procedureTypeNames.AddRange(typeof(Procedure.IProcedure).GetAllImplementationNames());
+                procedureTypeNames.Remove("DrbFramework.Procedure.LuaProcedure");
+                m_AllCSProcedureTypeNames = procedureTypeNames.ToArray();
+                m_AllLuaProcedureNames.Clear();
+                m_SelectedProcedureTypeNames.Clear();
+                for (int i = 0; i < m_EnabledProcedureTypeNames.arraySize; ++i)
+                {
+                    m_SelectedProcedureTypeNames.Add(m_EnabledProcedureTypeNames.GetArrayElementAtIndex(i).stringValue);
+                    if (!procedureTypeNames.Contains(m_EnabledProcedureTypeNames.GetArrayElementAtIndex(i).stringValue))
+                    {
+                        m_AllLuaProcedureNames.Add(m_EnabledProcedureTypeNames.GetArrayElementAtIndex(i).stringValue);
+                    }
+                }
             }
 
         }
@@ -166,7 +196,7 @@ namespace DrbFramework.Editor
             EndModule();
 
             BeginModule("设置系统");
-            int settingHandlerSelectedIndex = EditorGUILayout.Popup("解析器", m_SettingHandlerTypeNamesIndex, m_SettingHandlerTypeNames);
+            int settingHandlerSelectedIndex = EditorGUILayout.Popup("处理器", m_SettingHandlerTypeNamesIndex, m_SettingHandlerTypeNames);
             if (settingHandlerSelectedIndex != m_SettingHandlerTypeNamesIndex)
             {
                 m_SettingHandlerTypeNamesIndex = settingHandlerSelectedIndex;
@@ -174,7 +204,112 @@ namespace DrbFramework.Editor
             }
             EndModule();
 
+            BeginModule("流程系统");
+            EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
+            {
+                GUILayout.Label("启用的流程", EditorStyles.boldLabel);
+                if (m_AllCSProcedureTypeNames.Length > 0)
+                {
+                    EditorGUILayout.BeginVertical("box");
+                    {
+                        foreach (string procedureTypeName in m_AllCSProcedureTypeNames)
+                        {
+                            bool selected = m_SelectedProcedureTypeNames.Contains(procedureTypeName);
+                            if (selected != EditorGUILayout.ToggleLeft(procedureTypeName + " (csharp)", selected))
+                            {
+                                if (!selected)
+                                {
+                                    m_SelectedProcedureTypeNames.Add(procedureTypeName);
+                                    UpdateEnabledProcedureTypeNames();
+                                }
+                                else
+                                {
+                                    m_SelectedProcedureTypeNames.Remove(procedureTypeName);
+                                    UpdateEnabledProcedureTypeNames();
+                                }
+                            }
+                        }
+                        for (int i = m_AllLuaProcedureNames.Count - 1; i >= 0; --i)
+                        {
+                            string procedureTypeName = m_AllLuaProcedureNames[i];
+                            bool selected = m_SelectedProcedureTypeNames.Contains(procedureTypeName);
+                            if (selected != EditorGUILayout.ToggleLeft(procedureTypeName + " (lua)", selected))
+                            {
+                                if (!selected)
+                                {
+                                    m_SelectedProcedureTypeNames.Add(procedureTypeName);
+                                    m_AllLuaProcedureNames.Insert(0, procedureTypeName);
+                                    UpdateEnabledProcedureTypeNames();
+                                }
+                                else
+                                {
+                                    m_SelectedProcedureTypeNames.Remove(procedureTypeName);
+                                    m_AllLuaProcedureNames.Remove(procedureTypeName);
+                                    UpdateEnabledProcedureTypeNames();
+                                }
+                            }
+                        }
+                    }
+                    EditorGUILayout.EndVertical();
+                }
+                else
+                {
+                    EditorGUILayout.HelpBox("暂无可用流程", MessageType.Warning);
+                }
+
+                if (m_SelectedProcedureTypeNames.Count > 0)
+                {
+                    EditorGUILayout.Separator();
+
+                    int selectedIndex = EditorGUILayout.Popup("开始流程", m_StartProcedureIndex, m_SelectedProcedureTypeNames.ToArray());
+                    if (selectedIndex != m_StartProcedureIndex)
+                    {
+                        m_StartProcedureIndex = selectedIndex;
+                        m_StartProcedureTypeName.stringValue = m_SelectedProcedureTypeNames[selectedIndex];
+                    }
+                }
+                else
+                {
+                    EditorGUILayout.HelpBox("请选择优先启动的流程", MessageType.Info);
+                }
+            }
+            EditorGUI.EndDisabledGroup();
+
+            m_NewLuaProcedureName = EditorGUILayout.TextField("新增Lua流程名称", m_NewLuaProcedureName);
+            if (GUILayout.Button("添加Lua流程") && !string.IsNullOrEmpty(m_NewLuaProcedureName) && !m_SelectedProcedureTypeNames.Contains(m_NewLuaProcedureName))
+            {
+                m_AllLuaProcedureNames.Add(m_NewLuaProcedureName);
+                m_SelectedProcedureTypeNames.Add(m_NewLuaProcedureName);
+                UpdateEnabledProcedureTypeNames();
+                m_NewLuaProcedureName = "";
+            }
+
+            EndModule();
+
             serializedObject.ApplyModifiedProperties();
+        }
+
+
+        private void UpdateEnabledProcedureTypeNames()
+        {
+            m_EnabledProcedureTypeNames.ClearArray();
+
+            m_SelectedProcedureTypeNames.Sort();
+            int count = m_SelectedProcedureTypeNames.Count;
+            for (int i = 0; i < count; i++)
+            {
+                m_EnabledProcedureTypeNames.InsertArrayElementAtIndex(i);
+                m_EnabledProcedureTypeNames.GetArrayElementAtIndex(i).stringValue = m_SelectedProcedureTypeNames[i];
+            }
+
+            if (!string.IsNullOrEmpty(m_StartProcedureTypeName.stringValue))
+            {
+                m_StartProcedureIndex = m_SelectedProcedureTypeNames.IndexOf(m_StartProcedureTypeName.stringValue);
+                if (m_StartProcedureIndex < 0)
+                {
+                    m_StartProcedureTypeName.stringValue = null;
+                }
+            }
         }
     }
 }

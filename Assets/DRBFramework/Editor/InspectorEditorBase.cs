@@ -23,13 +23,13 @@ namespace DrbFramework.Editor
             EditorGUI.EndDisabledGroup();
         }
 
-        protected void BeginModule(string moduleName)
+        protected virtual void BeginModule(string moduleName)
         {
             EditorGUILayout.BeginVertical("box");
             EditorGUILayout.LabelField(string.Format("{0}:", moduleName));
         }
 
-        protected void EndModule()
+        protected virtual void EndModule()
         {
             EditorGUILayout.EndVertical();
         }

@@ -3,7 +3,7 @@ using System;
 
 namespace DrbFramework.Pool
 {
-    public interface IObjectPool
+    public interface IObjectPool<T>
     {
         string Name { get; }
 
@@ -13,9 +13,9 @@ namespace DrbFramework.Pool
 
         int CountInactive { get; }
 
-        T Spawn<T>();
+        T Spawn();
 
-        void Despawn<T>(T obj);
+        void Despawn(T obj);
 
         void Clear();
     }

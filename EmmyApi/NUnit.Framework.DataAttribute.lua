@@ -1,0 +1,1 @@
+﻿---@class DataAttribute : NUnitAttribute

@@ -1,0 +1,1 @@
+﻿---@class ShortcutAttribute : Attribute

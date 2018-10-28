@@ -1,0 +1,1 @@
+﻿---@class TrackShortcutManipulator : Manipulator

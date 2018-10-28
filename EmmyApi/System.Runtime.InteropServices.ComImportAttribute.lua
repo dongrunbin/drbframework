@@ -1,0 +1,1 @@
+﻿---@class ComImportAttribute : Attribute

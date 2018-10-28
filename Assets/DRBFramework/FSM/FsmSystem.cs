@@ -38,7 +38,7 @@ namespace DrbFramework.Fsm
             }
         }
 
-        public IFsm CreateFsm(string name, params FsmState[] states)
+        public IFsm CreateFsm(string name, params IFsmState[] states)
         {
             if (HasFsm(name))
             {

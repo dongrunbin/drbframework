@@ -9,7 +9,7 @@ namespace DrbFramework.Test
     {
         private void Start()
         {
-            SystemFacade.GetSystem<IHttpSystem>().Request("www.baidu.com", null, 30000, OnComplete);
+            SystemManager.GetSystem<IHttpSystem>().Request("www.baidu.com", null, 30000, OnComplete);
         }
 
         private void OnComplete(object sender, HttpRequestCompleteEventArgs e)

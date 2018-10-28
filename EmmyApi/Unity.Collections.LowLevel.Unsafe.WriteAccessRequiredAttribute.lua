@@ -1,0 +1,1 @@
+﻿---@class WriteAccessRequiredAttribute : Attribute

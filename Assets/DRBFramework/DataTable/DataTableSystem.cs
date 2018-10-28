@@ -14,7 +14,7 @@ namespace DrbFramework.DataTable
             {
                 if (m_ResourceSystem == null)
                 {
-                    m_ResourceSystem = SystemFacade.GetSystem<IResourceSystem>();
+                    m_ResourceSystem = SystemManager.GetSystem<IResourceSystem>();
                 }
                 return m_ResourceSystem;
             }

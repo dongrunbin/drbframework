@@ -1,0 +1,1 @@
+﻿---@class UploadHandlerFile : UploadHandler

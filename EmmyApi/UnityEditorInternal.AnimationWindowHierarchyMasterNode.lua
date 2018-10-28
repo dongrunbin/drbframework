@@ -1,0 +1,1 @@
+﻿---@class AnimationWindowHierarchyMasterNode : AnimationWindowHierarchyNode

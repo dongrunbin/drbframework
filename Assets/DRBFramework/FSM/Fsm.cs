@@ -6,15 +6,15 @@ namespace DrbFramework.Fsm
 {
     public class Fsm : IFsm
     {
-        private IDictionary<string, FsmState> m_StateDic;
+        private IDictionary<string, IFsmState> m_StateDic;
 
         public Fsm(string name)
         {
             Name = name;
-            m_StateDic = new Dictionary<string, FsmState>();
+            m_StateDic = new Dictionary<string, IFsmState>();
         }
 
-        public Fsm(string name, params FsmState[] states) : this(name)
+        public Fsm(string name, params IFsmState[] states) : this(name)
         {
             if (states != null && states.Length > 0)
             {
@@ -26,7 +26,7 @@ namespace DrbFramework.Fsm
         {
             if (stateTypes != null && stateTypes.Length > 0)
             {
-                FsmState[] states = new FsmState[stateTypes.Length];
+                IFsmState[] states = new IFsmState[stateTypes.Length];
                 for (int i = 0; i < stateTypes.Length; i++)
                 {
                     Type procedureType = Type.GetType(stateTypes[i]);
@@ -42,13 +42,13 @@ namespace DrbFramework.Fsm
             private set;
         }
 
-        public virtual FsmState CurrentState
+        public virtual IFsmState CurrentState
         {
             get;
             private set;
         }
 
-        public void AddState(params FsmState[] states)
+        public void AddState(params IFsmState[] states)
         {
             if (states == null || states.Length == 0)
             {
@@ -62,11 +62,11 @@ namespace DrbFramework.Fsm
                 }
                 m_StateDic.Add(states[i].StateName, states[i]);
 
-                states[i].OnInit();
+                states[i].OnInit(this);
             }
         }
 
-        public void Start<T>(object userData = null) where T : FsmState
+        public void Start<T>(object userData = null) where T : IFsmState
         {
             ChangeState<T>(userData);
         }
@@ -84,12 +84,12 @@ namespace DrbFramework.Fsm
             }
         }
 
-        public void ChangeState<T>(object userData = null) where T : FsmState
+        public void ChangeState<T>(object userData = null) where T : IFsmState
         {
-            ICollection<FsmState> states = m_StateDic.Values;
+            ICollection<IFsmState> states = m_StateDic.Values;
             Type type = typeof(T);
-            FsmState state = null;
-            foreach (FsmState s in states)
+            IFsmState state = null;
+            foreach (IFsmState s in states)
             {
                 if (s.GetType() == type)
                 {
@@ -115,7 +115,7 @@ namespace DrbFramework.Fsm
 
         public void ChangeState(string stateName, object userData = null)
         {
-            FsmState state = null;
+            IFsmState state = null;
             if (!m_StateDic.TryGetValue(stateName, out state))
             {
                 throw new DrbException("状态机{0}不存在状态{1}", Name, stateName);
@@ -143,20 +143,20 @@ namespace DrbFramework.Fsm
                 CurrentState.OnLeave();
                 CurrentState = null;
             }
-            ICollection<FsmState> states = m_StateDic.Values;
-            foreach (FsmState s in states)
+            ICollection<IFsmState> states = m_StateDic.Values;
+            foreach (IFsmState s in states)
             {
                 s.OnDestroy();
             }
             m_StateDic.Clear();
         }
 
-        public T GetState<T>() where T : FsmState
+        public T GetState<T>() where T : IFsmState
         {
-            ICollection<FsmState> states = m_StateDic.Values;
+            ICollection<IFsmState> states = m_StateDic.Values;
             Type type = typeof(T);
-            FsmState state = null;
-            foreach (FsmState s in states)
+            IFsmState state = null;
+            foreach (IFsmState s in states)
             {
                 if (s.GetType() == type)
                 {
@@ -167,14 +167,14 @@ namespace DrbFramework.Fsm
             return (T)state;
         }
 
-        public FsmState GetState(string name)
+        public IFsmState GetState(string name)
         {
-            FsmState state = null;
+            IFsmState state = null;
             m_StateDic.TryGetValue(name, out state);
             return state;
         }
 
-        public ICollection<FsmState> GetStates()
+        public ICollection<IFsmState> GetStates()
         {
             return m_StateDic.Values;
         }

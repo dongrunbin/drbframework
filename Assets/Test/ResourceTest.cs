@@ -10,7 +10,7 @@ namespace DrbFramework.Test
     {
         private void Start()
         {
-            SystemFacade.GetSystem<IResourceSystem>().LoadAssetAsync("download/test.txt", "download/test.txt", SuccessCallback, FailCallback, null);
+            SystemManager.GetSystem<IResourceSystem>().LoadAssetAsync("download/test.txt", "download/test.txt", SuccessCallback, FailCallback, null);
         }
 
         private void FailCallback(string assetPath, string assetName, string error, object userData)

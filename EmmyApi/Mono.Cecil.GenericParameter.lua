@@ -1,0 +1,28 @@
+﻿---@class GenericParameter : TypeReference
+---@field public Attributes number
+---@field public Position number
+---@field public Type number
+---@field public Owner IGenericParameterProvider
+---@field public HasConstraints bool
+---@field public Constraints Collection`1
+---@field public HasCustomAttributes bool
+---@field public CustomAttributes Collection`1
+---@field public Scope IMetadataScope
+---@field public DeclaringType TypeReference
+---@field public DeclaringMethod MethodReference
+---@field public Module ModuleDefinition
+---@field public Name string
+---@field public Namespace string
+---@field public FullName string
+---@field public IsGenericParameter bool
+---@field public ContainsGenericParameter bool
+---@field public MetadataType number
+---@field public IsNonVariant bool
+---@field public IsCovariant bool
+---@field public IsContravariant bool
+---@field public HasReferenceTypeConstraint bool
+---@field public HasNotNullableValueTypeConstraint bool
+---@field public HasDefaultConstructorConstraint bool
+---@public
+---@return TypeDefinition
+function GenericParameter:Resolve() end

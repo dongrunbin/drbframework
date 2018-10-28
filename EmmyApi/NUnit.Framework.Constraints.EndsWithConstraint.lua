@@ -1,0 +1,1 @@
+﻿---@class EndsWithConstraint : StringConstraint

@@ -1,0 +1,1 @@
+﻿---@class ContextStaticAttribute : Attribute

@@ -1,0 +1,30 @@
+﻿---@class SerializedModelTarget : SerializedDataSetTrackable
+---@field public BaseSizeProperty SerializedProperty
+---@field public BaseSize number
+---@field public AspectRatioXYProperty SerializedProperty
+---@field public AspectRatioXY number
+---@field public AspectRatioXZProperty SerializedProperty
+---@field public AspectRatioXZ number
+---@field public ShowBoundingBoxProperty SerializedProperty
+---@field public GuideViewDisplayMode SerializedProperty
+---@field public OverrideSnappingPose SerializedProperty
+---@field public GuideViewModel SerializedProperty
+---@field public GuideViewImage SerializedProperty
+---@field public ShowBoundingBox bool
+---@field public BBoxMinProperty SerializedProperty
+---@field public BBoxMin Vector3
+---@field public BBoxMaxProperty SerializedProperty
+---@field public BBoxMax Vector3
+---@field public PreviewImageProperty SerializedProperty
+---@field public PreviewImage Texture2D
+---@field public GuideViewMaterial2D Material
+---@field public GuideViewMaterial3D Material
+---@field public LengthProperty SerializedProperty
+---@field public Length number
+---@field public WidthProperty SerializedProperty
+---@field public Width number
+---@field public HeightProperty SerializedProperty
+---@field public Height number
+---@public
+---@return List`1
+function SerializedModelTarget:GetBehaviours() end

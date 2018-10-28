@@ -1,0 +1,11 @@
+﻿---@class SupportedRenderingFeatures
+---@field public active SupportedRenderingFeatures
+---@field public reflectionProbeSupportFlags number
+---@field public defaultMixedLightingMode number
+---@field public supportedMixedLightingModes number
+---@field public supportedLightmapBakeTypes number
+---@field public supportedLightmapsModes number
+---@field public rendererSupportsLightProbeProxyVolumes bool
+---@field public rendererSupportsMotionVectors bool
+---@field public rendererSupportsReceiveShadows bool
+---@field public rendererSupportsReflectionProbes bool

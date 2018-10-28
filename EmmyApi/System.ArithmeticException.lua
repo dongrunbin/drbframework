@@ -1,0 +1,1 @@
+﻿---@class ArithmeticException : SystemException

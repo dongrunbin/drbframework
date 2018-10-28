@@ -1,0 +1,1 @@
+﻿---@class BuildFailedException : Exception

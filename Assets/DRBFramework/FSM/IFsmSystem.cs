@@ -8,7 +8,7 @@ namespace DrbFramework.Fsm
 
         IFsm GetFsm(string name);
 
-        IFsm CreateFsm(string name, params FsmState[] states);
+        IFsm CreateFsm(string name, params IFsmState[] states);
 
         IFsm CreateFsm(string name, params string[] stateTypes);
 

@@ -1,0 +1,1 @@
+﻿---@class ENCuhc : CP949

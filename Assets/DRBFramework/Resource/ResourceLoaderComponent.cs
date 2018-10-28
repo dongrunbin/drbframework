@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace DrbFramework.Resource
 {
+    [DisallowMultipleComponent]
     public abstract class ResourceLoaderComponent : MonoBehaviour, IResourceLoader
     {
         public abstract EventHandler<LoadResourceSuccessArgs> OnLoadResourceSuccess { protected get; set; }

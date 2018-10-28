@@ -1,0 +1,1 @@
+﻿---@class OptionalParameter : AnalyticsEventParameter

@@ -1,0 +1,14 @@
+﻿---@class Tolerance
+---@field public Default Tolerance
+---@field public Exact Tolerance
+---@field public Mode number
+---@field public Value Object
+---@field public Percent Tolerance
+---@field public Ulps Tolerance
+---@field public Days Tolerance
+---@field public Hours Tolerance
+---@field public Minutes Tolerance
+---@field public Seconds Tolerance
+---@field public Milliseconds Tolerance
+---@field public Ticks Tolerance
+---@field public IsUnsetOrDefault bool

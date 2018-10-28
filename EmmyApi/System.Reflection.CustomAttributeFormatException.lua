@@ -1,0 +1,1 @@
+﻿---@class CustomAttributeFormatException : FormatException

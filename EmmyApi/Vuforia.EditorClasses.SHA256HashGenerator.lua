@@ -1,0 +1,1 @@
+﻿---@class SHA256HashGenerator

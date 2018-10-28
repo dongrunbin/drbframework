@@ -1,0 +1,1 @@
+﻿---@class CollabHistoryRevisionLine : VisualElement

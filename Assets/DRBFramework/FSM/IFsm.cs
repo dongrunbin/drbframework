@@ -9,25 +9,25 @@ namespace DrbFramework.Fsm
 
         string Name { get; }
 
-        FsmState CurrentState { get; }
+        IFsmState CurrentState { get; }
 
         string CurrentStateName { get; }
 
-        void AddState(params FsmState[] states);
+        void AddState(params IFsmState[] states);
 
-        void Start<T>(object userData = null) where T : FsmState;
+        void Start<T>(object userData = null) where T : IFsmState;
 
         void Start(string stateName, object userData = null);
 
-        void ChangeState<T>(object userData = null) where T : FsmState;
+        void ChangeState<T>(object userData = null) where T : IFsmState;
 
         void ChangeState(string stateName, object userData = null);
 
-        T GetState<T>() where T : FsmState;
+        T GetState<T>() where T : IFsmState;
 
-        ICollection<FsmState> GetStates();
+        ICollection<IFsmState> GetStates();
 
-        FsmState GetState(string name);
+        IFsmState GetState(string name);
 
         void Update(float elapseSeconds, float realElapseSeconds);
 

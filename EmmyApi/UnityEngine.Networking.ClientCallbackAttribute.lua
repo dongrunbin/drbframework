@@ -1,0 +1,1 @@
+﻿---@class ClientCallbackAttribute : Attribute

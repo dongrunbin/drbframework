@@ -1,0 +1,14 @@
+﻿---@class FontData
+---@field public defaultFontData FontData
+---@field public font Font
+---@field public fontSize number
+---@field public fontStyle number
+---@field public bestFit bool
+---@field public minSize number
+---@field public maxSize number
+---@field public alignment number
+---@field public alignByGeometry bool
+---@field public richText bool
+---@field public horizontalOverflow number
+---@field public verticalOverflow number
+---@field public lineSpacing number

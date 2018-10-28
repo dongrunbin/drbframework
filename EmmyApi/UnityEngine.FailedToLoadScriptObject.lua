@@ -1,0 +1,1 @@
+﻿---@class FailedToLoadScriptObject : Object

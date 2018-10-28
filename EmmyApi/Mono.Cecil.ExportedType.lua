@@ -1,0 +1,40 @@
+﻿---@class ExportedType
+---@field public Namespace string
+---@field public Name string
+---@field public Attributes number
+---@field public Scope IMetadataScope
+---@field public DeclaringType ExportedType
+---@field public MetadataToken MetadataToken
+---@field public Identifier number
+---@field public IsNotPublic bool
+---@field public IsPublic bool
+---@field public IsNestedPublic bool
+---@field public IsNestedPrivate bool
+---@field public IsNestedFamily bool
+---@field public IsNestedAssembly bool
+---@field public IsNestedFamilyAndAssembly bool
+---@field public IsNestedFamilyOrAssembly bool
+---@field public IsAutoLayout bool
+---@field public IsSequentialLayout bool
+---@field public IsExplicitLayout bool
+---@field public IsClass bool
+---@field public IsInterface bool
+---@field public IsAbstract bool
+---@field public IsSealed bool
+---@field public IsSpecialName bool
+---@field public IsImport bool
+---@field public IsSerializable bool
+---@field public IsAnsiClass bool
+---@field public IsUnicodeClass bool
+---@field public IsAutoClass bool
+---@field public IsBeforeFieldInit bool
+---@field public IsRuntimeSpecialName bool
+---@field public HasSecurity bool
+---@field public IsForwarder bool
+---@field public FullName string
+---@public
+---@return string
+function ExportedType:ToString() end
+---@public
+---@return TypeDefinition
+function ExportedType:Resolve() end

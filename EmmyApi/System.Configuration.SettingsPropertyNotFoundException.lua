@@ -1,0 +1,1 @@
+﻿---@class SettingsPropertyNotFoundException : Exception

@@ -1,0 +1,1 @@
+﻿---@class OperationCanceledException : SystemException

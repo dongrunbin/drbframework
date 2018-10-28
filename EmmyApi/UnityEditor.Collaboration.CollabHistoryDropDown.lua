@@ -1,0 +1,1 @@
+﻿---@class CollabHistoryDropDown : VisualElement

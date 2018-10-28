@@ -1,0 +1,1 @@
+﻿---@class ClipActionsShortcutManipulator : Manipulator

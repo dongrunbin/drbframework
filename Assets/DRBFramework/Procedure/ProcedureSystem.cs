@@ -17,15 +17,21 @@ namespace DrbFramework.Procedure
 
         public ProcedureSystem(params string[] procedureTypes)
         {
-            IFsmSystem fsmManager = SystemFacade.GetSystem<IFsmSystem>();
+            IFsmSystem fsmManager = SystemManager.GetSystem<IFsmSystem>();
             Fsm = fsmManager.CreateFsm(GetType().FullName, procedureTypes);
+        }
+
+        public ProcedureSystem(params IProcedure[] procedures)
+        {
+            IFsmSystem fsmManager = SystemManager.GetSystem<IFsmSystem>();
+            Fsm = fsmManager.CreateFsm(GetType().FullName, procedures);
         }
 
         public void Shutdown()
         {
             if (Fsm != null)
             {
-                IFsmSystem fsmManager = SystemFacade.GetSystem<IFsmSystem>();
+                IFsmSystem fsmManager = SystemManager.GetSystem<IFsmSystem>();
                 if (fsmManager != null)
                 {
                     fsmManager.DestroyFsm(GetType().FullName);
@@ -40,18 +46,18 @@ namespace DrbFramework.Procedure
 
         }
 
-        public Procedure CurrentProcedure
+        public IProcedure CurrentProcedure
         {
             get;
             private set;
         }
 
-        public Procedure GetProcedure<T>() where T : Procedure
+        public IProcedure GetProcedure<T>() where T : IProcedure
         {
             return Fsm.GetState<T>();
         }
 
-        public void Start<T>() where T : Procedure
+        public void Start<T>() where T : IProcedure
         {
             Fsm.Start<T>();
         }

@@ -1,0 +1,11 @@
+﻿---@class ConstraintStyleBase
+---@field public Activate GUIContent
+---@field public Zero GUIContent
+---@field public AtRest GUIContent
+---@field public Offset GUIContent
+---@field public Sources GUIContent
+---@field public Weight GUIContent
+---@field public IsActive GUIContent
+---@field public IsLocked GUIContent
+---@field public Axes GUIContent[]
+---@field public ConstraintSettings GUIContent

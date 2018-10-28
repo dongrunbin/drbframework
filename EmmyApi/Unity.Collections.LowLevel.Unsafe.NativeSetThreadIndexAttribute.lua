@@ -1,0 +1,1 @@
+﻿---@class NativeSetThreadIndexAttribute : Attribute

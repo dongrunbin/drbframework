@@ -8,7 +8,7 @@ namespace DrbFramework.Test.Network
     {
         private void Start()
         {
-            INetworkChannel channel = SystemFacade.GetSystem<INetworkSystem>().CreateChannel("test", new TestHandler(), new TestEncoder(), new TestDecoder());
+            INetworkChannel channel = SystemManager.GetSystem<INetworkSystem>().CreateChannel("test", new TestHandler(), new TestEncoder(), new TestDecoder());
             channel.Connect(System.Net.IPAddress.Parse("127.0.0.1"), 55555);
         }
     }

@@ -1,0 +1,1 @@
+﻿---@class HotfixDelegateAttribute : Attribute

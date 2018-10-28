@@ -11,6 +11,6 @@ namespace DrbFramework.Pool
             get;
         }
 
-        ObjectPool CreatePool(string name, Type type);
+        IObjectPool<T> CreatePool<T>(string name);
     }
 }

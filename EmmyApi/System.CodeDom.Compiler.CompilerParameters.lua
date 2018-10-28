@@ -1,0 +1,16 @@
+﻿---@class CompilerParameters
+---@field public CompilerOptions string
+---@field public Evidence Evidence
+---@field public GenerateExecutable bool
+---@field public GenerateInMemory bool
+---@field public IncludeDebugInformation bool
+---@field public MainClass string
+---@field public OutputAssembly string
+---@field public ReferencedAssemblies StringCollection
+---@field public TempFiles TempFileCollection
+---@field public TreatWarningsAsErrors bool
+---@field public UserToken IntPtr
+---@field public WarningLevel number
+---@field public Win32Resource string
+---@field public EmbeddedResources StringCollection
+---@field public LinkedResources StringCollection

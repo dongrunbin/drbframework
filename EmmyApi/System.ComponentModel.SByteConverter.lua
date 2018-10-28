@@ -1,0 +1,1 @@
+﻿---@class SByteConverter : BaseNumberConverter

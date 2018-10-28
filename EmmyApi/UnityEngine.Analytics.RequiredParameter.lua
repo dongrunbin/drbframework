@@ -1,0 +1,1 @@
+﻿---@class RequiredParameter : AnalyticsEventParameter

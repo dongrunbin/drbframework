@@ -41,7 +41,7 @@ namespace DrbFramework.UI
             //如果窗口不存在 则
             if (!m_FormDic.ContainsKey(assetName) || m_FormDic[assetName] == null)
             {
-                GameObject go = SystemFacade.GetSystem<IResourceSystem>().LoadAsset<GameObject>(assetPath, assetName);
+                GameObject go = SystemManager.GetSystem<IResourceSystem>().LoadAsset<GameObject>(assetPath, assetName);
                 go = Object.Instantiate(go);
                 form = go.GetComponent<UIForm>();
                 m_FormDic[assetName] = form;

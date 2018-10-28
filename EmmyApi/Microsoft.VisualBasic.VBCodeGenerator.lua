@@ -1,0 +1,1 @@
+﻿---@class VBCodeGenerator : CodeGenerator

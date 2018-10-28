@@ -1,0 +1,77 @@
+﻿---@class SystemInfo
+---@field public unsupportedIdentifier string
+---@field public batteryLevel number
+---@field public batteryStatus number
+---@field public operatingSystem string
+---@field public operatingSystemFamily number
+---@field public processorType string
+---@field public processorFrequency number
+---@field public processorCount number
+---@field public systemMemorySize number
+---@field public deviceUniqueIdentifier string
+---@field public deviceName string
+---@field public deviceModel string
+---@field public supportsAccelerometer bool
+---@field public supportsGyroscope bool
+---@field public supportsLocationService bool
+---@field public supportsVibration bool
+---@field public supportsAudio bool
+---@field public deviceType number
+---@field public graphicsMemorySize number
+---@field public graphicsDeviceName string
+---@field public graphicsDeviceVendor string
+---@field public graphicsDeviceID number
+---@field public graphicsDeviceVendorID number
+---@field public graphicsDeviceType number
+---@field public graphicsUVStartsAtTop bool
+---@field public graphicsDeviceVersion string
+---@field public graphicsShaderLevel number
+---@field public graphicsMultiThreaded bool
+---@field public supportsShadows bool
+---@field public supportsRawShadowDepthSampling bool
+---@field public supportsRenderTextures bool
+---@field public supportsMotionVectors bool
+---@field public supportsRenderToCubemap bool
+---@field public supportsImageEffects bool
+---@field public supports3DTextures bool
+---@field public supports2DArrayTextures bool
+---@field public supports3DRenderTextures bool
+---@field public supportsCubemapArrayTextures bool
+---@field public copyTextureSupport number
+---@field public supportsComputeShaders bool
+---@field public supportsInstancing bool
+---@field public supportsHardwareQuadTopology bool
+---@field public supports32bitsIndexBuffer bool
+---@field public supportsSparseTextures bool
+---@field public supportedRenderTargetCount number
+---@field public supportsMultisampledTextures number
+---@field public supportsMultisampleAutoResolve bool
+---@field public supportsTextureWrapMirrorOnce number
+---@field public usesReversedZBuffer bool
+---@field public supportsStencil number
+---@field public npotSupport number
+---@field public maxTextureSize number
+---@field public maxCubemapSize number
+---@field public supportsAsyncCompute bool
+---@field public supportsGPUFence bool
+---@field public supportsAsyncGPUReadback bool
+---@field public supportsMipStreaming bool
+---@field public graphicsPixelFillrate number
+---@field public supportsVertexPrograms bool
+---@public
+---@param format number
+---@return bool
+function SystemInfo.SupportsRenderTextureFormat(format) end
+---@public
+---@param format number
+---@return bool
+function SystemInfo.SupportsBlendingOnRenderTextureFormat(format) end
+---@public
+---@param format number
+---@return bool
+function SystemInfo.SupportsTextureFormat(format) end
+---@public
+---@param format number
+---@param usage number
+---@return bool
+function SystemInfo.IsFormatSupported(format, usage) end

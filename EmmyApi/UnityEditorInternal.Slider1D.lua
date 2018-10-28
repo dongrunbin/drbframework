@@ -1,0 +1,1 @@
+﻿---@class Slider1D

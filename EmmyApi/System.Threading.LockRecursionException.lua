@@ -1,0 +1,1 @@
+﻿---@class LockRecursionException : Exception

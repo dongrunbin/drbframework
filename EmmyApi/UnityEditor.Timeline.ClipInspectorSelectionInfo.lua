@@ -1,0 +1,22 @@
+﻿---@class ClipInspectorSelectionInfo
+---@field public start number
+---@field public end number
+---@field public duration number
+---@field public multipleClipStart number
+---@field public multipleClipEnd number
+---@field public smallestDuration number
+---@field public hasMultipleStartValues bool
+---@field public hasMultipleEndValues bool
+---@field public hasMultipleDurationValues bool
+---@field public supportsExtrapolation bool
+---@field public supportsClipIn bool
+---@field public supportsSpeedMultiplier bool
+---@field public supportsBlending bool
+---@field public hasBlendIn bool
+---@field public hasBlendOut bool
+---@field public selectedAssetTypesAreHomogeneous bool
+---@field public containsAtLeastTwoClipsOnTheSameTrack bool
+---@field public uniqueParentTracks HashSet`1
+---@public
+---@return void
+function ClipInspectorSelectionInfo:Update() end

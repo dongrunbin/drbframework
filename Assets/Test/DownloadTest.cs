@@ -9,10 +9,10 @@ namespace DrbFramework.Test
     {
         private void Start()
         {
-            SystemFacade.GetSystem<IDownloadSystem>().OnDownloadSuccess += OnDownloadSuccess;
-            SystemFacade.GetSystem<IDownloadSystem>().OnDownloadUpdate += OnDownloadUpdate;
-            SystemFacade.GetSystem<IDownloadSystem>().OnDownloadFailure += OnDownloadFailure;
-            SystemFacade.GetSystem<IDownloadSystem>().Download("https://wangque.oss-cn-beijing.aliyuncs.com/download/com.oegame.mahjong.lualu.ipa", "d:/aaa.txt");
+            SystemManager.GetSystem<IDownloadSystem>().OnDownloadSuccess += OnDownloadSuccess;
+            SystemManager.GetSystem<IDownloadSystem>().OnDownloadUpdate += OnDownloadUpdate;
+            SystemManager.GetSystem<IDownloadSystem>().OnDownloadFailure += OnDownloadFailure;
+            SystemManager.GetSystem<IDownloadSystem>().Download("https://wangque.oss-cn-beijing.aliyuncs.com/download/com.oegame.mahjong.lualu.ipa", "d:/aaa.txt");
             //DrbFacade.GetSystem<IDownloadSystem>().Download("https://wangque.oss-cn-beijing.aliyuncs.com/download/com.oegame.mahjong.lualu.ipa", "d:/aaa1.txt");
             //DrbFacade.GetSystem<IDownloadSystem>().Download("https://wangque.oss-cn-beijing.aliyuncs.com/download/com.oegame.mahjong.lualu.ipa", "d:/aaa2.txt");
         }

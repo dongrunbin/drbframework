@@ -1,0 +1,1 @@
+﻿---@class NotKeyableAttribute : Attribute

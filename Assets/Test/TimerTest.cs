@@ -13,7 +13,7 @@ namespace DrbFramework.Test
             timer.onComplete += () => { Log.Info("complete"); };
             timer.onUpdate += () => { Log.Info("update"); };
             timer.onStart += () => { Log.Info("start"); };
-            SystemFacade.GetSystem<ITimerSystem>().RegisterTimer(timer);
+            SystemManager.GetSystem<ITimerSystem>().RegisterTimer(timer);
         }
     }
 }

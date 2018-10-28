@@ -1,0 +1,16 @@
+﻿---@class ITest
+---@field public Id string
+---@field public Name string
+---@field public FullName string
+---@field public ClassName string
+---@field public MethodName string
+---@field public TypeInfo ITypeInfo
+---@field public Method IMethodInfo
+---@field public RunState number
+---@field public TestCaseCount number
+---@field public Properties IPropertyBag
+---@field public Parent ITest
+---@field public IsSuite bool
+---@field public HasChildren bool
+---@field public Tests IList`1
+---@field public Fixture Object

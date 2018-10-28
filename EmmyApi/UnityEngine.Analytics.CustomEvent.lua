@@ -1,0 +1,1 @@
+﻿---@class CustomEvent : ValueType

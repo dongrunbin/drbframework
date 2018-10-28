@@ -7,7 +7,7 @@ namespace DrbFramework.DataTable
     {
         private void Start()
         {
-            IDataTable<PayDataEntity> table = SystemFacade.GetSystem<IDataTableSystem>().GetOrCreateDataTable<PayDataEntity>(Application.dataPath + "/Download/DataTable/dt_pay.drb");
+            IDataTable<PayDataEntity> table = SystemManager.GetSystem<IDataTableSystem>().GetOrCreateDataTable<PayDataEntity>(Application.dataPath + "/Download/DataTable/dt_pay.drb");
             Logger.Log.Info(table.GetEntity((PayDataEntity entity) =>
             {
                 return entity.Id == 6;

@@ -1,0 +1,1 @@
+﻿---@class NoEnumerationAttribute : Attribute

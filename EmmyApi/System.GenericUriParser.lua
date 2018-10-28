@@ -1,0 +1,1 @@
+﻿---@class GenericUriParser : UriParser

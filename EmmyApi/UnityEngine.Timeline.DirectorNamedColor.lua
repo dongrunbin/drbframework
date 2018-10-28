@@ -1,0 +1,83 @@
+﻿---@class DirectorNamedColor : ScriptableObject
+---@field public colorPlayhead Color
+---@field public colorSelection Color
+---@field public colorEndmarker Color
+---@field public colorTimelineItem Color
+---@field public colorGroup Color
+---@field public colorGroupTrackBackground Color
+---@field public colorAnimation Color
+---@field public colorAnimationRecorded Color
+---@field public colorAudio Color
+---@field public colorAudioWaveform Color
+---@field public colorScripting Color
+---@field public colorVideo Color
+---@field public colorEvent Color
+---@field public colorActivation Color
+---@field public colorDropTarget Color
+---@field public colorClipFont Color
+---@field public colorClipBackground Color
+---@field public colorInvalidClipOverlay Color
+---@field public colorClipTrimLine Color
+---@field public colorClipBlendYin Color
+---@field public colorClipBlendYang Color
+---@field public colorClipBlendLines Color
+---@field public colorTrackBackground Color
+---@field public colorTrackHeaderBackground Color
+---@field public colorTrackDarken Color
+---@field public colorTrackBackgroundRecording Color
+---@field public colorInfiniteTrackBackgroundRecording Color
+---@field public colorTrackBackgroundSelected Color
+---@field public colorTrackFont Color
+---@field public colorCurveSelected Color
+---@field public colorCurveModeSelection Color
+---@field public colorClipUnion Color
+---@field public colorTopOutline1 Color
+---@field public colorTopOutline2 Color
+---@field public colorTopOutline3 Color
+---@field public colorTimecodeBackground Color
+---@field public colorDurationLine Color
+---@field public colorRange Color
+---@field public colorSequenceBackground Color
+---@field public colorTooltipBackground Color
+---@field public colorBindingSelectorItemBackground Color
+---@field public colorInfiniteClipLine Color
+---@field public colorRectangleSelect Color
+---@field public colorDefaultTrackDrawer Color
+---@field public colorValidDropTarget Color
+---@field public colorInvalidDropTarget Color
+---@field public colorBreadCrumb Color
+---@field public colorBreadCrumbInactive Color
+---@field public colorDuration Color
+---@field public colorRecordingClipOutline Color
+---@field public colorAnimEditorBinding Color
+---@field public colorInifiniteTrack Color
+---@field public colorTimelineBackground Color
+---@field public colorKeyFrame Color
+---@field public colorLockTextBG Color
+---@field public colorInlineCurveVerticalLines Color
+---@field public colorInlineCurveOutOfRangeOverlay Color
+---@field public colorEventNormal Color
+---@field public colorEventSelected Color
+---@field public colorEventRunInEditor Color
+---@field public colorEventOff Color
+---@field public colorControl Color
+---@field public colorSubSequenceBackground Color
+---@field public colorTrackSubSequenceBackground Color
+---@field public colorTrackSubSequenceBackgroundSelected Color
+---@field public colorSubSequenceOverlay Color
+---@field public colorSubSequenceDurationLine Color
+---@public
+---@return void
+function DirectorNamedColor:SetDefault() end
+---@public
+---@param path string
+---@return void
+function DirectorNamedColor:ToText(path) end
+---@public
+---@param text string
+---@return void
+function DirectorNamedColor:FromText(text) end
+---@public
+---@param text string
+---@return DirectorNamedColor
+function DirectorNamedColor.CreateAndLoadFromText(text) end

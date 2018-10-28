@@ -1,0 +1,1 @@
+﻿---@class ThreadInterruptedException : SystemException

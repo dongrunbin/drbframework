@@ -1,0 +1,1 @@
+﻿---@class SceneHierarchySortingWindow : EditorWindow

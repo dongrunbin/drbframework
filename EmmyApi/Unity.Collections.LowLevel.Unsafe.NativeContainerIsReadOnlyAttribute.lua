@@ -1,0 +1,1 @@
+﻿---@class NativeContainerIsReadOnlyAttribute : Attribute

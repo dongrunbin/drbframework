@@ -1,0 +1,1 @@
+﻿---@class ManualResetEvent : EventWaitHandle

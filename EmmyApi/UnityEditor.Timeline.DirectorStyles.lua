@@ -1,0 +1,117 @@
+﻿---@class DirectorStyles
+---@field public textContentEditWithAnimationEditor GUIContent
+---@field public recordContent GUIContent
+---@field public addIcon GUIContent
+---@field public addFCurve GUIContent
+---@field public soloContent GUIContent
+---@field public muteContent GUIContent
+---@field public referenceTrackLabel GUIContent
+---@field public recordingLabel GUIContent
+---@field public sequenceSelectorIcon GUIContent
+---@field public playContent GUIContent
+---@field public gotoBeginingContent GUIContent
+---@field public gotoEndContent GUIContent
+---@field public nextFrameContent GUIContent
+---@field public previousFrameContent GUIContent
+---@field public noTimelineAssetSelected GUIContent
+---@field public createTimelineOnSelection GUIContent
+---@field public emptyTimelineMessage GUIContent
+---@field public noTimelinesInScene GUIContent
+---@field public createNewTimelineText GUIContent
+---@field public newContent GUIContent
+---@field public editTimelineAsAsset GUIContent
+---@field public timelineAssetEditModeTitle GUIContent
+---@field public previewContent GUIContent
+---@field public mixOff GUIContent
+---@field public mixOn GUIContent
+---@field public rippleOff GUIContent
+---@field public rippleOn GUIContent
+---@field public replaceOff GUIContent
+---@field public replaceOn GUIContent
+---@field public playrangeContent GUIContent
+---@field public kBaseIndent number
+---@field public kDurationGuiThickness number
+---@field public kDefaultTrackHeight number
+---@field public kClipErrorColor Color
+---@field public kMixToolColor Color
+---@field public kRippleToolColor Color
+---@field public kReplaceToolColor Color
+---@field public handLeft GUIStyle
+---@field public handRight GUIStyle
+---@field public groupBackground GUIStyle
+---@field public displayBackground GUIStyle
+---@field public fontClip GUIStyle
+---@field public fontClipLoop GUIStyle
+---@field public trackHeaderFont GUIStyle
+---@field public groupFont GUIStyle
+---@field public timeCursor GUIStyle
+---@field public endmarker GUIStyle
+---@field public tinyFont GUIStyle
+---@field public foldout GUIStyle
+---@field public mute GUIStyle
+---@field public locked GUIStyle
+---@field public autoKey GUIStyle
+---@field public playTimeRangeStart GUIStyle
+---@field public playTimeRangeEnd GUIStyle
+---@field public options GUIStyle
+---@field public selectedStyle GUIStyle
+---@field public trackSwatchStyle GUIStyle
+---@field public connector GUIStyle
+---@field public keyframe GUIStyle
+---@field public warning GUIStyle
+---@field public extrapolationHold GUIStyle
+---@field public extrapolationLoop GUIStyle
+---@field public extrapolationPingPong GUIStyle
+---@field public extrapolationContinue GUIStyle
+---@field public eventTrakIcon GUIStyle
+---@field public eventIcon GUIStyle
+---@field public eventWhite GUIStyle
+---@field public outlineBorder GUIStyle
+---@field public timelineClip GUIStyle
+---@field public timelineClipSelected GUIStyle
+---@field public bottomShadow GUIStyle
+---@field public trackOptions GUIStyle
+---@field public infiniteTrack GUIStyle
+---@field public blendMixIn GUIStyle
+---@field public blendMixOut GUIStyle
+---@field public blendEaseIn GUIStyle
+---@field public blendEaseOut GUIStyle
+---@field public clipOut GUIStyle
+---@field public clipIn GUIStyle
+---@field public curves GUIStyle
+---@field public lockedBG GUIStyle
+---@field public activation GUIStyle
+---@field public playrange GUIStyle
+---@field public lockButton GUIStyle
+---@field public avatarMaskOn GUIStyle
+---@field public avatarMaskOff GUIStyle
+---@field public editModesToolbar GUIStyle
+---@field public Instance DirectorStyles
+---@field public customSkin DirectorNamedColor
+---@field public cutomSkinContext string
+---@field public indentWidth number
+---@public
+---@return void
+function DirectorStyles:ExportSkinToFile() end
+---@public
+---@return void
+function DirectorStyles:ReloadSkin() end
+---@public
+---@return void
+function DirectorStyles:Initialize() end
+---@public
+---@param s string
+---@return GUIStyle
+function DirectorStyles:GetStyle(s) end
+---@public
+---@param label string
+---@param rect Rect
+---@param style GUIStyle
+---@return string
+function DirectorStyles.Elipsify(label, rect, style) end
+---@public
+---@param label string
+---@param destinationWidth number
+---@param neededWidth number
+---@return string
+function DirectorStyles.Elipsify(label, destinationWidth, neededWidth) end

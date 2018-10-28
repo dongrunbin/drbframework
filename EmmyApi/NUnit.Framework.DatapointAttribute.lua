@@ -1,0 +1,1 @@
+﻿---@class DatapointAttribute : NUnitAttribute

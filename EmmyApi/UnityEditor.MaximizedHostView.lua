@@ -1,0 +1,1 @@
+﻿---@class MaximizedHostView : HostView

@@ -1,0 +1,16 @@
+﻿---@class IcmpV6MessageTypes
+---@field public DestinationUnreachable number
+---@field public PacketTooBig number
+---@field public TimeExceeded number
+---@field public ParameterProblem number
+---@field public EchoRequest number
+---@field public EchoReply number
+---@field public GroupMembershipQuery number
+---@field public GroupMembershipReport number
+---@field public GroupMembershipReduction number
+---@field public RouterSolicitation number
+---@field public RouterAdvertisement number
+---@field public NeighborSolicitation number
+---@field public NeighborAdvertisement number
+---@field public Redirect number
+---@field public RouterRenumbering number

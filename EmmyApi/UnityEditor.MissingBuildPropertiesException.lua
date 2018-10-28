@@ -1,0 +1,1 @@
+﻿---@class MissingBuildPropertiesException : Exception

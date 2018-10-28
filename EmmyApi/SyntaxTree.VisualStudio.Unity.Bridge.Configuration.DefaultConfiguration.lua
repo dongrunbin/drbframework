@@ -1,0 +1,11 @@
+﻿---@class DefaultConfiguration
+---@field public FileExtensionFilterValue String[]
+---@field public UseOpenFileValue bool
+---@field public RunInBackgroundValue bool
+---@field public GenerateSolutionFileValue bool
+---@field public ScriptDefaultAppValue string
+---@field public PreviousScriptDefaultAppValue string
+---@field public ScriptDefaultArgsValue string
+---@field public RootNamespace string
+---@field public AnnounceEditorMulticast bool
+---@field public SendConsoleToVisualStudioValue bool

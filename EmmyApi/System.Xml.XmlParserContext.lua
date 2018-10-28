@@ -1,0 +1,11 @@
+﻿---@class XmlParserContext
+---@field public BaseURI string
+---@field public DocTypeName string
+---@field public Encoding Encoding
+---@field public InternalSubset string
+---@field public NamespaceManager XmlNamespaceManager
+---@field public NameTable XmlNameTable
+---@field public PublicId string
+---@field public SystemId string
+---@field public XmlLang string
+---@field public XmlSpace number

@@ -5,7 +5,7 @@ namespace DrbFramework.Pool
 {
     public class PoolSystem : IPoolSystem
     {
-        private readonly IDictionary<string, ObjectPool> m_PoolDic = new Dictionary<string, ObjectPool>();
+        private readonly IDictionary<string, object> m_PoolDic = new Dictionary<string, object>();
 
         public int Priority
         {
@@ -33,9 +33,9 @@ namespace DrbFramework.Pool
 
         }
 
-        public ObjectPool CreatePool(string name, Type type)
+        public IObjectPool<T> CreatePool<T>(string name)
         {
-            ObjectPool pool = new ObjectPool(name, type);
+            ObjectPool<T> pool = new ObjectPool<T>(name);
             m_PoolDic[name] = pool;
             return pool;
         }
@@ -45,7 +45,7 @@ namespace DrbFramework.Pool
 
         }
 
-        public void ReleasePool(ObjectPool pool)
+        public void ReleasePool<T>(IObjectPool<T> pool)
         {
 
         }

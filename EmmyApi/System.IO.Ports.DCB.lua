@@ -1,0 +1,24 @@
+﻿---@class DCB
+---@field public dcb_length number
+---@field public baud_rate number
+---@field public flags number
+---@field public w_reserved number
+---@field public xon_lim number
+---@field public xoff_lim number
+---@field public byte_size number
+---@field public parity number
+---@field public stop_bits number
+---@field public xon_char number
+---@field public xoff_char number
+---@field public error_char number
+---@field public eof_char number
+---@field public evt_char number
+---@field public w_reserved1 number
+---@public
+---@param baud_rate number
+---@param parity number
+---@param byte_size number
+---@param sb number
+---@param hs number
+---@return void
+function DCB:SetValues(baud_rate, parity, byte_size, sb, hs) end

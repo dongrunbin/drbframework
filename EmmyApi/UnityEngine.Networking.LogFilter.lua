@@ -1,0 +1,13 @@
+﻿---@class LogFilter
+---@field public Debug number
+---@field public Info number
+---@field public Warn number
+---@field public Error number
+---@field public Fatal number
+---@field public current number
+---@field public currentLogLevel number
+---@field public logDebug bool
+---@field public logInfo bool
+---@field public logWarn bool
+---@field public logError bool
+---@field public logFatal bool

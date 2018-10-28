@@ -1,0 +1,14 @@
+﻿---@class GenerateManifest
+---@field public Name string
+---@public
+---@param value ProgressHandler
+---@return void
+function GenerateManifest:add_OnProgress(value) end
+---@public
+---@param value ProgressHandler
+---@return void
+function GenerateManifest:remove_OnProgress(value) end
+---@public
+---@param context PostProcessorContext
+---@return void
+function GenerateManifest:Execute(context) end
