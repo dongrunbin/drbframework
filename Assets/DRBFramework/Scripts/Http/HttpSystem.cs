@@ -35,17 +35,17 @@ namespace DrbFramework.Http
 
         }
 
-        public void Request(string url, IDictionary<string, object> data, Encoding encoding, int timeout, EventHandler<HttpRequestCompleteEventArgs> onRequestComplete)
+        public void Request(string url, IDictionary<string, object> data, Encoding encoding, int timeout, HttpRequestCompleteEventHandler onRequestComplete)
         {
             m_Requester.Request(url, data, encoding, timeout, onRequestComplete);
         }
 
-        public void Request(string url, byte[] data, int timeout, EventHandler<HttpRequestCompleteEventArgs> onRequestComplete)
+        public void Request(string url, byte[] data, int timeout, HttpRequestCompleteEventHandler onRequestComplete)
         {
             m_Requester.Request(url, data, timeout, onRequestComplete);
         }
 
-        public void Request(string url, int timeout, EventHandler<HttpRequestCompleteEventArgs> onRequestComplete)
+        public void Request(string url, int timeout, HttpRequestCompleteEventHandler onRequestComplete)
         {
             m_Requester.Request(url, timeout, onRequestComplete);
         }

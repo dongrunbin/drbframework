@@ -52,13 +52,17 @@ namespace DrbFramework.Fsm
         {
             if (states == null || states.Length == 0)
             {
-                throw new DrbException("添加状态不能为空");
+                throw new DrbException("states is invalid");
             }
             for (int i = 0; i < states.Length; ++i)
             {
                 if (states[i] == null)
                 {
-                    throw new DrbException("添加状态不能为空");
+                    throw new DrbException("state is invalid");
+                }
+                if (m_StateDic.ContainsKey(states[i].StateName))
+                {
+                    throw new DrbException("already exists state '{0}'", states[i].StateName);
                 }
                 m_StateDic.Add(states[i].StateName, states[i]);
 
@@ -109,7 +113,7 @@ namespace DrbFramework.Fsm
             }
             else
             {
-                throw new DrbException("状态机{0}不存在状态{1}", Name, type.FullName);
+                throw new DrbException("Fsm '{0}' not exists state '{1}'", Name, type.FullName);
             }
         }
 
@@ -118,7 +122,7 @@ namespace DrbFramework.Fsm
             IFsmState state = null;
             if (!m_StateDic.TryGetValue(stateName, out state))
             {
-                throw new DrbException("状态机{0}不存在状态{1}", Name, stateName);
+                throw new DrbException("Fsm '{0}' not exists state '{1}'", Name, stateName);
             }
             if (CurrentState != null)
             {

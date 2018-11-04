@@ -5,9 +5,33 @@ using System.Text;
 
 namespace DrbFramework.Extensions
 {
-    public static class MemoryStreamExtensions
+    public static class StreamExtensions
     {
-        public static short ReadShort(this MemoryStream ms, bool isReverse = false)
+        private static byte[] s_Buffer;
+        private static void FillBuffer(Stream stream, int numBytes)
+        {
+            if (s_Buffer != null && (numBytes < 0 || numBytes > s_Buffer.Length))
+            {
+                s_Buffer = new byte[numBytes];
+            }
+            int bytesRead = 0;
+            int n = 0;
+
+            if (numBytes == 1)
+            {
+                n = stream.ReadByte();
+                s_Buffer[0] = (byte)n;
+                return;
+            }
+
+            do
+            {
+                n = stream.Read(s_Buffer, bytesRead, numBytes - bytesRead);
+                bytesRead += n;
+            } while (bytesRead < numBytes);
+        }
+
+        public static short ReadShort(this Stream ms, bool isReverse = false)
         {
             try
             {
@@ -25,7 +49,7 @@ namespace DrbFramework.Extensions
             }
         }
 
-        public static void WriteShort(this MemoryStream ms, short value, bool isReverse = false)
+        public static void WriteShort(this Stream ms, short value, bool isReverse = false)
         {
             byte[] arr = BitConverter.GetBytes(value);
             if (isReverse)
@@ -35,7 +59,7 @@ namespace DrbFramework.Extensions
             ms.Write(arr, 0, arr.Length);
         }
 
-        public static ushort ReadUShort(this MemoryStream ms, bool isReverse = false)
+        public static ushort ReadUShort(this Stream ms, bool isReverse = false)
         {
             try
             {
@@ -53,7 +77,7 @@ namespace DrbFramework.Extensions
             }
         }
 
-        public static void WriteUShort(this MemoryStream ms, ushort value, bool isReverse = false)
+        public static void WriteUShort(this Stream ms, ushort value, bool isReverse = false)
         {
             byte[] arr = BitConverter.GetBytes(value);
             if (isReverse)
@@ -63,7 +87,7 @@ namespace DrbFramework.Extensions
             ms.Write(arr, 0, arr.Length);
         }
 
-        public static int ReadInt(this MemoryStream ms, bool isReverse = false)
+        public static int ReadInt(this Stream ms, bool isReverse = false)
         {
             try
             {
@@ -81,7 +105,7 @@ namespace DrbFramework.Extensions
             }
         }
 
-        public static void WriteInt(this MemoryStream ms, int value, bool isReverse = false)
+        public static void WriteInt(this Stream ms, int value, bool isReverse = false)
         {
             byte[] arr = BitConverter.GetBytes(value);
             if (isReverse)
@@ -91,7 +115,7 @@ namespace DrbFramework.Extensions
             ms.Write(arr, 0, arr.Length);
         }
 
-        public static uint ReadUInt(this MemoryStream ms, bool isReverse = false)
+        public static uint ReadUInt(this Stream ms, bool isReverse = false)
         {
             try
             {
@@ -109,7 +133,7 @@ namespace DrbFramework.Extensions
             }
         }
 
-        public static void WriteUInt(this MemoryStream ms, uint value, bool isReverse = false)
+        public static void WriteUInt(this Stream ms, uint value, bool isReverse = false)
         {
             byte[] arr = BitConverter.GetBytes(value);
             if (isReverse)
@@ -119,7 +143,7 @@ namespace DrbFramework.Extensions
             ms.Write(arr, 0, arr.Length);
         }
 
-        public static long ReadLong(this MemoryStream ms, bool isReverse = false)
+        public static long ReadLong(this Stream ms, bool isReverse = false)
         {
             try
             {
@@ -137,7 +161,7 @@ namespace DrbFramework.Extensions
             }
         }
 
-        public static void WriteLong(this MemoryStream ms, long value, bool isReverse = false)
+        public static void WriteLong(this Stream ms, long value, bool isReverse = false)
         {
             byte[] arr = BitConverter.GetBytes(value);
             if (isReverse)
@@ -147,7 +171,7 @@ namespace DrbFramework.Extensions
             ms.Write(arr, 0, arr.Length);
         }
 
-        public static ulong ReadULong(this MemoryStream ms, bool isReverse = false)
+        public static ulong ReadULong(this Stream ms, bool isReverse = false)
         {
             try
             {
@@ -165,7 +189,7 @@ namespace DrbFramework.Extensions
             }
         }
 
-        public static void WriteULong(this MemoryStream ms, ulong value, bool isReverse = false)
+        public static void WriteULong(this Stream ms, ulong value, bool isReverse = false)
         {
             byte[] arr = BitConverter.GetBytes(value);
             if (isReverse)
@@ -175,7 +199,7 @@ namespace DrbFramework.Extensions
             ms.Write(arr, 0, arr.Length);
         }
 
-        public static float ReadFloat(this MemoryStream ms)
+        public static float ReadFloat(this Stream ms)
         {
             try
             {
@@ -189,13 +213,13 @@ namespace DrbFramework.Extensions
             }
         }
 
-        public static void WriteFloat(this MemoryStream ms, float value)
+        public static void WriteFloat(this Stream ms, float value)
         {
             byte[] arr = BitConverter.GetBytes(value);
             ms.Write(arr, 0, arr.Length);
         }
 
-        public static double ReadDouble(this MemoryStream ms)
+        public static double ReadDouble(this Stream ms)
         {
             try
             {
@@ -209,13 +233,13 @@ namespace DrbFramework.Extensions
             }
         }
 
-        public static void WriteDouble(this MemoryStream ms, double value)
+        public static void WriteDouble(this Stream ms, double value)
         {
             byte[] arr = BitConverter.GetBytes(value);
             ms.Write(arr, 0, arr.Length);
         }
 
-        public static bool ReadBool(this MemoryStream ms)
+        public static bool ReadBool(this Stream ms)
         {
             try
             {
@@ -227,12 +251,12 @@ namespace DrbFramework.Extensions
             }
         }
 
-        public static void WriteBool(this MemoryStream ms, bool value)
+        public static void WriteBool(this Stream ms, bool value)
         {
             ms.WriteByte((byte)(value == true ? 1 : 0));
         }
 
-        public static string ReadUTF8String(this MemoryStream ms, bool isReverse = false)
+        public static string ReadUTF8String(this Stream ms, bool isReverse = false)
         {
             try
             {
@@ -247,7 +271,7 @@ namespace DrbFramework.Extensions
             }
         }
 
-        public static void WriteUTF8String(this MemoryStream ms, string str, bool isReverse = false)
+        public static void WriteUTF8String(this Stream ms, string str, bool isReverse = false)
         {
             byte[] arr = Encoding.UTF8.GetBytes(str);
             if (arr.Length > 65535)
@@ -259,14 +283,14 @@ namespace DrbFramework.Extensions
             ms.Write(arr, 0, arr.Length);
         }
 
-        public static void WriteBytes(this MemoryStream ms, byte[] data, bool isReverse = false)
+        public static void WriteBytes(this Stream ms, byte[] data, bool isReverse = false)
         {
             int value = (int)data.Length;
             ms.WriteInt(value, isReverse);
             ms.Write(data, 0, data.Length);
         }
 
-        public static byte[] ReadBytes(this MemoryStream ms, bool isReverse = false)
+        public static byte[] ReadBytes(this Stream ms, bool isReverse = false)
         {
             try
             {

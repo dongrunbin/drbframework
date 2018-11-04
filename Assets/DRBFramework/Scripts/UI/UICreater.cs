@@ -32,13 +32,5 @@ namespace DrbFramework.UI
 
             return form;
         }
-
-        public void OpenForm(IUIForm form, int depth)
-        {
-            UIForm uiForm = (UIForm)form;
-            uiForm.Depth = depth;
-
-            uiForm.gameObject.SetActive(true);
-        }
     }
 }

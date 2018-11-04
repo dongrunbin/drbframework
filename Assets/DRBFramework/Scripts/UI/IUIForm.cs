@@ -3,17 +3,25 @@ namespace DrbFramework.UI
 {
     public interface IUIForm
     {
-        string FormName { get; set; }
+        string AssetPath { get; set; }
+
+        string AssetName { get; set; }
 
         int Depth { get; set; }
 
+        bool IsShow { get; }
+
         void OnInit();
 
-        void OnShow();
+        void OnOpen();
+
+        void OnCover();
+
+        void OnFocus();
 
         void OnUpdate(float elapseSeconds, float realElapseSeconds);
 
-        void OnHide();
+        void OnClose();
 
         void OnBeforeDestroy();
     }

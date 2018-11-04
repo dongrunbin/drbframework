@@ -25,8 +25,8 @@ namespace DrbFramework.Fsm
         {
             m_ScriptEnv = SystemManager.GetSystem<ILuaSystem>().NewTable();
 
-            onInit = m_ScriptEnv.GetInPath<OnStateInitAction>(stateName + ".OnInit");
-            onEnter = m_ScriptEnv.GetInPath<OnStateEnterAction>(stateName + ".OnEnter");
+            onInit = m_ScriptEnv.GetInPath<OnStateInitAction>(StateName + ".OnInit");
+            onEnter = m_ScriptEnv.GetInPath<OnStateEnterAction>(StateName + ".OnEnter");
             onUpdate = m_ScriptEnv.GetInPath<OnStateUpdateAction>(stateName + ".OnUpdate");
             onLeave = m_ScriptEnv.GetInPath<OnStateLeaveAction>(stateName + ".OnLeave");
             onDestroy = m_ScriptEnv.GetInPath<OnStateDestroyAction>(stateName + ".OnDestroy");

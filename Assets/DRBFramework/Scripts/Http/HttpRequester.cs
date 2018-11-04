@@ -10,7 +10,7 @@ namespace DrbFramework.Http
     [AddComponentMenu("DrbFramework/Http/HttpRequester")]
     public class HttpRequester : HttpRequesterComponent, IHttpRequester
     {
-        public override void Request(string url, IDictionary<string, object> data, Encoding encoding, int timeout, EventHandler<HttpRequestCompleteEventArgs> onRequestComplete)
+        public override void Request(string url, IDictionary<string, object> data, Encoding encoding, int timeout, HttpRequestCompleteEventHandler onRequestComplete)
         {
             WWWForm form = new WWWForm();
             var enumerator = data.GetEnumerator();
@@ -20,25 +20,22 @@ namespace DrbFramework.Http
                 form.AddField(enumerator.Current.Key, content, encoding);
             }
             WWW www = new WWW(url, form);
-            float timeoutS = ((float)timeout) / 1000;
-            StartCoroutine(Request(www, timeoutS, onRequestComplete));
+            StartCoroutine(Request(www, timeout, onRequestComplete));
         }
 
-        public override void Request(string url, byte[] data, int timeout, EventHandler<HttpRequestCompleteEventArgs> onRequestComplete)
+        public override void Request(string url, byte[] data, int timeout, HttpRequestCompleteEventHandler onRequestComplete)
         {
             WWW www = new WWW(url, data);
-            float timeoutS = ((float)timeout) / 1000;
-            StartCoroutine(Request(www, timeoutS, onRequestComplete));
+            StartCoroutine(Request(www, timeout, onRequestComplete));
         }
 
-        public override void Request(string url, int timeout, EventHandler<HttpRequestCompleteEventArgs> onRequestComplete)
+        public override void Request(string url, int timeout, HttpRequestCompleteEventHandler onRequestComplete)
         {
             WWW www = new WWW(url);
-            float timeoutS = ((float)timeout) / 1000;
-            StartCoroutine(Request(www, timeoutS, onRequestComplete));
+            StartCoroutine(Request(www, timeout, onRequestComplete));
         }
 
-        private IEnumerator Request(WWW www, float timeout, EventHandler<HttpRequestCompleteEventArgs> onRequestComplete)
+        private IEnumerator Request(WWW www, int timeout, HttpRequestCompleteEventHandler onRequestComplete)
         {
             float timeOut = Time.time;
             float progress = www.progress;

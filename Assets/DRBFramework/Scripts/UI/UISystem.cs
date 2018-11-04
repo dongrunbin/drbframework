@@ -1,7 +1,7 @@
 ﻿
 using DrbFramework.Resource;
+using System;
 using System.Collections.Generic;
-using DrbFramework.Extensions;
 
 namespace DrbFramework.UI
 {
@@ -13,12 +13,15 @@ namespace DrbFramework.UI
 
         private int m_CurrentDepth;
 
+        private int m_DefaultDepth;
+
         private IUICreater m_Creater;
 
 
         public UISystem(int defaultDepth, IUICreater creater)
         {
-            m_CurrentDepth = defaultDepth;
+            m_DefaultDepth = defaultDepth;
+            m_CurrentDepth = m_DefaultDepth;
             m_Creater = creater;
         }
 
@@ -60,12 +63,11 @@ namespace DrbFramework.UI
 
         public IUIForm OpenForm(string assetPath, string assetName, object userData)
         {
-            string formName = assetPath + assetName;
             IUIForm form = null;
             LinkedListNode<IUIForm> node = m_Forms.First;
             while (node != null)
             {
-                if (node.Value.FormName == formName)
+                if (node.Value.AssetPath.Equals(assetPath) && node.Value.AssetName.Equals(assetName))
                 {
                     form = node.Value;
                     break;
@@ -81,43 +83,124 @@ namespace DrbFramework.UI
                 }
                 form = m_Creater.InstantiateForm(formAsset);
                 m_Forms.AddLast(form);
+                form.AssetPath = assetPath;
+                form.AssetName = assetName;
                 form.OnInit();
             }
 
-            m_Creater.OpenForm(form, ++m_CurrentDepth);
-            form.OnShow();
+            OpenForm(form);
             return form;
         }
 
-        public void OpenFormAsync(string assetPath, string assetName, object userData)
+        public void OpenForm(IUIForm form)
         {
+            if (!form.IsShow)
+            {
+                if (m_Forms.Last.Value != form)
+                {
+                    m_Forms.Remove(form);
+                    m_Forms.AddLast(form);
+                }
+                form.Depth = ++m_CurrentDepth;
+                form.OnOpen();
 
+                IUIForm prevForm = m_Forms.Last.Previous == null ? null : m_Forms.Last.Previous.Value;
+                if (prevForm != null && prevForm.IsShow)
+                {
+                    prevForm.OnCover();
+                }
+            }
         }
 
-        public void HideForm(IUIForm form)
+        public void OpenFormAsync(string assetPath, string assetName, UIFormOpenedEventHandler onOpened, object userData)
         {
-            form.OnHide();
+            IUIForm form = null;
+            LinkedListNode<IUIForm> node = m_Forms.First;
+            while (node != null)
+            {
+                if (node.Value.AssetPath.Equals(assetPath) && node.Value.AssetName.Equals(assetName))
+                {
+                    form = node.Value;
+                    break;
+                }
+                node = node.Next;
+            }
+            if (form == null)
+            {
+                ResourceSystem.LoadAssetAsync(assetPath, assetName, OnLoadAssetSuccessCallback, OnLoadAssetFailureCallback, new OpenUiFormParams(onOpened, userData));
+            }
+            else
+            {
+                OpenForm(form);
+                if (onOpened != null)
+                {
+                    onOpened(this, new UIFormOpenedEventArgs(form, null, userData));
+                }
+            }
+        }
+
+        private void OnLoadAssetSuccessCallback(string assetPath, string assetName, object asset, object userData)
+        {
+            OpenUiFormParams param = (OpenUiFormParams)userData;
+
+            IUIForm form = m_Creater.InstantiateForm(asset);
+            m_Forms.AddLast(form);
+            form.AssetPath = assetPath;
+            form.AssetName = assetName;
+            form.OnInit();
+
+            if (param.OnOpened != null)
+            {
+                param.OnOpened(this, new UIFormOpenedEventArgs(form, null, userData));
+            }
+        }
+
+        private void OnLoadAssetFailureCallback(string assetPath, string assetName, string error, object userData)
+        {
+            OpenUiFormParams param = (OpenUiFormParams)userData;
+
+            if (param.OnOpened != null)
+            {
+                param.OnOpened(this, new UIFormOpenedEventArgs(null, error, userData));
+            }
         }
 
         public void CloseForm(IUIForm form)
         {
-            if (form.Depth == m_CurrentDepth)
+            if (form == null)
             {
-                int depth = 0;
-                LinkedListNode<IUIForm> node = m_Forms.First;
-                while (node != null)
-                {
-                    if (node.Value.Depth > depth)
-                    {
-                        depth = node.Value.Depth;
-                        break;
-                    }
-                    node = node.Next;
-                }
-                m_CurrentDepth = depth;
+                throw new DrbException("form is invalid");
             }
-            form.OnBeforeDestroy();
+            if (!m_Forms.Contains(form))
+            {
+                throw new DrbException("not exists form '{0}'", form.AssetName);
+            }
+            if (!form.IsShow) return;
+            if (form == m_Forms.Last.Value)
+            {
+                IUIForm prevForm = m_Forms.Last.Previous == null ? null : m_Forms.Last.Previous.Value;
+                if (prevForm != null && prevForm.IsShow)
+                {
+                    prevForm.OnFocus();
+                }
+                else
+                {
+                    m_CurrentDepth = m_DefaultDepth;
+                }
+            }
+
             m_Forms.Remove(form);
+            m_Forms.AddFirst(form);
+
+            form.OnClose();
+        }
+
+        public void DestroyForm(IUIForm form)
+        {
+            CloseForm(form);
+
+            m_Forms.Remove(form);
+            form.OnBeforeDestroy();
             m_Creater.DestroyForm(form);
         }
     }

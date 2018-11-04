@@ -16,9 +16,9 @@ namespace DrbFrameworkDemo
 
         private Timer m_Timer;
 
-        public override void OnShow()
+        public override void OnOpen()
         {
-            base.OnShow();
+            base.OnOpen();
 
             m_Timer = new Timer(0f, 0.5f, TITLE.Length);
             m_Timer.onUpdate = OnTimerUpdate;

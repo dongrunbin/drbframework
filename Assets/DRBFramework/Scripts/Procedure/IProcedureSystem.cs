@@ -14,6 +14,8 @@ namespace DrbFramework.Procedure
 
         void Start(string procedureName);
 
+        void AddProcedure(params IProcedure[] procedures);
+
         void ChangeProcedure(string procedureName, object userData = null);
 
         void ChangeProcedure<T>(object userData = null) where T : IProcedure;

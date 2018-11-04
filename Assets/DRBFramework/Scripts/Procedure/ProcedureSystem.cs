@@ -67,6 +67,11 @@ namespace DrbFramework.Procedure
             Fsm.Start(procedureName);
         }
 
+        public void AddProcedure(params IProcedure[] procedures)
+        {
+            Fsm.AddState(procedures);
+        }
+
         public void ChangeProcedure(string procedureName, object userData = null)
         {
             Fsm.ChangeState(procedureName, userData);

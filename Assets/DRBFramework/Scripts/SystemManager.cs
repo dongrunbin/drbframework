@@ -65,6 +65,12 @@ namespace DrbFramework
             return GetSystem(systemType) as T;
         }
 
+        public static ISystem GetSystem(string typeName)
+        {
+            Type type = Type.GetType(typeName);
+            return GetSystem(type);
+        }
+
         public static ISystem GetSystem(Type type)
         {
             for (LinkedListNode<ISystem> node = s_SystemList.First; node != null && node.Next != null; node = node.Next)

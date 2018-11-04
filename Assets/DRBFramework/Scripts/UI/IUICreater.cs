@@ -5,8 +5,6 @@ namespace DrbFramework.UI
     {
         IUIForm InstantiateForm(object asset);
 
-        void OpenForm(IUIForm form, int depth);
-
         void DestroyForm(IUIForm form);
     }
 }
