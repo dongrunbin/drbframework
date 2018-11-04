@@ -1,5 +1,4 @@
 ﻿---@class IHttpSystem
----@field public Requester IHttpRequester
 ---@public
 ---@param url string
 ---@param data IDictionary`2

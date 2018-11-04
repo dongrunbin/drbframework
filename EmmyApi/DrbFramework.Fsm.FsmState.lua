@@ -1,8 +1,9 @@
 ﻿---@class FsmState
 ---@field public StateName string
 ---@public
+---@param fsm IFsm
 ---@return void
-function FsmState:OnInit() end
+function FsmState:OnInit(fsm) end
 ---@public
 ---@param userData Object
 ---@return void

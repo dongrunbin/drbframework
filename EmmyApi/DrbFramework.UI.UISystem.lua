@@ -9,17 +9,22 @@ function UISystem:Shutdown() end
 ---@return void
 function UISystem:Update(elapseSeconds, realElapseSeconds) end
 ---@public
----@param groupName string
----@return void
-function UISystem:AddUIGroup(groupName) end
----@public
 ---@param assetPath string
 ---@param assetName string
 ---@param userData Object
 ---@return IUIForm
 function UISystem:OpenForm(assetPath, assetName, userData) end
 ---@public
----@param name string
+---@param assetPath string
+---@param assetName string
 ---@param userData Object
 ---@return void
-function UISystem:OpenFormAsync(name, userData) end
+function UISystem:OpenFormAsync(assetPath, assetName, userData) end
+---@public
+---@param form IUIForm
+---@return void
+function UISystem:HideForm(form) end
+---@public
+---@param form IUIForm
+---@return void
+function UISystem:CloseForm(form) end

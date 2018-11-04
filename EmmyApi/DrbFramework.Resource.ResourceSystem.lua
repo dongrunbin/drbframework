@@ -3,7 +3,6 @@
 ---@field public StreamingAssetsPath string
 ---@field public PersistentDataPath string
 ---@field public DownloadUrl string
----@field public Loader IResourceLoader
 ---@field public LoadMode number
 ---@public
 ---@return void

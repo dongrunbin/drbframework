@@ -1,1 +1,1 @@
-﻿---@class LuaProcedure : Procedure
+﻿---@class LuaProcedure : FsmLuaState

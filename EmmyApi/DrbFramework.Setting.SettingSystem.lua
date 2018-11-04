@@ -1,5 +1,4 @@
 ﻿---@class SettingSystem
----@field public Handler ISettingHandler
 ---@field public Priority number
 ---@public
 ---@return void

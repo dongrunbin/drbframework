@@ -1,5 +1,4 @@
 ﻿---@class HttpSystem
----@field public Requester IHttpRequester
 ---@field public Priority number
 ---@public
 ---@return void

@@ -1,5 +1,4 @@
 ﻿---@class DownloadSystem
----@field public Downloader IDownloader
 ---@field public DownloadTimeout number
 ---@field public DownloadBPS number
 ---@field public OnDownloadSuccess EventHandler`1

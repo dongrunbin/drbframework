@@ -1,5 +1,4 @@
 ﻿---@class DataTableSystem
----@field public Parser IDataTableParser
 ---@field public Priority number
 ---@public
 ---@return void

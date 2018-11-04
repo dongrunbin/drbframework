@@ -15,7 +15,6 @@ function ISceneSystem:LoadScene(sceneAssetPath, sceneAssetName) end
 ---@return void
 function ISceneSystem:AddScene(sceneAssetPath, sceneAssetName) end
 ---@public
----@param sceneAssetPath string
 ---@param sceneAssetName string
 ---@return void
-function ISceneSystem:RemoveScene(sceneAssetPath, sceneAssetName) end
+function ISceneSystem:RemoveScene(sceneAssetName) end

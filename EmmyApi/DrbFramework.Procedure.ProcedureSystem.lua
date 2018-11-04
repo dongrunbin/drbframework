@@ -14,3 +14,8 @@ function ProcedureSystem:Update(elapseSeconds, realElapseSeconds) end
 ---@param procedureName string
 ---@return void
 function ProcedureSystem:Start(procedureName) end
+---@public
+---@param procedureName string
+---@param userData Object
+---@return void
+function ProcedureSystem:ChangeProcedure(procedureName, userData) end
