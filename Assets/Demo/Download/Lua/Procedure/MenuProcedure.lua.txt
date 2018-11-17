@@ -1,0 +1,23 @@
+
+MenuProcedure = {}
+
+---@type IFsm
+MenuProcedure.Fsm = nil;
+
+---@type IUIForm
+local menuForm;
+
+function MenuProcedure.OnEnter(fsm, userData)
+    MenuProcedure.Fsm = fsm;
+    menuForm = DrbComponent.UISystem:OpenForm("UI/Forms/MenuForm.prefab",LoadMode.Editor);
+end
+
+function MenuProcedure.OnUpdate(elapseSeconds, realElapseSeconds)
+
+end
+
+function MenuProcedure.OnLeave()
+    if(menuForm ~= nil) then
+        DrbComponent.UISystem:CloseForm(menuForm);
+    end
+end

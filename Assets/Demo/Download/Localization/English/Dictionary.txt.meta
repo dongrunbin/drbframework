@@ -3,5 +3,5 @@ guid: 73ef214290cde9048a97cdceb4625ac4
 TextScriptImporter:
   externalObjects: {}
   userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+  assetBundleName: localization/english/dictionary
+  assetBundleVariant: .txt

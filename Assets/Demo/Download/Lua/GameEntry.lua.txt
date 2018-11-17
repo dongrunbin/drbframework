@@ -1,0 +1,8 @@
+require "Procedure/MenuProcedure"
+require "UI/MenuForm"
+require "Define"
+
+GameEntry = {}
+function GameEntry.Init()
+
+end

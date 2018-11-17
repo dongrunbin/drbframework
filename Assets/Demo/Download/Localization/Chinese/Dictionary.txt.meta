@@ -3,5 +3,5 @@ guid: b48f4f50dedc485459db413088b0f10f
 TextScriptImporter:
   externalObjects: {}
   userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+  assetBundleName: localization/chinese/dictionary
+  assetBundleVariant: .txt

@@ -20,7 +20,7 @@ namespace DrbFrameworkDemo
         {
             base.OnOpen();
 
-            m_Timer = new Timer(0f, 0.5f, TITLE.Length);
+            m_Timer = new Timer(0f, 0.5f, TITLE.Length + 20);
             m_Timer.onUpdate = OnTimerUpdate;
             DrbComponent.TimerSystem.RegisterTimer(m_Timer);
         }
@@ -31,7 +31,7 @@ namespace DrbFrameworkDemo
             {
                 m_Timer.Interval = 0.1f;
             }
-            m_Title.text = TITLE.Substring(0, m_Timer.CurrentLoop);
+            m_Title.text = TITLE.Substring(0, Mathf.Min(m_Timer.CurrentLoop, TITLE.Length));
             if (m_Timer.CurrentLoop == m_Timer.Loop)
             {
                 DrbComponent.TimerSystem.RemoveTimer(m_Timer);

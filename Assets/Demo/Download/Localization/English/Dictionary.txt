@@ -1,1 +1,2 @@
-﻿DemoInfo.Name:DrbFramework
+﻿Menu.StartGame:Start Game
+Menu.ExitGame:Exit Game

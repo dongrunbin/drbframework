@@ -145,9 +145,8 @@ MonoBehaviour:
   m_RunInBackground: 1
   m_SleepTimeout: 30
   m_LogLevel: -1
-  m_ResourceLoaderComponent: {fileID: 2009505036}
   m_DownloaderComponent: {fileID: 1991888065}
-  m_DownloadTimeout: 1
+  m_DownloadTimeout: 30
   m_WebRequesterComponent: {fileID: 720384771}
   m_DataTableParserTypeName: DrbFramework.Test.DataTable.DataTableParser
   m_SettingHandlerTypeName: DrbFramework.Setting.SettingHandler
@@ -155,12 +154,28 @@ MonoBehaviour:
   - DrbFrameworkDemo.LaunchProcedure
   - DrbFrameworkDemo.PreloadProcedure
   - DrbFrameworkDemo.SplashProcedure
+  - MenuProcedure
   m_StartProcedureTypeName: DrbFrameworkDemo.LaunchProcedure
   m_EventKeyTypeName: System.Int32
   m_UIDefaultDepth: 50
   m_UICreaterTypeName: DrbFramework.UI.UICreater
   m_UIRoot: {fileID: 724494183}
-  m_LocalizationParserTypeName: DrbFramework.Localization.LocalizationParser
+  m_LocalizationParserTypeName: DrbFramework.Internal.Localization.SimpleLocalizationParser
+  m_EditorPath: None+Assets/Demo/Download/
+  m_InternalPath: None+
+  m_ReadOnlyPath: Application.streamingAssetsPath+
+  m_PersistentPath: Application.persistentDataPath+
+  m_ResourceLoaderComponent: {fileID: 398146946}
+  m_ResourceHolderTypeName: DrbFramework.Internal.Resource.GeneralResourceHolder
+  m_ResourceDecoderTypeName: DrbFramework.Internal.Resource.UnencryptedResourceDecoder
+  m_DebugFormTypeNames:
+  - DrbFramework.Internal.Debug.Forms.FpsInfo
+  - DrbFramework.Internal.Debug.Forms.GraphicsInfo
+  - DrbFramework.Internal.Debug.Forms.Environment
+  - DrbFramework.Internal.Debug.Forms.QualityInfo
+  - DrbFramework.Internal.Debug.Forms.InputInfo
+  m_LuaPackagePaths:
+  - Application.dataPath+Demo/Download/Lua/?.lua.txt
 --- !u!4 &290150348
 Transform:
   m_ObjectHideFlags: 0
@@ -171,7 +186,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2009505037}
   - {fileID: 398146945}
   - {fileID: 1022914879}
   - {fileID: 1991888066}
@@ -206,7 +220,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 290150348}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &398146946
 MonoBehaviour:
@@ -216,7 +230,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 398146944}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a507c7b6479fc404eba80f6e32caef49, type: 3}
+  m_Script: {fileID: 11500000, guid: 00bacb61ef4533a488e8685c2fee8fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &720384770
@@ -257,7 +271,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 290150348}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &724494179
 GameObject:
@@ -524,7 +538,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 290150348}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1022914880
 MonoBehaviour:
@@ -575,46 +589,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 290150348}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2009505035
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2009505037}
-  - component: {fileID: 2009505036}
-  m_Layer: 0
-  m_Name: EditorLoader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2009505036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2009505035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0596b734c3702f4ebfcd3a78789b45f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RelativePath: Assets/Demo/Download/
---- !u!4 &2009505037
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2009505035}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 290150348}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

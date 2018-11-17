@@ -1,1 +1,2 @@
-﻿DemoInfo.Name:Drb框架
+﻿Menu.StartGame:开始游戏
+Menu.ExitGame:退出游戏
