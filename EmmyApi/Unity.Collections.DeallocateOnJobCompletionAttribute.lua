@@ -1,1 +1,0 @@
-﻿---@class DeallocateOnJobCompletionAttribute : Attribute

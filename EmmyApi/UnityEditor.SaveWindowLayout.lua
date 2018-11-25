@@ -1,1 +1,0 @@
-﻿---@class SaveWindowLayout : EditorWindow

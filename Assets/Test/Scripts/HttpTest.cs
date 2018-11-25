@@ -14,9 +14,9 @@ namespace DrbFramework.Test
 
         private void OnComplete(object sender, HttpRequestCompleteEventArgs e)
         {
-            Logger.Log.Info(e.HasError);
-            Logger.Log.Info(e.Error);
-            Logger.Log.Info(System.Text.Encoding.Unicode.GetString(e.Data));
+            Log.Info(e.HasError);
+            Log.Info(e.Error);
+            Log.Info(System.Text.Encoding.Unicode.GetString(e.Data));
         }
     }
 }

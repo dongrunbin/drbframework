@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 4157348735
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 019674de71e5f7baae984c47133f477e
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f0374038aea76f0288a3cabd820a2e92
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 104
+  Script: {instanceID: 0}
+- Class: 157
+  Script: {instanceID: 0}
+Assets:
+- Assets/Demo/Download/Scenes/Menu.unity
+Dependencies: []

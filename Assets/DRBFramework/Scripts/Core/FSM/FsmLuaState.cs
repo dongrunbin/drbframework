@@ -8,13 +8,13 @@ namespace DrbFramework.Fsm
 {
     public class FsmLuaState : FsmState
     {
-        protected OnStateEnterAction onEnter;
+        protected StateEnterAction onEnter;
 
-        protected OnStateUpdateAction onUpdate;
+        protected StateUpdateAction onUpdate;
 
-        protected OnStateLeaveAction onLeave;
+        protected StateLeaveAction onLeave;
 
-        protected OnStateDestroyAction onDestroy;
+        protected StateDestroyAction onDestroy;
 
         protected LuaTable m_ScriptEnv;
 
@@ -28,11 +28,11 @@ namespace DrbFramework.Fsm
             base.OnEnter(userData);
             if (onEnter == null)
             {
-                onEnter = m_ScriptEnv.GetInPath<OnStateEnterAction>(StateName + ".OnEnter");
+                onEnter = m_ScriptEnv.GetInPath<StateEnterAction>(StateName + ".OnEnter");
             }
             if (onUpdate == null)
             {
-                onUpdate = m_ScriptEnv.GetInPath<OnStateUpdateAction>(StateName + ".OnUpdate");
+                onUpdate = m_ScriptEnv.GetInPath<StateUpdateAction>(StateName + ".OnUpdate");
             }
             if (onEnter != null)
             {
@@ -54,7 +54,7 @@ namespace DrbFramework.Fsm
             base.OnLeave();
             if (onLeave == null)
             {
-                onLeave = m_ScriptEnv.GetInPath<OnStateLeaveAction>(StateName + ".OnLeave");
+                onLeave = m_ScriptEnv.GetInPath<StateLeaveAction>(StateName + ".OnLeave");
             }
             if (onLeave != null)
             {
@@ -67,7 +67,7 @@ namespace DrbFramework.Fsm
             base.OnDestroy();
             if (onDestroy == null)
             {
-                onDestroy = m_ScriptEnv.GetInPath<OnStateDestroyAction>(StateName + ".OnDestroy");
+                onDestroy = m_ScriptEnv.GetInPath<StateDestroyAction>(StateName + ".OnDestroy");
             }
             if (onDestroy != null)
             {

@@ -1,0 +1,55 @@
+ManifestFileVersion: 0
+CRC: 1739330228
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: localization/chinese/dictionary.txt
+      Dependencies: {}
+    Info_1:
+      Name: localization/english/dictionary.txt
+      Dependencies: {}
+    Info_2:
+      Name: lua/define.lua.txt
+      Dependencies: {}
+    Info_3:
+      Name: lua/gameentry.lua.txt
+      Dependencies: {}
+    Info_4:
+      Name: lua/main.lua.txt
+      Dependencies: {}
+    Info_5:
+      Name: lua/procedure/menuprocedure.lua.txt
+      Dependencies: {}
+    Info_6:
+      Name: lua/ui/menuform.lua.txt
+      Dependencies: {}
+    Info_7:
+      Name: ui/forms/menuform.prefab
+      Dependencies: {}
+    Info_8:
+      Name: ui/forms/splashform.prefab
+      Dependencies: {}
+    Info_9:
+      Name: audio/bgm/bgm_1.mp3
+      Dependencies: {}
+    Info_10:
+      Name: audio/bgm/bgm_2.mp3
+      Dependencies: {}
+    Info_11:
+      Name: audio/bgm/bgm_3.mp3
+      Dependencies: {}
+    Info_12:
+      Name: audio/bgm/bgm_4.mp3
+      Dependencies: {}
+    Info_13:
+      Name: audio/bgm/bgm_5.mp3
+      Dependencies: {}
+    Info_14:
+      Name: lua/luasystem.lua.txt
+      Dependencies: {}
+    Info_15:
+      Name: scenes/menu.unity
+      Dependencies: {}
+    Info_16:
+      Name: demo/scenes/main.unity
+      Dependencies: {}

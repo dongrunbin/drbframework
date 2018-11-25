@@ -22,5 +22,9 @@ namespace DrbFramework.Resource
         void LoadAssetFromAssetBundleAsync(object assetBundle, string assetName, LoadMode mode);
 
         void LoadAssetAsync(string assetPath, LoadMode mode);
+
+        void ReleaseAssetBundle(object assetBundle, LoadMode mode);
+
+        void ReleaseAsset(object asset, LoadMode mode);
     }
 }

@@ -1,8 +1,10 @@
 require "Procedure/MenuProcedure"
 require "UI/MenuForm"
 require "Define"
+require "LuaSystem"
 
 GameEntry = {}
+
 function GameEntry.Init()
 
 end

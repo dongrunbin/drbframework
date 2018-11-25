@@ -1,1 +1,0 @@
-﻿---@class LessThanConstraint : ComparisonConstraint

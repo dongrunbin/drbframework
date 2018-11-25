@@ -1,1 +1,0 @@
-﻿---@class PostImportGameObjectCreator : AssetPostprocessor

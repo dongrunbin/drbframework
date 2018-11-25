@@ -7,11 +7,11 @@ namespace DrbFramework.DataTable
     {
         bool HasDataTable<T>() where T : IDataEntity, new();
 
-        IDataTable<T> CreateDataTable<T>(string tablePath, LoadMode mode) where T : IDataEntity, new();
+        IDataTable<T> CreateDataTable<T>(byte[] data) where T : IDataEntity, new();
 
         IDataTable<T> GetDataTable<T>() where T : IDataEntity, new();
 
-        IDataTable<T> GetOrCreateDataTable<T>(string tablePath, LoadMode mode) where T : IDataEntity, new();
+        IDataTable<T> GetOrCreateDataTable<T>(byte[] data) where T : IDataEntity, new();
 
         void DestroyDataTable<T>() where T : IDataEntity, new();
     }

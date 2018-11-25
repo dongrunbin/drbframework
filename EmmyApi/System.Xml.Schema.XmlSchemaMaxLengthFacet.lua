@@ -1,1 +1,0 @@
-﻿---@class XmlSchemaMaxLengthFacet : XmlSchemaNumericFacet

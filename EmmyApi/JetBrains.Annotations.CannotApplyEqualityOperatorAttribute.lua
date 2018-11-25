@@ -1,1 +1,0 @@
-﻿---@class CannotApplyEqualityOperatorAttribute : Attribute

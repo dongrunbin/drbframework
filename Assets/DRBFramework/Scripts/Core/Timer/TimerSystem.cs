@@ -39,15 +39,25 @@ namespace DrbFramework.Timer
             }
         }
 
-        public void RegisterTimer(Timer timer)
+        public void RegisterTimer(float delay, float interval, int loop, Timer.OnStartHandler onStart, Timer.OnUpdateHandler onUpdate, Timer.OnCompleteHandler onComplete)
         {
+            Timer timer = new Timer(delay, interval, loop);
+            timer.onUpdate += onUpdate;
+            timer.onComplete += onComplete;
+            timer.onComplete += OnTimerComplete;
+            timer.onStart += onStart;
             m_TimerList.AddLast(timer);
             timer.Run();
         }
 
-        public void RemoveTimer(Timer timer)
+        public void RemoveTimer(Timer timer, bool isComplete)
         {
-            timer.Stop();
+            timer.Stop(isComplete);
+            m_TimerList.Remove(timer);
+        }
+
+        private void OnTimerComplete(Timer timer)
+        {
             m_TimerList.Remove(timer);
         }
     }

@@ -9,7 +9,9 @@ local menuForm;
 
 function MenuProcedure.OnEnter(fsm, userData)
     MenuProcedure.Fsm = fsm;
-    menuForm = DrbComponent.UISystem:OpenForm("UI/Forms/MenuForm.prefab",LoadMode.Editor);
+
+    DrbComponent.SceneSystem.OnSceneLoaded = MenuProcedure.OnSceneLoaded;
+    CS.DrbFrameworkDemo.SceneUtil.AddScene("scenes/menu.unity", LoadMode.Persistent, "Menu");
 end
 
 function MenuProcedure.OnUpdate(elapseSeconds, realElapseSeconds)
@@ -17,7 +19,14 @@ function MenuProcedure.OnUpdate(elapseSeconds, realElapseSeconds)
 end
 
 function MenuProcedure.OnLeave()
+    DrbComponent.SceneSystem.OnSceneLoaded = DrbComponent.SceneSystem.OnSceneLoaded - MenuProcedure.OnSceneLoaded;
+
     if(menuForm ~= nil) then
         DrbComponent.UISystem:CloseForm(menuForm);
     end
+end
+
+function MenuProcedure.OnSceneLoaded(sceneName,mode)
+    menuForm = DrbComponent.UISystem:OpenForm("UI/Forms/MenuForm.prefab",LoadMode.Editor);
+    CS.DrbFrameworkDemo.AudioUtil.PlayBGM("audio/bgm/bgm_1.mp3","bgm_1",LoadMode.Persistent);
 end

@@ -43,6 +43,38 @@ namespace DrbFramework.Resource
 
         public string EditorPath { get; set; }
 
+        public int LoadingAssetBundleCount
+        {
+            get
+            {
+                return m_LoadingAssetBundles.Count;
+            }
+        }
+
+        public int LoadingAssetCount
+        {
+            get
+            {
+                return m_LoadingAssets.Count;
+            }
+        }
+
+        public int AssetCount
+        {
+            get
+            {
+                return m_Holder.AssetCount;
+            }
+        }
+
+        public int AssetBundleCount
+        {
+            get
+            {
+                return m_Holder.AssetBundleCount;
+            }
+        }
+
         public void Shutdown()
         {
 
@@ -61,6 +93,15 @@ namespace DrbFramework.Resource
         public object LoadAssetBundle(string assetBundlePath, LoadMode mode)
         {
             string assetBundleAbsolutePath = GetAbsolutePath(assetBundlePath, mode);
+
+            while (true)
+            {
+                LoadAssetBundleInfo info = GetLoadingAssetBundleInfo(assetBundleAbsolutePath);
+                if (info == null)
+                {
+                    break;
+                }
+            }
 
             if (m_Holder.HasAssetBundle(assetBundleAbsolutePath))
             {
@@ -82,7 +123,7 @@ namespace DrbFramework.Resource
 
             byte[] data = m_Loader.LoadAssetBundleBytes(assetBundleAbsolutePath, mode);
             object assetBundle = m_Decoder.DecodeAssetBundle(data);
-            m_Holder.HoldAssetBundle(assetBundleAbsolutePath, assetBundle);
+            m_Holder.AddAssetBundle(assetBundleAbsolutePath, assetBundle);
             return assetBundle;
         }
 
@@ -200,20 +241,31 @@ namespace DrbFramework.Resource
 
         public object LoadAssetFromAssetBundle(string assetBundlePath, string assetName, LoadMode mode)
         {
-            assetBundlePath = GetAbsolutePath(assetBundlePath, mode);
-            string internalAssetName = assetBundlePath + assetName;
+            string assetBundleAbsolutePath = GetAbsolutePath(assetBundlePath, mode);
+            string internalAssetName = GetInternalAssetName(assetBundleAbsolutePath, assetName);
+
+            while (true)
+            {
+                LoadAssetInfo info = GetLoadingAssetInfo(assetBundleAbsolutePath, assetName);
+                if (info == null)
+                {
+                    break;
+                }
+            }
+
             if (m_Holder.HasAsset(internalAssetName))
             {
                 return m_Holder.GetAsset(internalAssetName);
             }
+
             object assetBundle = null;
-            if (m_Holder.HasAssetBundle(assetBundlePath))
+            if (m_Holder.HasAssetBundle(assetBundleAbsolutePath))
             {
-                assetBundle = m_Holder.GetAssetBundle(assetBundlePath);
+                assetBundle = m_Holder.GetAssetBundle(assetBundleAbsolutePath);
             }
             else
             {
-                assetBundle = LoadAssetBundle(assetBundlePath, mode);
+                assetBundle = LoadAssetBundle(assetBundleAbsolutePath, mode);
             }
 
             if (assetBundle == null)
@@ -222,14 +274,14 @@ namespace DrbFramework.Resource
             }
 
             object asset = m_Loader.LoadAssetFromAssetBundle(assetBundle, assetName, mode);
-            m_Holder.HoldAsset(internalAssetName, asset);
+            m_Holder.AddAsset(internalAssetName, asset);
             return asset;
         }
 
         public void LoadAssetFromAssetBundleAsync(string assetBundlePath, string assetName, LoadMode mode, LoadAssetCompleteEventHandler onComplete, object userData)
         {
             string absolutePath = GetAbsolutePath(assetBundlePath, mode);
-            string internalAssetName = absolutePath + assetName;
+            string internalAssetName = GetInternalAssetName(absolutePath, assetName);
             if (m_Holder.HasAsset(internalAssetName))
             {
                 if (onComplete != null)
@@ -255,7 +307,14 @@ namespace DrbFramework.Resource
                     UserData = userData
                 };
                 m_LoadingAssets.AddLast(info);
-                if (m_LoadingAssets.Count == 1)
+                if (m_Holder.HasAssetBundle(absolutePath))
+                {
+                    if (m_LoadingAssets.Count == 1)
+                    {
+                        m_Loader.LoadAssetFromAssetBundleAsync(m_Holder.GetAssetBundle(absolutePath), assetName, mode);
+                    }
+                }
+                else
                 {
                     LoadAssetBundleAsync(assetBundlePath, mode, OnLoadAssetBundleComplete, info);
                 }
@@ -276,13 +335,23 @@ namespace DrbFramework.Resource
         public object LoadAsset(string assetPath, LoadMode mode)
         {
             assetPath = GetAbsolutePath(assetPath, mode);
+
+            while (true)
+            {
+                LoadAssetInfo info = GetLoadingAssetInfo(assetPath, string.Empty);
+                if (info == null)
+                {
+                    break;
+                }
+            }
+
             if (m_Holder.HasAsset(assetPath))
             {
                 return m_Holder.GetAsset(assetPath);
             }
 
             object asset = m_Loader.LoadAsset(assetPath, mode);
-            m_Holder.HoldAsset(assetPath, asset);
+            m_Holder.AddAsset(assetPath, asset);
             return asset;
         }
 
@@ -321,28 +390,60 @@ namespace DrbFramework.Resource
             }
         }
 
-        public int LoadingAssetBundleCount()
+        public bool HasAsset(string assetPath, LoadMode mode)
         {
-            return m_LoadingAssetBundles.Count;
+            return m_Holder.HasAsset(GetAbsolutePath(assetPath, mode));
         }
 
-        public int LoadingAssetCount()
+        public bool HasAsset(string assetBundlePath, string assetName, LoadMode mode)
         {
-            return m_LoadingAssets.Count;
+            string absolutePath = GetAbsolutePath(assetBundlePath, mode);
+            string internalAssetName = GetInternalAssetName(absolutePath, assetName);
+            return m_Holder.HasAsset(internalAssetName);
         }
 
-        public bool HasAsset(string assetName)
+        public bool HasAssetBundle(string assetBundlePath, LoadMode mode)
         {
+            return m_Holder.HasAssetBundle(GetAbsolutePath(assetBundlePath, mode));
+        }
+
+        public bool ReleaseAsset(string assetPath, LoadMode mode)
+        {
+            string absolutePath = GetAbsolutePath(assetPath, mode);
+            object asset = m_Holder.GetAsset(absolutePath);
+            if (asset == null)
+            {
+                return false;
+            }
+            m_Loader.ReleaseAsset(asset, mode);
+            m_Holder.RemoveAsset(absolutePath);
             return true;
         }
 
-        public bool HasAsset(string assetBundlePath, string assetName)
+        public bool ReleaseAsset(string assetBundlePath, string assetName, LoadMode mode)
         {
+            string absolutePath = GetAbsolutePath(assetBundlePath, mode);
+            string internalAssetName = GetInternalAssetName(absolutePath, assetName);
+            object asset = m_Holder.GetAsset(internalAssetName);
+            if (asset == null)
+            {
+                return false;
+            }
+            m_Loader.ReleaseAsset(asset, mode);
+            m_Holder.RemoveAsset(internalAssetName);
             return true;
         }
 
-        public bool HasAssetBundle(string assetBundlePath)
+        public bool ReleaseAssetBundle(string assetBundlePath, LoadMode mode)
         {
+            string absolutePath = GetAbsolutePath(assetBundlePath, mode);
+            object assetBundle = m_Holder.GetAssetBundle(absolutePath);
+            if (assetBundle == null)
+            {
+                return false;
+            }
+            m_Loader.ReleaseAssetBundle(assetBundle, mode);
+            m_Holder.RemoveAssetBundle(absolutePath);
             return true;
         }
 
@@ -374,7 +475,10 @@ namespace DrbFramework.Resource
             return absolutePath;
         }
 
-
+        private string GetInternalAssetName(string absoluteAssetBundlePath, string assetName)
+        {
+            return absoluteAssetBundlePath + assetName;
+        }
 
         private void OnLoadAssetBundleBytesComplete(LoadAssetBundleBytesCompleteEventArgs args)
         {
@@ -383,7 +487,10 @@ namespace DrbFramework.Resource
             if (args.AssetBundlePath.Equals(node.Value.AssetBundlePath))
             {
                 object assetBundle = m_Decoder.DecodeAssetBundle(args.Data);
-                m_Holder.HoldAssetBundle(args.AssetBundlePath, assetBundle);
+                if (assetBundle != null)
+                {
+                    m_Holder.AddAssetBundle(args.AssetBundlePath, assetBundle);
+                }
 
                 LoadAssetBundleInfo info = node.Value;
                 if (info.Handler != null)
@@ -394,10 +501,13 @@ namespace DrbFramework.Resource
                 {
                     if (args.HasError)
                     {
-                        Logger.Log.Warn("load asset bundle '{0}' was error.{1}", info.AssetBundlePath, args.Error);
+                        Log.Warn("load asset bundle '{0}' was error.{1}", info.AssetBundlePath, args.Error);
                     }
                 }
-
+            }
+            else
+            {
+                throw new DrbException("internal error");
             }
 
             if (m_LoadingAssetBundles.Count > 0)
@@ -410,10 +520,14 @@ namespace DrbFramework.Resource
         private void OnResourceLoaderLoadAssetComplete(LoadAssetCompleteEventArgs args)
         {
             LinkedListNode<LoadAssetInfo> node = m_LoadingAssets.First;
-            if (args.AssetName.Equals(node.Value.AssetName))
+            if (args.AssetName.Equals(node.Value.AssetName) || args.AssetName.Equals(node.Value.AssetBundlePath))
             {
+                string internalAssetName = GetInternalAssetName(node.Value.AssetBundlePath, node.Value.AssetName);
                 m_LoadingAssets.RemoveFirst();
-                m_Holder.HoldAsset(args.AssetName, args.Asset);
+                if (args.Asset != null)
+                {
+                    m_Holder.AddAsset(internalAssetName, args.Asset);
+                }
 
                 LoadAssetInfo info = node.Value;
                 if (info.Handler != null)
@@ -424,18 +538,24 @@ namespace DrbFramework.Resource
                 {
                     if (args.HasError)
                     {
-                        Logger.Log.Warn("load asset bundle '{0}' was error.{1}", info.AssetBundlePath, args.Error);
+                        Log.Warn("load asset bundle '{0}' was error.{1}", info.AssetBundlePath, args.Error);
                     }
                 }
-
+            }
+            else
+            {
+                throw new DrbException("internal error");
             }
 
-            if (m_LoadingAssetBundles.Count > 0)
+            if (m_LoadingAssets.Count > 0)
             {
                 LoadAssetInfo info = m_LoadingAssets.First.Value;
                 if (!string.IsNullOrEmpty(info.AssetName))
                 {
-                    LoadAssetBundleAsync(info.AssetBundlePath, info.Mode, OnLoadAssetBundleComplete, info);
+                    if (m_Holder.HasAssetBundle(info.AssetBundlePath))
+                    {
+                        m_Loader.LoadAssetFromAssetBundleAsync(info.AssetBundlePath, info.AssetName, info.Mode);
+                    }
                 }
                 else
                 {

@@ -6,20 +6,20 @@ namespace DrbFramework.Scene
 {
     public interface ISceneLoader
     {
-        EventHandler<SceneLoadSuccessArgs> OnLoadSceneSuccess { set; }
+        SceneLoadedHandler OnSceneLoaded { set; }
 
-        EventHandler<SceneLoadFailureArgs> OnLoadSceneFailure { set; }
+        SceneUnloadedHandler OnSceneUnloaded { set; }
 
         void LoadScene(string sceneName);
 
         void AddScene(string sceneName);
 
-        void RemoveScene(string sceneName);
+        void UnloadScene(string sceneName);
 
         void LoadSceneAsync(string sceneName);
 
         void AddSceneAsync(string sceneName);
 
-        void RemoveSceneAsync(string sceneName);
+        void UnloadSceneAsync(string sceneName);
     }
 }

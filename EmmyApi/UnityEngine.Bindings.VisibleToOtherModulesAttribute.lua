@@ -1,1 +1,0 @@
-﻿---@class VisibleToOtherModulesAttribute : Attribute

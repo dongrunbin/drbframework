@@ -1,1 +1,0 @@
-﻿---@class SemaphoreFullException : SystemException

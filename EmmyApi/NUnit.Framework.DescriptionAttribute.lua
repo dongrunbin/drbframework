@@ -1,1 +1,0 @@
-﻿---@class DescriptionAttribute : PropertyAttribute

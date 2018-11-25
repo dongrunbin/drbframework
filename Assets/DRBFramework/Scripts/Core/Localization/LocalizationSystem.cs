@@ -1,5 +1,4 @@
 ﻿
-using DrbFramework.Resource;
 using System.Collections.Generic;
 
 namespace DrbFramework.Localization
@@ -52,7 +51,7 @@ namespace DrbFramework.Localization
 
         public void Shutdown()
         {
-
+            Clear();
         }
 
         public void Update(float elapseSeconds, float realElapseSeconds)
@@ -62,7 +61,6 @@ namespace DrbFramework.Localization
 
         public void ParseDictionary(object dictionaryData)
         {
-            m_Dic.Clear();
             m_Parser.ParseDictionary(dictionaryData, m_Dic);
 
             ILocalizer[] localizers = m_Parser.GetAllLocalizer();
@@ -74,6 +72,11 @@ namespace DrbFramework.Localization
                     localizer.Value = m_Dic[localizer.Key];
                 }
             }
+        }
+
+        public void Clear()
+        {
+            m_Dic.Clear();
         }
 
         public string GetString(string key, params object[] args)

@@ -21,7 +21,7 @@ namespace DrbFramework.Test.Procedure
         {
             base.OnEnter(userData);
 
-            Logger.Log.Info("TestCsProcedure enter");
+            Log.Info("TestCsProcedure enter");
 
             m_Time = 0f;
         }
@@ -40,7 +40,7 @@ namespace DrbFramework.Test.Procedure
         {
             base.OnLeave();
 
-            Logger.Log.Info("TestCsProcedure leave");
+            Log.Info("TestCsProcedure leave");
         }
 
 

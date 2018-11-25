@@ -1,1 +1,0 @@
-﻿---@class SpriteEditorMenu : EditorWindow

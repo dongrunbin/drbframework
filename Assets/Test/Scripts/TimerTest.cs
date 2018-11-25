@@ -9,11 +9,14 @@ namespace DrbFramework.Test
     {
         void Start()
         {
-            Timer.Timer timer = new Timer.Timer(0f, 0.5f, 1);
-            timer.onComplete += () => { Log.Info("complete"); };
-            timer.onUpdate += () => { Log.Info("update"); };
-            timer.onStart += () => { Log.Info("start"); };
-            SystemManager.GetSystem<ITimerSystem>().RegisterTimer(timer);
+            SystemManager.GetSystem<ITimerSystem>().RegisterTimer(
+                0f,
+                0.5f,
+                1,
+                (Timer.Timer timer) => { Log.Info("start"); },
+                (Timer.Timer timer) => { Log.Info("update"); },
+                (Timer.Timer timer) => { Log.Info("complete"); });
+
         }
     }
 }

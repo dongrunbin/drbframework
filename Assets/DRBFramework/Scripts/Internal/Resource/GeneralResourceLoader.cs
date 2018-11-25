@@ -3,7 +3,6 @@ using System;
 using System.IO;
 using System.Collections;
 using UnityEngine;
-using DrbFramework.Extensions;
 using DrbFramework.Resource;
 using DrbFramework.Utility;
 
@@ -44,9 +43,7 @@ namespace DrbFramework.Internal.Resource
             switch (mode)
             {
                 case LoadMode.Editor:
-#if UNITY_EDITOR
-                    object asset = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
-#endif
+                    StartCoroutine(LoadEditorAssetCo(assetPath));
                     break;
                 case LoadMode.Internal:
                     StartCoroutine(LoadInternalAssetCo(assetPath));
@@ -56,6 +53,24 @@ namespace DrbFramework.Internal.Resource
                 case LoadMode.ReadOnly:
                     throw new NotSupportedException();
             }
+        }
+
+        private IEnumerator LoadEditorAssetCo(string assetPath)
+        {
+            yield return null;
+            object asset = null;
+#if UNITY_EDITOR
+            asset = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
+            if (OnLoadAssetComplete != null)
+            {
+                OnLoadAssetComplete(new LoadAssetCompleteEventArgs(assetPath, asset, asset == null ? string.Format("asset '{0}' is not exists", assetPath) : null, null));
+            }
+#else
+            if (OnLoadAssetComplete != null)
+            {
+                OnLoadAssetComplete(new LoadAssetCompleteEventArgs(assetPath, asset, "no editor mode", null));
+            }
+#endif
         }
 
         private IEnumerator LoadInternalAssetCo(string assetPath)
@@ -152,7 +167,7 @@ namespace DrbFramework.Internal.Resource
                     }
                     break;
                 case LoadMode.ReadOnly:
-                    using (WWW www = new WWW("file:///" + filePath))
+                    using (WWW www = new WWW(StringUtil.GetFileProtocolPath(filePath)))
                     {
                         while (!www.isDone)
                         {
@@ -163,6 +178,29 @@ namespace DrbFramework.Internal.Resource
                     break;
             }
             return data;
+        }
+
+        public override void ReleaseAssetBundle(object assetBundle, LoadMode mode)
+        {
+            AssetBundle ab = (AssetBundle)assetBundle;
+            ab.Unload(true);
+        }
+
+        public override void ReleaseAsset(object asset, LoadMode mode)
+        {
+            UnityEngine.Object obj = (UnityEngine.Object)asset;
+            switch (mode)
+            {
+                case LoadMode.Editor:
+                    break;
+                case LoadMode.Internal:
+                    Resources.UnloadAsset(obj);
+                    break;
+                case LoadMode.Persistent:
+                    break;
+                case LoadMode.ReadOnly:
+                    break;
+            }
         }
     }
 }

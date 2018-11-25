@@ -10,5 +10,7 @@ namespace DrbFramework.Localization
         void ParseDictionary(object dictionaryData);
 
         string GetString(string key, params object[] args);
+
+        void Clear();
     }
 }

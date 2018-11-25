@@ -1,1 +1,0 @@
-﻿---@class ApplicationException : Exception

@@ -1,1 +1,0 @@
-﻿---@class HMACRIPEMD160 : HMAC

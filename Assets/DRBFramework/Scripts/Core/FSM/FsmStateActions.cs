@@ -4,11 +4,11 @@ using XLua;
 namespace DrbFramework.Fsm
 {
     [CSharpCallLua]
-    public delegate void OnStateEnterAction(IFsm fsm, object userData);
+    public delegate void StateEnterAction(IFsm fsm, object userData);
     [CSharpCallLua]
-    public delegate void OnStateUpdateAction(float elapseSeconds, float realElapseSeconds);
+    public delegate void StateUpdateAction(float elapseSeconds, float realElapseSeconds);
     [CSharpCallLua]
-    public delegate void OnStateLeaveAction();
+    public delegate void StateLeaveAction();
     [CSharpCallLua]
-    public delegate void OnStateDestroyAction();
+    public delegate void StateDestroyAction();
 }

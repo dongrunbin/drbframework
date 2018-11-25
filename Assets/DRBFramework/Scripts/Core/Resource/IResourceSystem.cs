@@ -11,6 +11,14 @@ namespace DrbFramework.Resource
 
         string EditorPath { get; set; }
 
+        int LoadingAssetBundleCount { get; }
+
+        int LoadingAssetCount { get; }
+
+        int AssetCount { get; }
+
+        int AssetBundleCount { get; }
+
         byte[] LoadFile(string filePath, LoadMode mode);
 
         object LoadAssetFromAssetBundle(string assetBundlePath, string assetName, LoadMode mode);
@@ -29,14 +37,16 @@ namespace DrbFramework.Resource
 
         void LoadAssetFromAssetBundleAsync(string assetBundlePath, string assetName, LoadMode mode, LoadAssetCompleteEventHandler onComplete, object userData);
 
-        int LoadingAssetBundleCount();
+        bool HasAsset(string assetPath, LoadMode mode);
 
-        int LoadingAssetCount();
+        bool HasAsset(string assetBundlePath, string assetName, LoadMode mode);
 
-        bool HasAsset(string assetName);
+        bool HasAssetBundle(string assetBundlePath, LoadMode mode);
 
-        bool HasAsset(string assetBundlePath, string assetName);
+        bool ReleaseAsset(string assetPath, LoadMode mode);
 
-        bool HasAssetBundle(string assetBundlePath);
+        bool ReleaseAsset(string assetBundlePath, string assetName, LoadMode mode);
+
+        bool ReleaseAssetBundle(string assetBundlePath, LoadMode mode);
     }
 }

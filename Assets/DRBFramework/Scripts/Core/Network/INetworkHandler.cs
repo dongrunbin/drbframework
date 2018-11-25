@@ -14,7 +14,5 @@ namespace DrbFramework.Network
         void OnChannelSent(INetworkChannel channel, int sentLength);
 
         void OnChannelReceived(INetworkChannel channel, object obj);
-
-        void Update(float elapseSeconds, float realElapseSeconds);
     }
 }

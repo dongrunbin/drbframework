@@ -1,1 +1,0 @@
-﻿---@class DefaultAsset : Object

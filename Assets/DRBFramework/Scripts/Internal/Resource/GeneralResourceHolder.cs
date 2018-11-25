@@ -11,6 +11,23 @@ namespace DrbFramework.Internal.Resource
     public class GeneralResourceHolder : IResourceHolder
     {
         private readonly IDictionary<string, object> m_AssetDic = new Dictionary<string, object>();
+        private readonly IDictionary<string, object> m_AssetBundleDic = new Dictionary<string, object>();
+
+        public int AssetCount
+        {
+            get
+            {
+                return m_AssetDic.Count;
+            }
+        }
+
+        public int AssetBundleCount
+        {
+            get
+            {
+                return m_AssetBundleDic.Count;
+            }
+        }
 
         public bool HasAsset(string assetName)
         {
@@ -27,7 +44,7 @@ namespace DrbFramework.Internal.Resource
             return asset;
         }
 
-        public void HoldAsset(string assetName, object asset)
+        public void AddAsset(string assetName, object asset)
         {
             if (HasAsset(assetName))
             {
@@ -36,7 +53,7 @@ namespace DrbFramework.Internal.Resource
             m_AssetDic[assetName] = asset;
         }
 
-        public void ReleaseAsset(string assetName)
+        public void RemoveAsset(string assetName)
         {
             if (m_AssetDic.ContainsKey(assetName))
             {
@@ -46,22 +63,44 @@ namespace DrbFramework.Internal.Resource
 
         public bool HasAssetBundle(string assetBundlePath)
         {
-            throw new System.NotImplementedException();
+            return m_AssetBundleDic.ContainsKey(assetBundlePath);
         }
 
         public object GetAssetBundle(string assetBundlePath)
         {
-            throw new System.NotImplementedException();
+            object assetBunlde = null;
+            if (!m_AssetBundleDic.TryGetValue(assetBundlePath, out assetBunlde))
+            {
+                return null;
+            }
+            return assetBunlde;
         }
 
-        public void HoldAssetBundle(string assetBundlePath, object assetBundle)
+        public void AddAssetBundle(string assetBundlePath, object assetBundle)
         {
-            throw new System.NotImplementedException();
+            if (HasAssetBundle(assetBundlePath))
+            {
+                Log.Error("already exists asset bundle '{0}'", assetBundlePath);
+            }
+            m_AssetBundleDic[assetBundlePath] = assetBundle;
         }
 
-        public void ReleaseAssetBundle(string assetBundlePath)
+        public void RemoveAssetBundle(string assetBundlePath)
         {
-            throw new System.NotImplementedException();
+            if (m_AssetBundleDic.ContainsKey(assetBundlePath))
+            {
+                m_AssetBundleDic.Remove(assetBundlePath);
+
+                List<string> keys = new List<string>();
+                keys.AddRange(m_AssetDic.Keys);
+                for (int i = 0; i < keys.Count; ++i)
+                {
+                    if (keys[i].Contains(assetBundlePath))
+                    {
+                        m_AssetDic.Remove(keys[i]);
+                    }
+                }
+            }
         }
     }
 }

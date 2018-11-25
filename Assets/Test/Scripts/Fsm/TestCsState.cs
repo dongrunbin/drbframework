@@ -1,6 +1,5 @@
 ﻿
 using DrbFramework.Fsm;
-using UnityEngine;
 
 namespace DrbFramework.Test.Fsm
 {
@@ -14,7 +13,7 @@ namespace DrbFramework.Test.Fsm
             base.OnEnter(userData);
 
             m_Time = 0f;
-            Logger.Log.Info("test csharp state enter");
+            Log.Info("test csharp state enter");
         }
 
         public override void OnUpdate(float elapseSeconds, float realElapseSeconds)
@@ -32,7 +31,7 @@ namespace DrbFramework.Test.Fsm
         {
             base.OnLeave();
 
-            Logger.Log.Info("test csharp state leave");
+            Log.Info("test csharp state leave");
         }
     }
 }

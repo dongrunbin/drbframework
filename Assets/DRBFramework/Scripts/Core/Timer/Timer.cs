@@ -9,9 +9,9 @@ namespace DrbFramework.Timer
     public class Timer
     {
 
-        public delegate void OnStartHandler();
-        public delegate void OnUpdateHandler();
-        public delegate void OnCompleteHandler();
+        public delegate void OnStartHandler(Timer timer);
+        public delegate void OnUpdateHandler(Timer timer);
+        public delegate void OnCompleteHandler(Timer timer);
 
         public bool IsRunning { get; private set; }
 
@@ -74,7 +74,7 @@ namespace DrbFramework.Timer
                 CurrentLoop = 1;
                 if (onStart != null)
                 {
-                    onStart();
+                    onStart(this);
                 }
             }
             IsRunning = true;
@@ -93,7 +93,7 @@ namespace DrbFramework.Timer
             IsRunning = false;
             if (isComplete && onComplete != null)
             {
-                onComplete();
+                onComplete(this);
             }
         }
 
@@ -111,7 +111,7 @@ namespace DrbFramework.Timer
                     CurrentLoop = 1;
                     if (onStart != null)
                     {
-                        onStart();
+                        onStart(this);
                     }
                 }
                 return;
@@ -123,7 +123,7 @@ namespace DrbFramework.Timer
 
                 if (onUpdate != null)
                 {
-                    onUpdate();
+                    onUpdate(this);
                 }
 
                 if (Loop > -1)

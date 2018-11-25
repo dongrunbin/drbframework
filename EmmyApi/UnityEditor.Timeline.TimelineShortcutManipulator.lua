@@ -1,1 +1,0 @@
-﻿---@class TimelineShortcutManipulator : Manipulator

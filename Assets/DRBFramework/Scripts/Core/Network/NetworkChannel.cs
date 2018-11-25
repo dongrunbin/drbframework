@@ -9,10 +9,12 @@ namespace DrbFramework.Network
 {
     public class NetworkChannel : INetworkChannel
     {
-
+        private const int HANDLE_PER_FRAME = 5;
+        private int m_Counter;
         private Socket m_Socket;
-        private MemoryStream m_ReceiveBuffer = new MemoryStream(1024 * 8);//接收缓冲区
-        private Queue<byte[]> m_SendQueue = new Queue<byte[]>();//发送消息队列
+        private MemoryStream m_ReceiveBuffer = new MemoryStream(1024 * 8);
+        private Queue<byte[]> m_SendQueue = new Queue<byte[]>();
+        private Queue<object> m_ReceivedQueue = new Queue<object>();
 
         private INetworkHandler m_Handler;
         private INetworkEncoder m_Encoder;
@@ -228,16 +230,14 @@ namespace DrbFramework.Network
                     m_Decoder.Decode(this, m_ReceiveBuffer, out obj);
                     if (obj != null)
                     {
-                        if (m_Handler != null)
-                            m_Handler.OnChannelReceived(this, obj);
+                        m_ReceivedQueue.Enqueue(obj);
                     }
                 }
                 while (obj != null);
             }
             else
             {
-                if (m_Handler != null)
-                    m_Handler.OnChannelReceived(this, m_ReceiveBuffer.ToArray());
+                m_ReceivedQueue.Enqueue(m_ReceiveBuffer.ToArray());
                 m_ReceiveBuffer.SetLength(0);
             }
 
@@ -350,9 +350,14 @@ namespace DrbFramework.Network
 
         public void Update(float elapseSeconds, float realElapseSeconds)
         {
-            if (m_Handler != null)
+            m_Counter = 0;
+            while (m_ReceivedQueue.Count > 0 && m_Counter < HANDLE_PER_FRAME)
             {
-                m_Handler.Update(elapseSeconds, realElapseSeconds);
+                if (m_Handler != null)
+                {
+                    m_Handler.OnChannelReceived(this, m_ReceivedQueue.Dequeue());
+                }
+                ++m_Counter;
             }
         }
     }

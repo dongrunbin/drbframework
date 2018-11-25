@@ -1,1 +1,0 @@
-﻿---@class UnityException : SystemException

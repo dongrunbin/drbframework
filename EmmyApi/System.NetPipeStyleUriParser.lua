@@ -1,1 +1,0 @@
-﻿---@class NetPipeStyleUriParser : UriParser

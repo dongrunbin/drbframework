@@ -1,1 +1,0 @@
-﻿---@class EditmodeWorkItemFactory : WorkItemFactory

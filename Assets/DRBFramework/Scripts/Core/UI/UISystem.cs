@@ -1,6 +1,5 @@
 ﻿
 using DrbFramework.Resource;
-using System;
 using System.Collections.Generic;
 
 namespace DrbFramework.UI
@@ -235,6 +234,19 @@ namespace DrbFramework.UI
             m_Forms.Remove(form);
             form.OnBeforeDestroy();
             m_Creater.DestroyForm(form);
+        }
+
+        public void DestroyAllForm()
+        {
+            LinkedListNode<IUIForm> node = m_Forms.First;
+            while (node != null)
+            {
+                CloseForm(node.Value);
+                node.Value.OnBeforeDestroy();
+                m_Creater.DestroyForm(node.Value);
+                node = node.Next;
+            }
+            m_Forms.Clear();
         }
     }
 }

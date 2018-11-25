@@ -3,8 +3,8 @@ namespace DrbFramework.Timer
 {
     public interface ITimerSystem : ISystem
     {
-        void RegisterTimer(Timer timer);
+        void RegisterTimer(float delay, float interval, int loop, Timer.OnStartHandler onStart, Timer.OnUpdateHandler onUpdate, Timer.OnCompleteHandler onComplete);
 
-        void RemoveTimer(Timer timer);
+        void RemoveTimer(Timer timer, bool isComplete);
     }
 }

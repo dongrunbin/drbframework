@@ -7,12 +7,12 @@ namespace DrbFramework.UI
         public void DestroyForm(IUIForm form)
         {
             if (form == null) return;
-            Object.Destroy(((UIForm)form).gameObject);
+            UnityEngine.Object.Destroy(((UIForm)form).gameObject);
         }
 
         public IUIForm InstantiateForm(object asset, object uiRoot)
         {
-            GameObject go = Object.Instantiate((GameObject)asset);
+            GameObject go = UnityEngine.Object.Instantiate((GameObject)asset);
             UIForm form = go.GetComponent<UIForm>();
 
             RectTransform transform = form.GetComponent<RectTransform>();

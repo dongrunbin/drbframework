@@ -1,1 +1,0 @@
-﻿---@class OptionalAttribute : Attribute

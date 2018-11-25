@@ -1,1 +1,0 @@
-﻿---@class InitializeOnLoadAttribute : Attribute

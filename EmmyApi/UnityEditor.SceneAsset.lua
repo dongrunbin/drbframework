@@ -1,1 +1,0 @@
-﻿---@class SceneAsset : Object

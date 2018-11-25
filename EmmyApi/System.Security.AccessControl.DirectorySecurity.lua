@@ -1,1 +1,0 @@
-﻿---@class DirectorySecurity : FileSystemSecurity

@@ -1,4 +1,5 @@
-﻿using DrbFramework;
+﻿
+using DrbFramework.Internal;
 using DrbFramework.Procedure;
 using DrbFramework.UI;
 
@@ -24,6 +25,7 @@ namespace DrbFrameworkDemo
             if (m_SplashForm != null)
             {
                 DrbComponent.UISystem.DestroyForm(m_SplashForm);
+                DrbComponent.ResourceSystem.ReleaseAsset("UI/Forms/SplashForm.prefab", DrbFramework.Resource.LoadMode.Editor);
             }
         }
 

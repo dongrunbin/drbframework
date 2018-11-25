@@ -1,1 +1,0 @@
-﻿---@class XPathFunction : Expression

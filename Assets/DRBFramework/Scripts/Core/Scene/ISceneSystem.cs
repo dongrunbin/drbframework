@@ -3,12 +3,20 @@ namespace DrbFramework.Scene
 {
     public interface ISceneSystem : ISystem
     {
-        void LoadSceneAsync(string sceneAssetPath, string sceneAssetName);
+        SceneLoadedHandler OnSceneLoaded { get; set; }
 
-        void LoadScene(string sceneAssetPath, string sceneAssetName);
+        SceneUnloadedHandler OnSceneUnloaded { get; set; }
 
-        void AddScene(string sceneAssetPath, string sceneAssetName);
+        void LoadSceneAsync(string sceneName);
 
-        void RemoveScene(string sceneAssetName);
+        void AddSceneAsync(string sceneName);
+
+        void UnloadSceneAsync(string sceneName);
+
+        void LoadScene(string sceneName);
+
+        void AddScene(string sceneName);
+
+        void UnloadScene(string sceneName);
     }
 }

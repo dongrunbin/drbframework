@@ -1,5 +1,4 @@
 ﻿
-using DrbFramework.Resource;
 using System;
 using System.Collections.Generic;
 
@@ -7,28 +6,17 @@ namespace DrbFramework.DataTable
 {
     public class DataTableSystem : IDataTableSystem
     {
-        private IResourceSystem m_ResourceSystem;
+        private readonly IDictionary<Type, object> m_TableDic = new Dictionary<Type, object>();
+
         private IDataTableParser m_Parser;
 
         public DataTableSystem(IDataTableParser parser)
         {
             if (parser == null)
             {
-                throw new DrbException("parser is invalid");
+                throw new ArgumentNullException("parser is invalid");
             }
             m_Parser = parser;
-        }
-
-        private IResourceSystem ResourceSystem
-        {
-            get
-            {
-                if (m_ResourceSystem == null)
-                {
-                    m_ResourceSystem = SystemManager.GetSystem<IResourceSystem>();
-                }
-                return m_ResourceSystem;
-            }
         }
 
         public int Priority
@@ -39,18 +27,14 @@ namespace DrbFramework.DataTable
             }
         }
 
-        private readonly IDictionary<Type, object> m_TableDic = new Dictionary<Type, object>();
-
-        public IDataTable<T> CreateDataTable<T>(string tablePath, LoadMode mode) where T : IDataEntity, new()
+        public IDataTable<T> CreateDataTable<T>(byte[] data) where T : IDataEntity, new()
         {
             Type type = typeof(T);
             if (m_TableDic.ContainsKey(type))
             {
-                throw new DrbException("Already exists data table {0}", tablePath);
+                throw new DrbException("Already exists data table {0}", type.FullName);
             }
 
-
-            byte[] data = ResourceSystem.LoadFile(tablePath, mode);
             if (data == null)
             {
                 return null;
@@ -77,12 +61,12 @@ namespace DrbFramework.DataTable
             return (IDataTable<T>)obj;
         }
 
-        public IDataTable<T> GetOrCreateDataTable<T>(string tablePath, LoadMode mode) where T : IDataEntity, new()
+        public IDataTable<T> GetOrCreateDataTable<T>(byte[] data) where T : IDataEntity, new()
         {
             IDataTable<T> table = GetDataTable<T>();
             if (table == null)
             {
-                table = CreateDataTable<T>(tablePath, mode);
+                table = CreateDataTable<T>(data);
             }
             return table;
         }
@@ -94,7 +78,7 @@ namespace DrbFramework.DataTable
 
         public void Shutdown()
         {
-
+            m_TableDic.Clear();
         }
 
         public void Update(float elapseSeconds, float realElapseSeconds)

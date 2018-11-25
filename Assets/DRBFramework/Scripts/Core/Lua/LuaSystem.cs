@@ -8,6 +8,12 @@ namespace DrbFramework.Lua
     {
         public LuaEnv LuaEnv { get; private set; }
 
+        private LuaTable m_ScriptEnv;
+
+        private LuaInitAction OnLuaInit;
+        private LuaUpdateAction OnLuaUpdate;
+        private LuaShutdownAction OnLuaShutdown;
+
         public LuaSystem(params string[] packagePath)
         {
             LuaEnv = new LuaEnv();
@@ -32,14 +38,34 @@ namespace DrbFramework.Lua
             }
         }
 
+        public void Initialize(string luaString, string initFunctionName, string updateFunctionName, string shutdownFunctionName)
+        {
+            DoString(luaString);
+            m_ScriptEnv = NewTable();
+            OnLuaInit = m_ScriptEnv.GetInPath<LuaInitAction>(initFunctionName);
+            OnLuaUpdate = m_ScriptEnv.GetInPath<LuaUpdateAction>(updateFunctionName);
+            OnLuaShutdown = m_ScriptEnv.GetInPath<LuaShutdownAction>(shutdownFunctionName);
+
+            if (OnLuaInit != null)
+            {
+                OnLuaInit();
+            }
+        }
+
         public void Shutdown()
         {
-
+            if (OnLuaShutdown != null)
+            {
+                OnLuaShutdown();
+            }
         }
 
         public void Update(float elapseSeconds, float realElapseSeconds)
         {
-
+            if (OnLuaUpdate != null)
+            {
+                OnLuaUpdate(elapseSeconds, realElapseSeconds);
+            }
         }
 
         public LuaTable NewTable()

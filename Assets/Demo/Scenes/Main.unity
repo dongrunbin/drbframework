@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_DownloadTimeout: 30
   m_WebRequesterComponent: {fileID: 720384771}
   m_DataTableParserTypeName: DrbFramework.Test.DataTable.DataTableParser
-  m_SettingHandlerTypeName: DrbFramework.Setting.SettingHandler
+  m_SettingHandlerTypeName: DrbFramework.Internal.Setting.SettingHandler
   m_EnabledProcedureTypeNames:
   - DrbFrameworkDemo.LaunchProcedure
   - DrbFrameworkDemo.PreloadProcedure
@@ -170,12 +170,16 @@ MonoBehaviour:
   m_ResourceDecoderTypeName: DrbFramework.Internal.Resource.UnencryptedResourceDecoder
   m_DebugFormTypeNames:
   - DrbFramework.Internal.Debug.Forms.FpsInfo
-  - DrbFramework.Internal.Debug.Forms.GraphicsInfo
-  - DrbFramework.Internal.Debug.Forms.Environment
+  - DrbFramework.Internal.Debug.Forms.ResourceInfo
+  - DrbFramework.Internal.Debug.Forms.Profiler
   - DrbFramework.Internal.Debug.Forms.QualityInfo
   - DrbFramework.Internal.Debug.Forms.InputInfo
   m_LuaPackagePaths:
   - Application.dataPath+Demo/Download/Lua/?.lua.txt
+  m_AudioCreaterTypeName: DrbFramework.Internal.Audio.SimpleSounderCreater
+  m_MaxSameAudioCount: 3
+  m_SounderRoot: {fileID: 1885626705}
+  m_SceneLoaderTypeName: DrbFramework.Internal.Scene.SceneLoader
 --- !u!4 &290150348
 Transform:
   m_ObjectHideFlags: 0
@@ -190,6 +194,9 @@ Transform:
   - {fileID: 1022914879}
   - {fileID: 1991888066}
   - {fileID: 720384772}
+  - {fileID: 724494183}
+  - {fileID: 1885626705}
+  - {fileID: 1001871664}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -243,7 +250,7 @@ GameObject:
   - component: {fileID: 720384772}
   - component: {fileID: 720384771}
   m_Layer: 0
-  m_Name: HttpRequester
+  m_Name: SimpleHttpRequester
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -359,8 +366,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 926530563}
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_Father: {fileID: 290150348}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -504,12 +511,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1001871661}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 290150348}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1022914878
 GameObject:
@@ -521,7 +528,7 @@ GameObject:
   - component: {fileID: 1022914879}
   - component: {fileID: 1022914880}
   m_Layer: 0
-  m_Name: StartingPointDownloaderImpl
+  m_Name: StartingPointDownloader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -551,6 +558,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdbb952c0ff2387438cf624e859cc643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1885626704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1885626705}
+  m_Layer: 0
+  m_Name: SounderRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1885626705
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1885626704}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 290150348}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1991888064
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,7 +596,7 @@ GameObject:
   - component: {fileID: 1991888066}
   - component: {fileID: 1991888065}
   m_Layer: 0
-  m_Name: BreakPointDownloaderImpl
+  m_Name: BreakPointDownloader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

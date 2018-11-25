@@ -1,1 +1,0 @@
-﻿---@class SetUpAttribute : NUnitAttribute

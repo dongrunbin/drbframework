@@ -1,1 +1,0 @@
-﻿---@class TestAssemblyDirectoryResolveAttribute : NUnitAttribute

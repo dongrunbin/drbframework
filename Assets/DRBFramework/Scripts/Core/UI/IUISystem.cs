@@ -18,5 +18,7 @@ namespace DrbFramework.UI
         void CloseForm(IUIForm form);
 
         void DestroyForm(IUIForm form);
+
+        void DestroyAllForm();
     }
 }

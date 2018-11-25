@@ -1,43 +1,28 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using DrbFramework.Logger;
-using DrbFramework.Resource;
 
 namespace DrbFramework.Scene
 {
     public class SceneSystem : ISceneSystem
     {
-        private readonly IDictionary<string, LoadSceneCallback> m_LoadingCallbacks = new Dictionary<string, LoadSceneCallback>();
+        private readonly ISceneLoader m_Loader;
 
-        private IResourceSystem m_ResourceSystem = null;
-        private IResourceSystem ResourceSystem
+        private readonly List<string> m_CurrentScenes = new List<string>();
+
+        public SceneLoadedHandler OnSceneLoaded { get; set; }
+
+        public SceneUnloadedHandler OnSceneUnloaded { get; set; }
+
+        public SceneSystem(ISceneLoader loader)
         {
-            get
+            if (loader == null)
             {
-                if (m_ResourceSystem == null)
-                {
-                    m_ResourceSystem = SystemManager.GetSystem<IResourceSystem>();
-                }
-                return m_ResourceSystem;
+                throw new ArgumentNullException("loader is invalid");
             }
-        }
-
-        private ISceneLoader m_Loader;
-        public ISceneLoader Loader
-        {
-            private get
-            {
-                return m_Loader;
-            }
-            set
-            {
-                m_Loader = value;
-                if (m_Loader == null) return;
-
-                m_Loader.OnLoadSceneSuccess = OnLoadSceneSuccessCallback;
-                m_Loader.OnLoadSceneFailure = OnLoadSceneFailureCallback;
-            }
+            m_Loader = loader;
+            m_Loader.OnSceneUnloaded = OnUnloadedScene;
+            m_Loader.OnSceneLoaded = OnLoadedScene;
         }
 
         public int Priority
@@ -45,6 +30,14 @@ namespace DrbFramework.Scene
             get
             {
                 return 0;
+            }
+        }
+
+        public string[] CurrentScenes
+        {
+            get
+            {
+                return m_CurrentScenes.ToArray();
             }
         }
 
@@ -58,71 +51,87 @@ namespace DrbFramework.Scene
 
         }
 
-        public void LoadScene(string sceneAssetPath, string sceneName)
+        public void LoadScene(string sceneName)
         {
-            if (!string.IsNullOrEmpty(sceneAssetPath))
+            if (m_CurrentScenes.Contains(sceneName))
             {
-                //ResourceSystem.LoadAsset(sceneAssetPath, "");
+                throw new DrbException("already exists scene '{0}'", sceneName);
             }
-            Loader.LoadScene(sceneName);
+            m_Loader.LoadScene(sceneName);
         }
 
-        public void AddScene(string sceneAssetPath, string sceneName)
+        public void AddScene(string sceneName)
         {
-            if (!string.IsNullOrEmpty(sceneAssetPath))
+            if (m_CurrentScenes.Contains(sceneName))
             {
-                //ResourceSystem.LoadAsset(sceneAssetPath, "");
+                throw new DrbException("already exists scene '{0}'", sceneName);
             }
-            Loader.AddScene(sceneName);
+            m_Loader.AddScene(sceneName);
         }
 
-        public void RemoveScene(string sceneName)
+        public void UnloadScene(string sceneName)
         {
-            Loader.RemoveScene(sceneName);
+            if (!m_CurrentScenes.Contains(sceneName))
+            {
+                throw new DrbException("not exists scene '{0}'", sceneName);
+            }
+            m_Loader.UnloadScene(sceneName);
         }
 
-        public void LoadSceneAsync(string sceneAssetPath, string sceneName)
+        public void LoadSceneAsync(string sceneName)
         {
-            //ResourceSystem.LoadAssetAsync(sceneAssetPath, sceneName, OnLoadAssetSuccessCallback, OnLoadAssetFailCallback, LoadSceneMode.Single);
+            if (m_CurrentScenes.Contains(sceneName))
+            {
+                throw new DrbException("already exists scene '{0}'", sceneName);
+            }
+            m_Loader.LoadSceneAsync(sceneName);
         }
 
-        public void AddSceneAsync(string sceneAssetPath, string sceneName)
+        public void AddSceneAsync(string sceneName)
         {
-            //ResourceSystem.LoadAssetAsync(sceneAssetPath, sceneName, OnLoadAssetSuccessCallback, OnLoadAssetFailCallback, LoadSceneMode.Additive);
+            if (m_CurrentScenes.Contains(sceneName))
+            {
+                throw new DrbException("already exists scene '{0}'", sceneName);
+            }
+            m_Loader.AddSceneAsync(sceneName);
         }
 
-        public void RemoveSceneAsync(string sceneName)
+        public void UnloadSceneAsync(string sceneName)
         {
-            Loader.RemoveSceneAsync(sceneName);
+            if (!m_CurrentScenes.Contains(sceneName))
+            {
+                throw new DrbException("not exists scene '{0}'", sceneName);
+            }
+            m_Loader.UnloadSceneAsync(sceneName);
         }
 
 
-        private void OnLoadAssetSuccessCallback(string assetPath, string assetName, object asset, object userData)
+        private void OnLoadedScene(string sceneName, LoadSceneMode mode)
         {
-            LoadSceneMode mode = (LoadSceneMode)userData;
             if (mode == LoadSceneMode.Single)
             {
-                Loader.LoadSceneAsync(assetName);
+                m_CurrentScenes.Clear();
             }
-            else if (mode == LoadSceneMode.Additive)
+
+            m_CurrentScenes.Add(sceneName);
+
+            if (OnSceneLoaded != null)
             {
-                Loader.AddSceneAsync(assetName);
+                OnSceneLoaded(sceneName, mode);
             }
         }
 
-        private void OnLoadAssetFailCallback(string assetPath, string assetName, string error, object userData)
+        private void OnUnloadedScene(string sceneName)
         {
+            if (m_CurrentScenes.Contains(sceneName))
+            {
+                m_CurrentScenes.Remove(sceneName);
 
-        }
-
-        private void OnLoadSceneSuccessCallback(object sender, SceneLoadSuccessArgs args)
-        {
-
-        }
-
-        private void OnLoadSceneFailureCallback(object sender, SceneLoadFailureArgs args)
-        {
-
+                if (OnSceneUnloaded != null)
+                {
+                    OnSceneUnloaded(sceneName);
+                }
+            }
         }
     }
 }

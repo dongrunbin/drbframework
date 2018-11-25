@@ -1,1 +1,0 @@
-﻿---@class AssemblyDefinitionImporter : AssetImporter
