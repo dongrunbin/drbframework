@@ -1,21 +1,23 @@
 ﻿
-using DrbFramework.Resource;
-
 namespace DrbFramework.UI
 {
     public interface IUISystem : ISystem
     {
         object UIRoot { get; set; }
 
-        IUIForm OpenForm(string assetPath, LoadMode mode);
+        int FormCount { get; }
 
-        IUIForm OpenForm(string assetPath, string assetName, LoadMode mode);
+        int ClosedFormCount { get; }
 
-        void OpenFormAsync(string assetPath, string assetName, UIFormOpenedEventHandler onOpened, object userData);
+        int ShowingFormCount { get; }
+
+        IUIForm OpenForm(string formName, object formAsset);
 
         void OpenForm(IUIForm form);
 
         void CloseForm(IUIForm form);
+
+        void CloseAllForm();
 
         void DestroyForm(IUIForm form);
 

@@ -6,6 +6,16 @@ namespace DrbFramework.Logger
     {
         public LogLevel LogLevel { get; set; }
 
+        public string TraceColor { get; set; }
+
+        public string DebugColor { get; set; }
+
+        public string InfoColor { get; set; }
+
+        public string WarnColor { get; set; }
+
+        public string ErrorColor { get; set; }
+
         public int Priority
         {
             get
@@ -38,19 +48,20 @@ namespace DrbFramework.Logger
             switch (level)
             {
                 case LogLevel.Trace:
-                    UnityEngine.Debug.LogFormat("<color=grey>[TRACE] {0}</color>", message);
+                    UnityEngine.Debug.LogFormat("<color=#{0}>[TRACE] {1}</color>", TraceColor, message);
                     break;
                 case LogLevel.Debug:
-                    UnityEngine.Debug.LogFormat("<color=white>[DEBUG] {0}</color>", message);
+                    UnityEngine.Debug.LogFormat("<color=#{0}>[DEBUG] {1}</color>", DebugColor, message);
                     break;
                 case LogLevel.Info:
-                    UnityEngine.Debug.LogFormat("<color=green>[INFO] {0}</color>", message);
+                    UnityEngine.Debug.Log(InfoColor);
+                    UnityEngine.Debug.LogFormat("<color=#{0}>[INFO] {1}</color>", InfoColor, message);
                     break;
                 case LogLevel.Warn:
-                    UnityEngine.Debug.LogWarningFormat("<color=yellow>[WARN] {0}</color>", message);
+                    UnityEngine.Debug.LogWarningFormat("<color=#{0}>[WARN] {1}</color>", WarnColor, message);
                     break;
                 case LogLevel.Error:
-                    UnityEngine.Debug.LogErrorFormat("<color=red>[ERROR] {0}</color>", message);
+                    UnityEngine.Debug.LogErrorFormat("<color=#{0}>[ERROR] {1}</color>", ErrorColor, message);
                     break;
                 case LogLevel.Fatal:
                     throw new DrbException("[FATAL] {0}", message.ToString());

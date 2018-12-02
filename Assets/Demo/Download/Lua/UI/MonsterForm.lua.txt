@@ -1,0 +1,26 @@
+
+MonsterForm = {}
+
+
+---@type GameObject
+local gameObject;
+
+---@type Transform
+local transform;
+
+function MonsterForm.OnInit(go)
+    gameObject = go;
+    transform = gameObject.transform;
+end
+
+function MonsterForm.OnShow()
+
+end
+
+function MonsterForm.OnHide()
+
+end
+
+function MonsterForm.OnBeforeDestroy()
+
+end

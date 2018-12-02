@@ -16,6 +16,8 @@ namespace DrbFrameworkDemo
                 TextAsset dictionary = (TextAsset)args.Asset;
                 DrbComponent.LocalizationSystem.ParseDictionary(dictionary);
                 DrbComponent.LuaSystem.Initialize("require 'Main'", "LuaSystem.Init", "LuaSystem.Update", "LuaSystem.Shutdown");
+
+                DrbComponent.DataTableSystem.CreateDataTable<MonsterDataEntity>("monster");
                 ChangeState("MenuProcedure");
             }, null);
         }

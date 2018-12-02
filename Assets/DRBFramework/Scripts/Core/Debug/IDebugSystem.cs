@@ -23,6 +23,8 @@ namespace DrbFramework.Debug
 
         void OpenDebugForm(string formName);
 
+        void CloseCurrentForm();
+
         void RegisterDebugForm(IDebugForm form);
 
         void Draw();

@@ -4,7 +4,7 @@
 
 	<assembly fullname="UnityEngine.CoreModule">
 	    <type fullname="UnityEngine.GameObject" preserve="all"/>
-		<type fullname="UnityEngine.Light" preserve="all"/>
+		<type fullname="UnityEngine.Transform" preserve="all"/>
 		<type fullname="UnityEngine.WaitForSeconds" preserve="all"/>
 		<type fullname="UnityEngine.Object" preserve="all"/>
 		<type fullname="UnityEngine.Vector2" preserve="all"/>
@@ -18,7 +18,6 @@
 		<type fullname="UnityEngine.Time" preserve="all"/>
 		<type fullname="UnityEngine.Component" preserve="all"/>
 		<type fullname="UnityEngine.Behaviour" preserve="all"/>
-		<type fullname="UnityEngine.Transform" preserve="all"/>
 		<type fullname="UnityEngine.Resources" preserve="all"/>
 		<type fullname="UnityEngine.TextAsset" preserve="all"/>
 		<type fullname="UnityEngine.Keyframe" preserve="all"/>
@@ -26,18 +25,33 @@
 		<type fullname="UnityEngine.MonoBehaviour" preserve="all"/>
 		<type fullname="UnityEngine.SkinnedMeshRenderer" preserve="all"/>
 		<type fullname="UnityEngine.Renderer" preserve="all"/>
+		<type fullname="UnityEngine.Light" preserve="all"/>
 		<type fullname="UnityEngine.Mathf" preserve="all"/>
 		<type fullname="UnityEngine.Debug" preserve="all"/>
 		
 	</assembly>
 
-	<assembly fullname="UnityEngine.ParticleSystemModule">
-	    <type fullname="UnityEngine.ParticleSystem" preserve="all"/>
-		
-	</assembly>
-
 	<assembly fullname="Assembly-CSharp">
 	    <type fullname="DrbFramework.Internal.DrbComponent" preserve="all"/>
+		<type fullname="DrbFramework.Logger.LogSystem" preserve="all"/>
+		<type fullname="DrbFramework.Timer.TimerSystem" preserve="all"/>
+		<type fullname="DrbFramework.Resource.ResourceSystem" preserve="all"/>
+		<type fullname="DrbFramework.UI.UISystem" preserve="all"/>
+		<type fullname="DrbFramework.Debug.DebugSystem" preserve="all"/>
+		<type fullname="DrbFramework.Download.DownloadSystem" preserve="all"/>
+		<type fullname="DrbFramework.Network.NetworkSystem" preserve="all"/>
+		<type fullname="DrbFramework.Http.HttpSystem" preserve="all"/>
+		<type fullname="DrbFramework.DataTable.DataTableSystem" preserve="all"/>
+		<type fullname="DrbFramework.Setting.SettingSystem" preserve="all"/>
+		<type fullname="DrbFramework.Procedure.ProcedureSystem" preserve="all"/>
+		<type fullname="DrbFramework.Localization.LocalizationSystem" preserve="all"/>
+		<type fullname="DrbFramework.Audio.AudioSystem" preserve="all"/>
+		<type fullname="DrbFramework.Entity.EntitySystem" preserve="all"/>
+		<type fullname="DrbFramework.Scene.SceneSystem" preserve="all"/>
+		<type fullname="DrbFramework.Event.EventSystem`1[System.Int32]" preserve="all"/>
+		<type fullname="DrbFrameworkDemo.AudioSystemExtensions" preserve="all"/>
+		<type fullname="DrbFrameworkDemo.SceneSystemExtensions" preserve="all"/>
+		<type fullname="DrbFrameworkDemo.UISystemExtensions" preserve="all"/>
 		<type fullname="LuaBehaviour" preserve="all"/>
 		<type fullname="XLuaTest.Pedding" preserve="all"/>
 		<type fullname="XLuaTest.MyStruct" preserve="all"/>
@@ -73,6 +87,11 @@
 
 	<assembly fullname="UnityEngine.AnimationModule">
 	    <type fullname="UnityEngine.AnimationClip" preserve="all"/>
+		
+	</assembly>
+
+	<assembly fullname="UnityEngine.ParticleSystemModule">
+	    <type fullname="UnityEngine.ParticleSystem" preserve="all"/>
 		
 	</assembly>
 

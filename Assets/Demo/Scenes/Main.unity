@@ -148,7 +148,7 @@ MonoBehaviour:
   m_DownloaderComponent: {fileID: 1991888065}
   m_DownloadTimeout: 30
   m_WebRequesterComponent: {fileID: 720384771}
-  m_DataTableParserTypeName: DrbFramework.Test.DataTable.DataTableParser
+  m_DataTableParserTypeName: DrbFramework.Internal.DataTable.BinaryDataTableParser
   m_SettingHandlerTypeName: DrbFramework.Internal.Setting.SettingHandler
   m_EnabledProcedureTypeNames:
   - DrbFrameworkDemo.LaunchProcedure
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_StartProcedureTypeName: DrbFrameworkDemo.LaunchProcedure
   m_EventKeyTypeName: System.Int32
   m_UIDefaultDepth: 50
-  m_UICreaterTypeName: DrbFramework.UI.UICreater
+  m_UICreaterTypeName: DrbFramework.Internal.UI.UICreater
   m_UIRoot: {fileID: 724494183}
   m_LocalizationParserTypeName: DrbFramework.Internal.Localization.SimpleLocalizationParser
   m_EditorPath: None+Assets/Demo/Download/
@@ -180,6 +180,11 @@ MonoBehaviour:
   m_MaxSameAudioCount: 3
   m_SounderRoot: {fileID: 1885626705}
   m_SceneLoaderTypeName: DrbFramework.Internal.Scene.SceneLoader
+  m_TraceLogColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+  m_DebugLogColor: {r: 1, g: 1, b: 1, a: 1}
+  m_InfoLogColor: {r: 0, g: 1, b: 0, a: 1}
+  m_WarnLogColor: {r: 1, g: 1, b: 0, a: 1}
+  m_ErrorLogColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!4 &290150348
 Transform:
   m_ObjectHideFlags: 0

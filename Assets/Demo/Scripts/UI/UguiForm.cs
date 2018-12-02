@@ -1,5 +1,5 @@
 ﻿
-using DrbFramework.UI;
+using DrbFramework.Internal.UI;
 using UnityEngine;
 
 namespace DrbFrameworkDemo

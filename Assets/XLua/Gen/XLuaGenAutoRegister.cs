@@ -25,13 +25,67 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(UnityEngine.GameObject), UnityEngineGameObjectWrap.__Register);
         
         
-            translator.DelayWrapLoader(typeof(UnityEngine.ParticleSystem), UnityEngineParticleSystemWrap.__Register);
-        
-        
-            translator.DelayWrapLoader(typeof(UnityEngine.Light), UnityEngineLightWrap.__Register);
+            translator.DelayWrapLoader(typeof(UnityEngine.Transform), UnityEngineTransformWrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(DrbFramework.Internal.DrbComponent), DrbFrameworkInternalDrbComponentWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Logger.LogSystem), DrbFrameworkLoggerLogSystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Timer.TimerSystem), DrbFrameworkTimerTimerSystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Resource.ResourceSystem), DrbFrameworkResourceResourceSystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.UI.UISystem), DrbFrameworkUIUISystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Debug.DebugSystem), DrbFrameworkDebugDebugSystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Download.DownloadSystem), DrbFrameworkDownloadDownloadSystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Network.NetworkSystem), DrbFrameworkNetworkNetworkSystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Http.HttpSystem), DrbFrameworkHttpHttpSystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.DataTable.DataTableSystem), DrbFrameworkDataTableDataTableSystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Setting.SettingSystem), DrbFrameworkSettingSettingSystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Procedure.ProcedureSystem), DrbFrameworkProcedureProcedureSystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Localization.LocalizationSystem), DrbFrameworkLocalizationLocalizationSystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Audio.AudioSystem), DrbFrameworkAudioAudioSystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Entity.EntitySystem), DrbFrameworkEntityEntitySystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Scene.SceneSystem), DrbFrameworkSceneSceneSystemWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFramework.Event.EventSystem<int>), DrbFrameworkEventEventSystem_1_SystemInt32_Wrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFrameworkDemo.AudioSystemExtensions), DrbFrameworkDemoAudioSystemExtensionsWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFrameworkDemo.SceneSystemExtensions), DrbFrameworkDemoSceneSystemExtensionsWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DrbFrameworkDemo.UISystemExtensions), DrbFrameworkDemoUISystemExtensionsWrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(LuaBehaviour), LuaBehaviourWrap.__Register);
@@ -115,14 +169,15 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(UnityEngine.Behaviour), UnityEngineBehaviourWrap.__Register);
         
         
-            translator.DelayWrapLoader(typeof(UnityEngine.Transform), UnityEngineTransformWrap.__Register);
-        
-        
             translator.DelayWrapLoader(typeof(UnityEngine.Resources), UnityEngineResourcesWrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(UnityEngine.TextAsset), UnityEngineTextAssetWrap.__Register);
         
+        }
+        
+        static void wrapInit1(LuaEnv luaenv, ObjectTranslator translator)
+        {
         
             translator.DelayWrapLoader(typeof(UnityEngine.Keyframe), UnityEngineKeyframeWrap.__Register);
         
@@ -136,10 +191,16 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(UnityEngine.MonoBehaviour), UnityEngineMonoBehaviourWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(UnityEngine.ParticleSystem), UnityEngineParticleSystemWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(UnityEngine.SkinnedMeshRenderer), UnityEngineSkinnedMeshRendererWrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(UnityEngine.Renderer), UnityEngineRendererWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(UnityEngine.Light), UnityEngineLightWrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(UnityEngine.Mathf), UnityEngineMathfWrap.__Register);
@@ -179,6 +240,8 @@ namespace XLua.CSObjectWrap
         {
             
             wrapInit0(luaenv, translator);
+            
+            wrapInit1(luaenv, translator);
             
             
             translator.AddInterfaceBridgeCreator(typeof(InvokeLua.ICalc), InvokeLuaICalcBridge.__Create);

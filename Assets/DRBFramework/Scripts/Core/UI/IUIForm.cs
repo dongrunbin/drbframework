@@ -3,9 +3,7 @@ namespace DrbFramework.UI
 {
     public interface IUIForm
     {
-        string AssetPath { get; set; }
-
-        string AssetName { get; set; }
+        string FormName { get; set; }
 
         int Depth { get; set; }
 

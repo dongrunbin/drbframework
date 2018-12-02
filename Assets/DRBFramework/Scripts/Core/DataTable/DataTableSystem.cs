@@ -32,12 +32,12 @@ namespace DrbFramework.DataTable
             Type type = typeof(T);
             if (m_TableDic.ContainsKey(type))
             {
-                throw new DrbException("Already exists data table {0}", type.FullName);
+                throw new DrbException("already exists data table {0}", type.FullName);
             }
 
             if (data == null)
             {
-                return null;
+                throw new ArgumentNullException("data is invalid");
             }
             m_Parser.Reset();
             m_Parser.Parse(data);

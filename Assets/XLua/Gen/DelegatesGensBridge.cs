@@ -195,29 +195,7 @@ namespace XLua
 #endif
 		}
         
-		public void __Gen_Delegate_Imp8(UnityEngine.GameObject p0)
-		{
-#if THREAD_SAFE || HOTFIX_ENABLE
-            lock (luaEnv.luaEnvLock)
-            {
-#endif
-                RealStatePtr L = luaEnv.rawL;
-                int errFunc = LuaAPI.pcall_prepare(L, errorFuncRef, luaReference);
-                ObjectTranslator translator = luaEnv.translator;
-                translator.Push(L, p0);
-                
-                PCall(L, 1, 0, errFunc);
-                
-                
-                
-                LuaAPI.lua_settop(L, errFunc - 1);
-                
-#if THREAD_SAFE || HOTFIX_ENABLE
-            }
-#endif
-		}
-        
-		public void __Gen_Delegate_Imp9(object p0, DrbFramework.UI.UIFormOpenedEventArgs p1)
+		public void __Gen_Delegate_Imp8(object p0, DrbFramework.UI.UIFormOpenedEventArgs p1)
 		{
 #if THREAD_SAFE || HOTFIX_ENABLE
             lock (luaEnv.luaEnvLock)
@@ -230,6 +208,28 @@ namespace XLua
                 translator.Push(L, p1);
                 
                 PCall(L, 2, 0, errFunc);
+                
+                
+                
+                LuaAPI.lua_settop(L, errFunc - 1);
+                
+#if THREAD_SAFE || HOTFIX_ENABLE
+            }
+#endif
+		}
+        
+		public void __Gen_Delegate_Imp9(UnityEngine.GameObject p0)
+		{
+#if THREAD_SAFE || HOTFIX_ENABLE
+            lock (luaEnv.luaEnvLock)
+            {
+#endif
+                RealStatePtr L = luaEnv.rawL;
+                int errFunc = LuaAPI.pcall_prepare(L, errorFuncRef, luaReference);
+                ObjectTranslator translator = luaEnv.translator;
+                translator.Push(L, p0);
+                
+                PCall(L, 1, 0, errFunc);
                 
                 
                 
@@ -907,9 +907,9 @@ namespace XLua
 			    return new DrbFramework.Lua.LuaUpdateAction(__Gen_Delegate_Imp1);
 			}
 		
-		    if (type == typeof(DrbFramework.UI.OnUIFormUpdateAction))
+		    if (type == typeof(DrbFramework.Internal.UI.OnUIFormUpdateAction))
 			{
-			    return new DrbFramework.UI.OnUIFormUpdateAction(__Gen_Delegate_Imp1);
+			    return new DrbFramework.Internal.UI.OnUIFormUpdateAction(__Gen_Delegate_Imp1);
 			}
 		
 		    if (type == typeof(DrbFramework.Fsm.StateLeaveAction))
@@ -932,19 +932,19 @@ namespace XLua
 			    return new DrbFramework.Lua.LuaShutdownAction(__Gen_Delegate_Imp2);
 			}
 		
-		    if (type == typeof(DrbFramework.UI.OnUIFormShowAction))
+		    if (type == typeof(DrbFramework.Internal.UI.OnUIFormShowAction))
 			{
-			    return new DrbFramework.UI.OnUIFormShowAction(__Gen_Delegate_Imp2);
+			    return new DrbFramework.Internal.UI.OnUIFormShowAction(__Gen_Delegate_Imp2);
 			}
 		
-		    if (type == typeof(DrbFramework.UI.OnUIFormHideAction))
+		    if (type == typeof(DrbFramework.Internal.UI.OnUIFormHideAction))
 			{
-			    return new DrbFramework.UI.OnUIFormHideAction(__Gen_Delegate_Imp2);
+			    return new DrbFramework.Internal.UI.OnUIFormHideAction(__Gen_Delegate_Imp2);
 			}
 		
-		    if (type == typeof(DrbFramework.UI.OnUIFormBeforeDestroyAction))
+		    if (type == typeof(DrbFramework.Internal.UI.OnUIFormBeforeDestroyAction))
 			{
-			    return new DrbFramework.UI.OnUIFormBeforeDestroyAction(__Gen_Delegate_Imp2);
+			    return new DrbFramework.Internal.UI.OnUIFormBeforeDestroyAction(__Gen_Delegate_Imp2);
 			}
 		
 		    if (type == typeof(System.Action))
@@ -987,14 +987,14 @@ namespace XLua
 			    return new System.Action<string>(__Gen_Delegate_Imp7);
 			}
 		
-		    if (type == typeof(DrbFramework.UI.OnUIFormInitAction))
-			{
-			    return new DrbFramework.UI.OnUIFormInitAction(__Gen_Delegate_Imp8);
-			}
-		
 		    if (type == typeof(DrbFramework.UI.UIFormOpenedEventHandler))
 			{
-			    return new DrbFramework.UI.UIFormOpenedEventHandler(__Gen_Delegate_Imp9);
+			    return new DrbFramework.UI.UIFormOpenedEventHandler(__Gen_Delegate_Imp8);
+			}
+		
+		    if (type == typeof(DrbFramework.Internal.UI.OnUIFormInitAction))
+			{
+			    return new DrbFramework.Internal.UI.OnUIFormInitAction(__Gen_Delegate_Imp9);
 			}
 		
 		    if (type == typeof(InvokeLua.CalcNew))

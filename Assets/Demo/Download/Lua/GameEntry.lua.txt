@@ -2,6 +2,7 @@ require "Procedure/MenuProcedure"
 require "UI/MenuForm"
 require "Define"
 require "LuaSystem"
+require "UI/MonsterForm"
 
 GameEntry = {}
 

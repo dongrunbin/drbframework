@@ -204,7 +204,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.LogSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.LogSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -216,7 +216,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.LuaSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.LuaSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -228,7 +228,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.FsmSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.FsmSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -240,7 +240,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.TimerSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.TimerSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -264,7 +264,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.ResourceSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.ResourceSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -276,7 +276,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.UISystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.UISystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -288,7 +288,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.DebugSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.DebugSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -300,7 +300,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.DownloadSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.DownloadSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -312,7 +312,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.NetworkSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.NetworkSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -324,7 +324,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.HttpSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.HttpSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -336,7 +336,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.DataTableSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.DataTableSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -348,7 +348,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.SettingSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.SettingSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -360,7 +360,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.ProcedureSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.ProcedureSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -372,7 +372,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.LocalizationSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.LocalizationSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -384,7 +384,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.AudioSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.AudioSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -396,7 +396,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.EntitySystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.EntitySystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -408,7 +408,7 @@ namespace XLua.CSObjectWrap
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.PushAny(L, DrbFramework.Internal.DrbComponent.SceneSystem);
+			    translator.Push(L, DrbFramework.Internal.DrbComponent.SceneSystem);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }

@@ -3,6 +3,10 @@ namespace DrbFramework.Resource
 {
     public interface IResourceSystem : ISystem
     {
+        event LoadAssetBundleCompleteEventHandler OnAssetBundleLoaded;
+
+        event LoadAssetCompleteEventHandler OnAssetLoaded;
+
         string ReadOnlyPath { get; set; }
 
         string PersistentPath { get; set; }

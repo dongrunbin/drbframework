@@ -1,15 +1,14 @@
 ﻿
+using DrbFramework.UI;
 using UnityEngine;
 
-namespace DrbFramework.UI
+namespace DrbFramework.Internal.UI
 {
     public class UIForm : MonoBehaviour, IUIForm
     {
         public virtual int Depth { get; set; }
 
-        public virtual string AssetName { get; set; }
-
-        public virtual string AssetPath { get; set; }
+        public virtual string FormName { get; set; }
 
         public virtual bool IsShow { get; private set; }
 

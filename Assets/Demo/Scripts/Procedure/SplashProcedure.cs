@@ -13,7 +13,7 @@ namespace DrbFrameworkDemo
         {
             base.OnEnter(userData);
 
-            m_SplashForm = DrbComponent.UISystem.OpenForm("UI/Forms/SplashForm.prefab", DrbFramework.Resource.LoadMode.Editor);
+            m_SplashForm = DrbComponent.UISystem.OpenInternalForm("UI/Forms/SplashForm");
         }
 
 
@@ -25,7 +25,6 @@ namespace DrbFrameworkDemo
             if (m_SplashForm != null)
             {
                 DrbComponent.UISystem.DestroyForm(m_SplashForm);
-                DrbComponent.ResourceSystem.ReleaseAsset("UI/Forms/SplashForm.prefab", DrbFramework.Resource.LoadMode.Editor);
             }
         }
 

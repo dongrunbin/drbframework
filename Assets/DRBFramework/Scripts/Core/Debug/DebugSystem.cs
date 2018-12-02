@@ -134,6 +134,16 @@ namespace DrbFramework.Debug
             throw new DrbException("not exists form '{0}'", formName);
         }
 
+        public void CloseCurrentForm()
+        {
+            if (CurrentForm == null)
+            {
+                return;
+            }
+
+            CurrentForm.OnHide();
+        }
+
         public void RegisterDebugForm(IDebugForm form)
         {
             if (form == null)

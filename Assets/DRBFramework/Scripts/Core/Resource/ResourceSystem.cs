@@ -1,5 +1,6 @@
 ﻿
 using DrbFramework.Utility;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -18,10 +19,14 @@ namespace DrbFramework.Resource
         private LinkedList<LoadAssetBundleInfo> m_LoadingAssetBundles = new LinkedList<LoadAssetBundleInfo>();
         private LinkedList<LoadAssetInfo> m_LoadingAssets = new LinkedList<LoadAssetInfo>();
 
+        public event LoadAssetBundleCompleteEventHandler OnAssetBundleLoaded;
+
+        public event LoadAssetCompleteEventHandler OnAssetLoaded;
+
         public ResourceSystem(IResourceLoader loader, IResourceHolder holder, IResourceDecoder decoder)
         {
             m_Loader = loader;
-            m_Loader.OnLoadAssetBundleBytesComplete = OnLoadAssetBundleBytesComplete;
+            m_Loader.OnLoadAssetBundleBytesComplete = OnResourceLoaderLoadAssetBundleBytesComplete;
             m_Loader.OnLoadAssetComplete = OnResourceLoaderLoadAssetComplete;
             m_Holder = holder;
             m_Decoder = decoder;
@@ -87,6 +92,7 @@ namespace DrbFramework.Resource
 
         public byte[] LoadFile(string filePath, LoadMode mode)
         {
+            filePath = GetAbsolutePath(filePath, mode);
             return m_Loader.LoadFile(filePath, mode);
         }
 
@@ -115,7 +121,6 @@ namespace DrbFramework.Resource
                 {
                     for (int i = 0; i < dependencies.Length; ++i)
                     {
-                        string depPath = GetAbsolutePath(dependencies[i], mode);
                         LoadAssetBundle(dependencies[i], mode);
                     }
                 }
@@ -334,39 +339,40 @@ namespace DrbFramework.Resource
 
         public object LoadAsset(string assetPath, LoadMode mode)
         {
-            assetPath = GetAbsolutePath(assetPath, mode);
-
+            string absolutePath = GetAbsolutePath(assetPath, mode);
+            string assetName = Path.GetFileNameWithoutExtension(absolutePath);
             while (true)
             {
-                LoadAssetInfo info = GetLoadingAssetInfo(assetPath, string.Empty);
+                LoadAssetInfo info = GetLoadingAssetInfo(absolutePath, assetName);
                 if (info == null)
                 {
                     break;
                 }
             }
 
-            if (m_Holder.HasAsset(assetPath))
+            if (m_Holder.HasAsset(absolutePath))
             {
-                return m_Holder.GetAsset(assetPath);
+                return m_Holder.GetAsset(absolutePath);
             }
 
-            object asset = m_Loader.LoadAsset(assetPath, mode);
-            m_Holder.AddAsset(assetPath, asset);
+            object asset = m_Loader.LoadAsset(absolutePath, mode);
+            m_Holder.AddAsset(absolutePath, asset);
             return asset;
         }
 
         public void LoadAssetAsync(string assetPath, LoadMode mode, LoadAssetCompleteEventHandler onComplete, object userData)
         {
             string absolutePath = GetAbsolutePath(assetPath, mode);
+            string assetName = Path.GetFileNameWithoutExtension(assetPath);
             if (m_Holder.HasAsset(absolutePath))
             {
                 if (onComplete != null)
                 {
-                    onComplete(new LoadAssetCompleteEventArgs(assetPath, m_Holder.GetAsset(absolutePath), null, userData));
+                    onComplete(new LoadAssetCompleteEventArgs(assetName, m_Holder.GetAsset(absolutePath), null, userData));
                 }
                 return;
             }
-            LoadAssetInfo info = GetLoadingAssetInfo(absolutePath, string.Empty);
+            LoadAssetInfo info = GetLoadingAssetInfo(absolutePath, assetName);
             if (info != null)
             {
                 info.Handler += onComplete;
@@ -377,7 +383,7 @@ namespace DrbFramework.Resource
                 info = new LoadAssetInfo
                 {
                     AssetBundlePath = absolutePath,
-                    AssetName = string.Empty,
+                    AssetName = assetName,
                     Mode = mode,
                     Handler = onComplete,
                     UserData = userData
@@ -480,7 +486,7 @@ namespace DrbFramework.Resource
             return absoluteAssetBundlePath + assetName;
         }
 
-        private void OnLoadAssetBundleBytesComplete(LoadAssetBundleBytesCompleteEventArgs args)
+        private void OnResourceLoaderLoadAssetBundleBytesComplete(LoadAssetBundleBytesCompleteEventArgs args)
         {
             LinkedListNode<LoadAssetBundleInfo> node = m_LoadingAssetBundles.First;
             m_LoadingAssetBundles.RemoveFirst();
@@ -493,16 +499,14 @@ namespace DrbFramework.Resource
                 }
 
                 LoadAssetBundleInfo info = node.Value;
+                LoadAssetBundleCompleteEventArgs completeEventArgs = new LoadAssetBundleCompleteEventArgs(args.AssetBundlePath, assetBundle, args.Error, info.UserData);
                 if (info.Handler != null)
                 {
-                    info.Handler(new LoadAssetBundleCompleteEventArgs(args.AssetBundlePath, assetBundle, args.Error, info.UserData));
+                    info.Handler(completeEventArgs);
                 }
-                else
+                if (OnAssetBundleLoaded != null)
                 {
-                    if (args.HasError)
-                    {
-                        Log.Warn("load asset bundle '{0}' was error.{1}", info.AssetBundlePath, args.Error);
-                    }
+                    OnAssetBundleLoaded(completeEventArgs);
                 }
             }
             else
@@ -530,16 +534,14 @@ namespace DrbFramework.Resource
                 }
 
                 LoadAssetInfo info = node.Value;
+                LoadAssetCompleteEventArgs completeEventArgs = new LoadAssetCompleteEventArgs(args.AssetName, args.Asset, args.Error, info.UserData);
                 if (info.Handler != null)
                 {
-                    info.Handler(new LoadAssetCompleteEventArgs(args.AssetName, args.Asset, args.Error, info.UserData));
+                    info.Handler(completeEventArgs);
                 }
-                else
+                if (OnAssetLoaded != null)
                 {
-                    if (args.HasError)
-                    {
-                        Log.Warn("load asset bundle '{0}' was error.{1}", info.AssetBundlePath, args.Error);
-                    }
+                    OnAssetLoaded(completeEventArgs);
                 }
             }
             else

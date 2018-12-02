@@ -1,4 +1,5 @@
 ﻿
+using DrbFramework;
 using DrbFramework.Internal;
 using DrbFramework.Timer;
 using UnityEngine;
@@ -11,13 +12,11 @@ namespace DrbFrameworkDemo
         [SerializeField]
         private Text m_Title;
 
-        private const string TITLE = "DrbFramework";
-
         public override void OnOpen()
         {
             base.OnOpen();
 
-            DrbComponent.TimerSystem.RegisterTimer(0f, 0.5f, TITLE.Length + 20, null, OnTimerUpdate, OnTimerComplete);
+            DrbComponent.TimerSystem.RegisterTimer(0f, 0.5f, ConstDefine.FrameworkName.Length + 20, null, OnTimerUpdate, OnTimerComplete);
         }
 
         private void OnTimerUpdate(Timer timer)
@@ -26,7 +25,7 @@ namespace DrbFrameworkDemo
             {
                 timer.Interval = 0.1f;
             }
-            m_Title.text = TITLE.Substring(0, Mathf.Min(timer.CurrentLoop, TITLE.Length));
+            m_Title.text = ConstDefine.FrameworkName.Substring(0, Mathf.Min(timer.CurrentLoop, ConstDefine.FrameworkName.Length));
         }
 
         private void OnTimerComplete(Timer timer)

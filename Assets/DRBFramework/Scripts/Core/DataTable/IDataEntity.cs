@@ -5,6 +5,8 @@ namespace DrbFramework.DataTable
     {
         int Id { get; }
 
+        IDataRow DataRow { get; }
+
         void MakeEntity(IDataRow row);
     }
 }
