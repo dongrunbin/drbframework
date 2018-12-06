@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<ArrayOfMenu xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Menu>
+    <Id>636797100591514231</Id>
+    <Name>Test</Name>
+    <isFoldout>true</isFoldout>
+    <ProtocolInfos>
+      <Protocol>
+        <Id>636797100651216429</Id>
+        <Code>1001</Code>
+        <EnName>Test</EnName>
+        <CnName>测试协议</CnName>
+        <Description>测试</Description>
+        <FieldInfos>
+          <Field>
+            <Type>int</Type>
+            <EnName>Id</EnName>
+            <CnName>编号</CnName>
+            <IsLoop>true</IsLoop>
+            <AttachToResult>0</AttachToResult>
+          </Field>
+        </FieldInfos>
+      </Protocol>
+    </ProtocolInfos>
+  </Menu>
+</ArrayOfMenu>

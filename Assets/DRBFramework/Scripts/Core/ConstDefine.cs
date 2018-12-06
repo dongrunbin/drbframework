@@ -6,5 +6,7 @@ namespace DrbFramework
         public const string Author = "Drb";
 
         public const string FrameworkName = "DrbFramework";
+
+        public const string Version = "0.1.0";
     }
 }

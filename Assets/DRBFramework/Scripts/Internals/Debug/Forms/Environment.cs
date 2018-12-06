@@ -15,9 +15,7 @@ namespace DrbFramework.Internal.Debug.Forms
                 Label(GetString("Debug.ProductName", "Product Name"), Application.productName);
                 Label("Company Name:", Application.companyName);
                 Label("Game Identifier:", Application.identifier);
-                //DrawItem("Game Framework Version:", Version.GameFrameworkVersion);
-                //DrawItem("Game Version:", string.Format("{0} ({1})", Version.GameVersion, Version.InternalGameVersion.ToString()));
-                //DrawItem("Resource Version:", m_BaseComponent.EditorResourceMode ? "Unavailable in editor resource mode" : (string.IsNullOrEmpty(m_ResourceComponent.ApplicableGameVersion) ? "Unknown" : string.Format("{0} ({1})", m_ResourceComponent.ApplicableGameVersion, m_ResourceComponent.InternalResourceVersion.ToString())));
+                Label("Drb Framework Version:", ConstDefine.Version);
                 Label("Application Version:", Application.version);
                 Label("Unity Version:", Application.unityVersion);
                 Label("Platform:", Application.platform.ToString());
@@ -29,7 +27,6 @@ namespace DrbFramework.Internal.Debug.Forms
                 Label("Background Loading Priority:", Application.backgroundLoadingPriority.ToString());
                 Label("Is Playing:", Application.isPlaying.ToString());
                 Label("Splash Screen Is Finished:", SplashScreen.isFinished.ToString());
-                Label("Is Showing Splash Screen:", Application.isShowingSplashScreen.ToString());
                 Label("Run In Background:", Application.runInBackground.ToString());
                 Label("Install Name:", Application.installerName);
                 Label("Install Mode:", Application.installMode.ToString());
@@ -39,7 +36,6 @@ namespace DrbFramework.Internal.Debug.Forms
                 Label("Is Editor:", Application.isEditor.ToString());
                 Label("Is Focused:", Application.isFocused.ToString());
                 Label("Is Batch Mode:", Application.isBatchMode.ToString());
-                Label("Stack Trace Log Type:", Application.stackTraceLogType.ToString());
             }
             GUILayout.EndScrollView();
         }
