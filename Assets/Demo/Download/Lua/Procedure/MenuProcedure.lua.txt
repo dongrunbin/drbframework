@@ -10,16 +10,16 @@ local menuForm;
 function MenuProcedure.OnEnter(fsm, userData)
     MenuProcedure.Fsm = fsm;
 
-    DrbComponent.UISystem:OpenFormAsync("UI/Forms/MenuForm.prefab", nil);
-    DrbComponent.AudioSystem:PlayBGM("audio/bgm/bgm_1.mp3","bgm_1",LoadMode.Persistent);
-end
-
-function MenuProcedure.OnUpdate(elapseSeconds, realElapseSeconds)
-
+    DrbComponent.UISystem:OpenFormAsync("UI/Forms/MenuForm.prefab", "Form", MenuProcedure.OpenFormCallback);
+    DrbComponent.AudioSystem:PlayBGM("audio/bgm/bgm_1.mp3");
 end
 
 function MenuProcedure.OnLeave()
     if(menuForm ~= nil) then
         DrbComponent.UISystem:CloseForm(menuForm);
     end
+end
+
+function MenuProcedure.OpenFormCallback(form)
+    menuForm = form;
 end

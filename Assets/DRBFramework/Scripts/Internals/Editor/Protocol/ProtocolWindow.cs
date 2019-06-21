@@ -37,12 +37,14 @@ namespace DrbFramework.Internal.Editor
         private List<string> m_ProtocolCreaterTypeNames;
         private int m_ProtocolCreaterTypeNamesIndex;
 
+        private const string OutputPathKey = "DrbFramework.ProtocolWindow.OutputPath";
+
         private void OnEnable()
         {
             m_Menus = new List<Menu>();
             m_SelectedFields = new List<Field>();
             m_NewName = "New Menu Name";
-            m_OutputPath = Application.dataPath + "/Protocols/";
+            m_OutputPath = PlayerPrefs.GetString(OutputPathKey, Application.dataPath + "/Protocols/");
             m_ProtocolCreaterTypeNamesIndex = 0;
             m_ProtocolCreaterTypeNames = new List<string>();
             m_ProtocolCreaterTypeNames.Add("None");
@@ -63,8 +65,6 @@ namespace DrbFramework.Internal.Editor
                             XmlSerializer xmldes = new XmlSerializer(m_Menus.GetType());
                             m_Menus = (List<Menu>)xmldes.Deserialize(fs);
                         }
-
-                        //LoadXml(m_ConfigPath);
                     }
                 }
             }
@@ -281,6 +281,7 @@ namespace DrbFramework.Internal.Editor
                     if (!string.IsNullOrEmpty(directory))
                     {
                         m_OutputPath = directory;
+                        PlayerPrefs.SetString(OutputPathKey, m_OutputPath);
                     }
                 }
             }

@@ -10,10 +10,10 @@ namespace DrbFramework.Internal.Debug.Forms
         {
             m_ScrollPos = GUILayout.BeginScrollView(m_ScrollPos);
             {
-                Label("Data Path:", Application.dataPath);
-                Label("Persistent Data Path:", Application.persistentDataPath);
-                Label("Streaming Assets Path:", Application.streamingAssetsPath);
-                Label("Temporary Cache Path:", Application.temporaryCachePath);
+                Label(GetString("Data Path"), Application.dataPath);
+                Label(GetString("Persistent Data Path"), Application.persistentDataPath);
+                Label(GetString("Streaming Assets Path"), Application.streamingAssetsPath);
+                Label(GetString("Temporary Cache Path"), Application.temporaryCachePath);
             }
             GUILayout.EndScrollView();
         }

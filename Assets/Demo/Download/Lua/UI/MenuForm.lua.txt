@@ -36,7 +36,7 @@ function MenuForm.OnBeforeDestroy()
 end
 
 function MenuForm.OnGameStartClick()
-    print("并没有做游戏");
+    DrbComponent.ProcedureSystem:ChangeProcedure("GameProcedure", nil);
 end
 
 function MenuForm.OnGameExitClick()

@@ -6,7 +6,7 @@ namespace DrbFramework.DataTable
 {
     public class DataTableSystem : IDataTableSystem
     {
-        private readonly IDictionary<Type, object> m_TableDic = new Dictionary<Type, object>();
+        private readonly IDictionary<Type, IDataTable> m_TableDic = new Dictionary<Type, IDataTable>();
 
         private IDataTableParser m_Parser;
 
@@ -56,9 +56,24 @@ namespace DrbFramework.DataTable
         public IDataTable<T> GetDataTable<T>() where T : IDataEntity, new()
         {
             Type type = typeof(T);
-            object obj = null;
-            m_TableDic.TryGetValue(type, out obj);
-            return (IDataTable<T>)obj;
+            return (IDataTable<T>)GetDataTable(type);
+        }
+
+        public IDataTable GetDataTable(string typeName)
+        {
+            Type type = Type.GetType(typeName);
+            if (type == null)
+            {
+                throw new ArgumentException("invalid type name");
+            }
+            return GetDataTable(type);
+        }
+
+        public IDataTable GetDataTable(Type type)
+        {
+            IDataTable dataTable = null;
+            m_TableDic.TryGetValue(type, out dataTable);
+            return dataTable;
         }
 
         public IDataTable<T> GetOrCreateDataTable<T>(byte[] data) where T : IDataEntity, new()

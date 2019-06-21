@@ -11,17 +11,17 @@ namespace DrbFramework.Internal.Debug.Forms
         {
             m_ScrollPos = GUILayout.BeginScrollView(m_ScrollPos);
             {
-                Label("Scene Count:", SceneManager.sceneCount.ToString());
-                Label("Scene Count In Build Settings:", SceneManager.sceneCountInBuildSettings.ToString());
+                Label(GetString("Scene Count"), SceneManager.sceneCount.ToString());
+                Label(GetString("Scene Count In Build Settings"), SceneManager.sceneCountInBuildSettings.ToString());
 
                 UnityEngine.SceneManagement.Scene activeScene = SceneManager.GetActiveScene();
-                Label("Active Scene Name:", activeScene.name);
-                Label("Active Scene Path:", activeScene.path);
-                Label("Active Scene Build Index:", activeScene.buildIndex.ToString());
-                Label("Active Scene Is Dirty:", activeScene.isDirty.ToString());
-                Label("Active Scene Is Loaded:", activeScene.isLoaded.ToString());
-                Label("Active Scene Is Valid:", activeScene.IsValid().ToString());
-                Label("Active Scene Root Count:", activeScene.rootCount.ToString());
+                Label(GetString("Active Scene Name"), activeScene.name);
+                Label(GetString("Active Scene Path"), activeScene.path);
+                Label(GetString("Active Scene Build Index"), activeScene.buildIndex.ToString());
+                Label(GetString("Active Scene Is Dirty"), activeScene.isDirty.ToString());
+                Label(GetString("Active Scene Is Loaded"), activeScene.isLoaded.ToString());
+                Label(GetString("Active Scene Is Valid"), activeScene.IsValid().ToString());
+                Label(GetString("Active Scene Root Count"), activeScene.rootCount.ToString());
             }
             GUILayout.EndScrollView();
         }

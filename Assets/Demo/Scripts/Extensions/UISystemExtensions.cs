@@ -14,34 +14,22 @@ namespace DrbFrameworkDemo
     [LuaCallCSharp]
     public static class UISystemExtensions
     {
-        public static IUIForm OpenInternalForm(this UISystem uiSystem, string assetPath)
+        public static IUIForm OpenInternalForm(this UISystem uiSystem, string assetPath, string groupName)
         {
             object asset = DrbComponent.ResourceSystem.LoadAsset(assetPath, LoadMode.Internal);
-            return DrbComponent.UISystem.OpenForm(Path.GetFileNameWithoutExtension(assetPath), asset);
+            return DrbComponent.UISystem.OpenForm(Path.GetFileNameWithoutExtension(assetPath), asset, groupName);
         }
 
-        public static void OpenFormAsync(this UISystem uiSystem, string assetPath, OpenFormComplete callback)
+        public static void OpenFormAsync(this UISystem uiSystem, string assetPath, string groupName, OpenFormComplete callback)
         {
-#if UNITY_EDITOR
-            DrbComponent.ResourceSystem.LoadAssetAsync(assetPath, LoadMode.Editor, (LoadAssetCompleteEventArgs args) =>
+            DrbComponent.ResourceSystem.LoadAssetAsync(assetPath, (LoadAssetCompleteEventArgs args) =>
             {
-                IUIForm form = uiSystem.OpenForm(args.AssetName, args.Asset);
+                IUIForm form = uiSystem.OpenForm(args.AssetName, args.Asset, groupName);
                 if (args.UserData != null)
                 {
-                    ((OpenFormComplete)args.UserData)(form);
+                    callback(form);
                 }
-            }, callback);
-#else
-            string assetName = Path.GetFileNameWithoutExtension(assetPath);
-            DrbComponent.ResourceSystem.LoadAssetFromAssetBundleAsync(assetPath, assetName, LoadMode.Persistent, (LoadAssetCompleteEventArgs args) =>
-            {
-                IUIForm form = uiSystem.OpenForm(args.AssetName, args.Asset);
-                if (args.UserData != null)
-                {
-                    ((OpenFormComplete)args.UserData)(form);
-                }
-            }, callback);
-#endif
+            }, null);
         }
     }
 }

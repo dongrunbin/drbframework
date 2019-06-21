@@ -63,12 +63,12 @@ namespace DrbFramework.Internal.Resource
             asset = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
             if (OnLoadAssetComplete != null)
             {
-                OnLoadAssetComplete(new LoadAssetCompleteEventArgs(assetPath, asset, asset == null ? string.Format("asset '{0}' is not exists", assetPath) : null, null));
+                OnLoadAssetComplete(new LoadAssetCompleteEventArgs(Path.GetFileNameWithoutExtension(assetPath), asset, asset == null ? string.Format("asset '{0}' is not exists", assetPath) : null, null));
             }
 #else
             if (OnLoadAssetComplete != null)
             {
-                OnLoadAssetComplete(new LoadAssetCompleteEventArgs(assetPath, asset, "no editor mode", null));
+                OnLoadAssetComplete(new LoadAssetCompleteEventArgs(Path.GetFileNameWithoutExtension(assetPath), asset, "no editor mode", null));
             }
 #endif
         }
@@ -81,7 +81,7 @@ namespace DrbFramework.Internal.Resource
             {
                 if (OnLoadAssetComplete != null)
                 {
-                    OnLoadAssetComplete(new LoadAssetCompleteEventArgs(assetPath, request.asset, request.asset == null ? string.Format("asset '{0}' is not exists", assetPath) : null, null));
+                    OnLoadAssetComplete(new LoadAssetCompleteEventArgs(Path.GetFileNameWithoutExtension(assetPath), request.asset, request.asset == null ? string.Format("asset '{0}' is not exists", assetPath) : null, null));
                 }
             }
         }

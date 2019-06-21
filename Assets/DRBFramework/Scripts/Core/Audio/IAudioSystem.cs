@@ -17,6 +17,8 @@ namespace DrbFramework.Audio
 
         void StopAudio(int audioId);
 
-        void StopAllAudio();
+        void StopAudios(string tag);
+
+        void StopAllAudios();
     }
 }

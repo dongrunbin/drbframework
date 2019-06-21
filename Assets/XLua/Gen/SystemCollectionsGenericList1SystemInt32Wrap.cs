@@ -87,20 +87,20 @@ namespace XLua.CSObjectWrap
                     
 					return 1;
 				}
-				if(LuaAPI.lua_gettop(L) == 2 && translator.Assignable<System.Collections.Generic.IEnumerable<int>>(L, 2))
-				{
-					System.Collections.Generic.IEnumerable<int> _collection = (System.Collections.Generic.IEnumerable<int>)translator.GetObject(L, 2, typeof(System.Collections.Generic.IEnumerable<int>));
-					
-					System.Collections.Generic.List<int> gen_ret = new System.Collections.Generic.List<int>(_collection);
-					translator.Push(L, gen_ret);
-                    
-					return 1;
-				}
 				if(LuaAPI.lua_gettop(L) == 2 && LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 2))
 				{
 					int _capacity = LuaAPI.xlua_tointeger(L, 2);
 					
 					System.Collections.Generic.List<int> gen_ret = new System.Collections.Generic.List<int>(_capacity);
+					translator.Push(L, gen_ret);
+                    
+					return 1;
+				}
+				if(LuaAPI.lua_gettop(L) == 2 && translator.Assignable<System.Collections.Generic.IEnumerable<int>>(L, 2))
+				{
+					System.Collections.Generic.IEnumerable<int> _collection = (System.Collections.Generic.IEnumerable<int>)translator.GetObject(L, 2, typeof(System.Collections.Generic.IEnumerable<int>));
+					
+					System.Collections.Generic.List<int> gen_ret = new System.Collections.Generic.List<int>(_collection);
 					translator.Push(L, gen_ret);
                     
 					return 1;

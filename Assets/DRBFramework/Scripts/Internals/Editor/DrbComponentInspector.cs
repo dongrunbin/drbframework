@@ -60,12 +60,13 @@ namespace DrbFramework.Internal.Editor
         private string[] m_EventKeyTypeNames;
         private int m_EventKeyTypeNamesIndex;
 
-        private SerializedProperty m_UIDefaultDepth;
         private SerializedProperty m_UICreaterTypeName;
         private SerializedProperty m_UIRoot;
+        private SerializedProperty m_UIDefaultGroups;
         private string[] m_UICreaterTypeNames;
         private int m_UICreaterTypeNamesIndex;
 
+        private SerializedProperty m_LocalizationLanguage;
         private SerializedProperty m_LocalizationParserTypeName;
         private string[] m_LocalizationParserTypeNames;
         private int m_LocalizationTypeNamesIndex;
@@ -126,9 +127,10 @@ namespace DrbFramework.Internal.Editor
             m_EnabledProcedureTypeNames = serializedObject.FindProperty("m_EnabledProcedureTypeNames");
             m_StartProcedureTypeName = serializedObject.FindProperty("m_StartProcedureTypeName");
             m_EventKeyTypeName = serializedObject.FindProperty("m_EventKeyTypeName");
-            m_UIDefaultDepth = serializedObject.FindProperty("m_UIDefaultDepth");
             m_UICreaterTypeName = serializedObject.FindProperty("m_UICreaterTypeName");
             m_UIRoot = serializedObject.FindProperty("m_UIRoot");
+            m_UIDefaultGroups = serializedObject.FindProperty("m_UIDefaultGroups");
+            m_LocalizationLanguage = serializedObject.FindProperty("m_LocalizationLanguage");
             m_LocalizationParserTypeName = serializedObject.FindProperty("m_LocalizationParserTypeName");
             m_EditorPath = serializedObject.FindProperty("m_EditorPath");
             m_InternalPath = serializedObject.FindProperty("m_InternalPath");
@@ -254,8 +256,28 @@ namespace DrbFramework.Internal.Editor
         {
             base.OnInspectorGUI();
 
-            DrbComponent drb = (DrbComponent)target;
+            DrawBaseSetting();
+            DrawLogSystem();
+            DrawResourceSystem();
+            DrawDownloadSystem();
+            DrawHttpSystem();
+            DrawDataTableSystem();
+            DrawSettingSystem();
+            DrawProcedureSystem();
+            DrawEventSystem();
+            DrawUISystem();
+            DrawLocalizationSystem();
+            DrawDebugSystem();
+            DrawLuaSystem();
+            DrawAudioSystem();
+            DrawSceneSystem();
 
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void DrawBaseSetting()
+        {
+            DrbComponent drb = (DrbComponent)target;
             BeginModule("Base Settings");
             int frameRate = EditorGUILayout.IntSlider("Frame Rate", m_FrameRate.intValue, 0, MAX_FRAME_RATE);
             if (frameRate != m_FrameRate.intValue)
@@ -295,7 +317,10 @@ namespace DrbFramework.Internal.Editor
             }
 
             EndModule();
+        }
 
+        private void DrawLogSystem()
+        {
             BeginModule("Log System");
             m_LogLevel.intValue = (int)(Logger.LogLevel)EditorGUILayout.EnumFlagsField("Log Level", (Logger.LogLevel)m_LogLevel.intValue);
             m_TraceLogColor.colorValue = EditorGUILayout.ColorField("Trace Log Color", m_TraceLogColor.colorValue);
@@ -304,7 +329,11 @@ namespace DrbFramework.Internal.Editor
             m_WarnLogColor.colorValue = EditorGUILayout.ColorField("Warn Log Color", m_WarnLogColor.colorValue);
             m_ErrorLogColor.colorValue = EditorGUILayout.ColorField("Error Log Color", m_ErrorLogColor.colorValue);
             EndModule();
+        }
 
+        private void DrawResourceSystem()
+        {
+            DrbComponent drb = (DrbComponent)target;
             BeginModule("Resource System");
             PathPopup("Editor Path", m_EditorPath);
             if (GUILayout.Button("Open Folder"))
@@ -330,24 +359,39 @@ namespace DrbFramework.Internal.Editor
             TypePopup("Resource Holder", ref m_ResourceHolderTypeNamesIndex, m_ResourceHolderTypeNames, m_ResourceHolderTypeName);
             TypePopup("Resource Decoder", ref m_ResourceDecoderTypeNamesIndex, m_ResourceDecoderTypeNames, m_ResourceDecoderTypeName);
             EndModule();
+        }
 
+        private void DrawDownloadSystem()
+        {
             BeginModule("Download System");
             m_DownloaderComponent.objectReferenceValue = EditorGUILayout.ObjectField("Downloader Component", m_DownloaderComponent.objectReferenceValue, typeof(Internal.Download.DownloaderComponent), true);
             m_DownloadTimeout.floatValue = EditorGUILayout.FloatField("Download Timeout", m_DownloadTimeout.floatValue);
             EndModule();
+        }
 
+        private void DrawHttpSystem()
+        {
             BeginModule("Http System");
             m_WebRequesterComponent.objectReferenceValue = EditorGUILayout.ObjectField("Http Requester Component", m_WebRequesterComponent.objectReferenceValue, typeof(Internal.Http.HttpRequesterComponent), true);
             EndModule();
+        }
 
+        private void DrawDataTableSystem()
+        {
             BeginModule("Data Table System");
             TypePopup("Data Table Parser", ref m_DataTableParserTypeNamesIndex, m_DataTableParserTypeNames, m_DataTableParserTypeName);
             EndModule();
+        }
 
+        private void DrawSettingSystem()
+        {
             BeginModule("Setting System");
             TypePopup("Setting Handler", ref m_SettingHandlerTypeNamesIndex, m_SettingHandlerTypeNames, m_SettingHandlerTypeName);
             EndModule();
+        }
 
+        private void DrawProcedureSystem()
+        {
             BeginModule("Procedure System");
             EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
             {
@@ -423,22 +467,42 @@ namespace DrbFramework.Internal.Editor
             }
             EditorGUI.EndDisabledGroup();
             EndModule();
+        }
 
-
+        private void DrawEventSystem()
+        {
             BeginModule("Event System");
             TypePopup("Event Key Type", ref m_EventKeyTypeNamesIndex, m_EventKeyTypeNames, m_EventKeyTypeName);
             EndModule();
+        }
 
+        private void DrawUISystem()
+        {
             BeginModule("UI System");
             TypePopup("UI Creater", ref m_UICreaterTypeNamesIndex, m_UICreaterTypeNames, m_UICreaterTypeName);
             m_UIRoot.objectReferenceValue = EditorGUILayout.ObjectField("UI Root", m_UIRoot.objectReferenceValue, typeof(Transform), true);
-            m_UIDefaultDepth.intValue = EditorGUILayout.IntField("Default Form Depth", m_UIDefaultDepth.intValue);
+            EditorGUILayout.PropertyField(m_UIDefaultGroups, new GUIContent("UI Default Groups"), true);
+            for (int i = 0; i < m_UIDefaultGroups.arraySize; ++i)
+            {
+                string sortingLayer = m_UIDefaultGroups.GetArrayElementAtIndex(i).FindPropertyRelative("Name").stringValue;
+                if (!HasSortingLayer(sortingLayer))
+                {
+                    AddSortingLayer(sortingLayer);
+                }
+            }
             EndModule();
+        }
 
+        private void DrawLocalizationSystem()
+        {
             BeginModule("Localization System");
+            m_LocalizationLanguage.stringValue = EditorGUILayout.TextField("Language", m_LocalizationLanguage.stringValue);
             TypePopup("Localization Parser", ref m_LocalizationTypeNamesIndex, m_LocalizationParserTypeNames, m_LocalizationParserTypeName);
             EndModule();
+        }
 
+        private void DrawDebugSystem()
+        {
             BeginModule("Debug System");
             int debugFormCount = EditorGUILayout.IntField("Debug Form Count", m_DebugFormTypeNames.arraySize);
             if (debugFormCount != m_DebugFormTypeNames.arraySize)
@@ -495,7 +559,10 @@ namespace DrbFramework.Internal.Editor
             }
 
             EndModule();
+        }
 
+        private void DrawLuaSystem()
+        {
             BeginModule("Lua System");
             int packagePathCount = EditorGUILayout.IntField("Package Paths Count", m_LuaPackagePaths.arraySize);
             m_LuaPackagePaths.arraySize = packagePathCount;
@@ -504,18 +571,22 @@ namespace DrbFramework.Internal.Editor
                 PathPopup(string.Format("Package Path {0}", i), m_LuaPackagePaths.GetArrayElementAtIndex(i));
             }
             EndModule();
+        }
 
+        private void DrawAudioSystem()
+        {
             BeginModule("Audio System");
             TypePopup("Sounder Creater", ref m_AudioCreaterTypeNamesIndex, m_AudioCreaterTypeNames, m_AudioCreaterTypeName);
             m_MaxSameAudioCount.intValue = EditorGUILayout.IntField("Max Same Audio Count", m_MaxSameAudioCount.intValue);
             m_SounderRoot.objectReferenceValue = EditorGUILayout.ObjectField("Sounder Root", m_SounderRoot.objectReferenceValue, typeof(Transform), true);
             EndModule();
-
+        }
+        
+        private void DrawSceneSystem()
+        {
             BeginModule("Scene System");
             TypePopup("Scene Loader", ref m_SceneLoaderTypeNamesIndex, m_SceneLoaderTypeNames, m_SceneLoaderTypeName);
             EndModule();
-
-            serializedObject.ApplyModifiedProperties();
         }
 
         private void TypePopup(string title, ref int index, string[] options, SerializedProperty serializedProperty)
@@ -536,6 +607,7 @@ namespace DrbFramework.Internal.Editor
         {
             int index = 0;
             string relativePath = string.Empty;
+
             for (int i = 0; i < m_Paths.Length; ++i)
             {
                 int indexOf = serializedProperty.stringValue.IndexOf(m_Paths[i]);
@@ -577,6 +649,59 @@ namespace DrbFramework.Internal.Editor
                     m_StartProcedureTypeName.stringValue = null;
                 }
             }
+        }
+
+
+
+        private void AddSortingLayer(string sortingLayer)
+        {
+            if (!HasSortingLayer(sortingLayer))
+            {
+                SerializedObject tagManager = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
+                SerializedProperty it = tagManager.GetIterator();
+                while (it.NextVisible(true))
+                {
+                    if (it.name == "m_SortingLayers")
+                    {
+                        it.InsertArrayElementAtIndex(it.arraySize);
+                        SerializedProperty dataPoint = it.GetArrayElementAtIndex(it.arraySize - 1);
+                        while (dataPoint.NextVisible(true))
+                        {
+                            if (dataPoint.name == "name")
+                            {
+                                dataPoint.stringValue = sortingLayer;
+                                tagManager.ApplyModifiedProperties();
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private bool HasSortingLayer(string sortingLayer)
+        {
+            SerializedObject tagManager = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
+            SerializedProperty it = tagManager.GetIterator();
+            while (it.NextVisible(true))
+            {
+                if (it.name == "m_SortingLayers")
+                {
+                    for (int i = 0; i < it.arraySize; i++)
+                    {
+                        SerializedProperty dataPoint = it.GetArrayElementAtIndex(i);
+                        while (dataPoint.NextVisible(true))
+                        {
+                            if (dataPoint.name == "name")
+                            {
+                                if (dataPoint.stringValue == sortingLayer) return true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -16,8 +16,7 @@ namespace DrbFramework.Resource
 
         private IResourceDecoder m_Decoder;
 
-        private LinkedList<LoadAssetBundleInfo> m_LoadingAssetBundles = new LinkedList<LoadAssetBundleInfo>();
-        private LinkedList<LoadAssetInfo> m_LoadingAssets = new LinkedList<LoadAssetInfo>();
+        private LinkedList<ILoadInfo> m_LoadingInfos = new LinkedList<ILoadInfo>();
 
         public event LoadAssetBundleCompleteEventHandler OnAssetBundleLoaded;
 
@@ -48,11 +47,21 @@ namespace DrbFramework.Resource
 
         public string EditorPath { get; set; }
 
+        public bool IsLoading { get; private set; }
+
         public int LoadingAssetBundleCount
         {
             get
             {
-                return m_LoadingAssetBundles.Count;
+                int count = 0;
+                for (LinkedListNode<ILoadInfo> node = m_LoadingInfos.First; node != null; node = node.Next)
+                {
+                    if (node.Value is LoadAssetBundleInfo)
+                    {
+                        ++count;
+                    }
+                }
+                return count;
             }
         }
 
@@ -60,7 +69,7 @@ namespace DrbFramework.Resource
         {
             get
             {
-                return m_LoadingAssets.Count;
+                return m_LoadingInfos.Count - LoadingAssetBundleCount;
             }
         }
 
@@ -92,12 +101,20 @@ namespace DrbFramework.Resource
 
         public byte[] LoadFile(string filePath, LoadMode mode)
         {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             filePath = GetAbsolutePath(filePath, mode);
             return m_Loader.LoadFile(filePath, mode);
         }
 
         public object LoadAssetBundle(string assetBundlePath, LoadMode mode)
         {
+            if (string.IsNullOrEmpty(assetBundlePath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             string assetBundleAbsolutePath = GetAbsolutePath(assetBundlePath, mode);
 
             while (true)
@@ -134,6 +151,10 @@ namespace DrbFramework.Resource
 
         public void LoadAssetBundleAsync(string assetBundlePath, LoadMode mode, LoadAssetBundleCompleteEventHandler onComplete, object userData)
         {
+            if (string.IsNullOrEmpty(assetBundlePath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             string assetBundleAbsolutePath = GetAbsolutePath(assetBundlePath, mode);
 
             if (m_Holder.HasAssetBundle(assetBundleAbsolutePath))
@@ -174,21 +195,22 @@ namespace DrbFramework.Resource
                     }
                 }
 
-                m_LoadingAssetBundles.AddLast(info);
+                m_LoadingInfos.AddLast(info);
 
-                if (m_LoadingAssetBundles.Count == 1)
-                {
-                    m_Loader.LoadAssetBundleBytesAsync(assetBundleAbsolutePath, mode);
-                }
+                CheckLoad();
             }
         }
 
         public bool IsLoadingAssetBundle(string assetBundlePath)
         {
-            LinkedListNode<LoadAssetBundleInfo> current = m_LoadingAssetBundles.First;
+            if (string.IsNullOrEmpty(assetBundlePath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
+            LinkedListNode<ILoadInfo> current = m_LoadingInfos.First;
             while (current != null)
             {
-                if (current.Value.AssetBundlePath.Equals(assetBundlePath))
+                if (current.Value is LoadAssetBundleInfo && ((LoadAssetBundleInfo)current.Value).AssetBundlePath.Equals(assetBundlePath))
                 {
                     return true;
                 }
@@ -199,12 +221,12 @@ namespace DrbFramework.Resource
 
         private LoadAssetBundleInfo GetLoadingAssetBundleInfo(string assetBundlePath)
         {
-            LinkedListNode<LoadAssetBundleInfo> current = m_LoadingAssetBundles.First;
+            LinkedListNode<ILoadInfo> current = m_LoadingInfos.First;
             while (current != null)
             {
-                if (current.Value.AssetBundlePath.Equals(assetBundlePath))
+                if (current.Value is LoadAssetBundleInfo && ((LoadAssetBundleInfo)current.Value).AssetBundlePath.Equals(assetBundlePath))
                 {
-                    return current.Value;
+                    return (LoadAssetBundleInfo)current.Value;
                 }
                 current = current.Next;
             }
@@ -213,10 +235,14 @@ namespace DrbFramework.Resource
 
         public bool IsLoadingAsset(string assetBundlePath, string assetName)
         {
-            LinkedListNode<LoadAssetInfo> current = m_LoadingAssets.First;
+            if (string.IsNullOrEmpty(assetBundlePath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
+            LinkedListNode<ILoadInfo> current = m_LoadingInfos.First;
             while (current != null)
             {
-                if (current.Value.AssetBundlePath.Equals(assetBundlePath) && current.Value.AssetName.Equals(assetName))
+                if (current.Value is LoadAssetBundleInfo && ((LoadAssetInfo)current.Value).AssetPath.Equals(assetBundlePath) && ((LoadAssetInfo)current.Value).AssetName.Equals(assetName))
                 {
                     return true;
                 }
@@ -227,12 +253,12 @@ namespace DrbFramework.Resource
 
         private LoadAssetInfo GetLoadingAssetInfo(string assetBundlePath, string assetName)
         {
-            LinkedListNode<LoadAssetInfo> current = m_LoadingAssets.First;
+            LinkedListNode<ILoadInfo> current = m_LoadingInfos.First;
             while (current != null)
             {
-                if (current.Value.AssetBundlePath.Equals(assetBundlePath) && current.Value.AssetName.Equals(assetName))
+                if (current.Value is LoadAssetInfo && ((LoadAssetInfo)current.Value).AssetPath.Equals(assetBundlePath) && ((LoadAssetInfo)current.Value).AssetName.Equals(assetName))
                 {
-                    return current.Value;
+                    return (LoadAssetInfo)current.Value;
                 }
                 current = current.Next;
             }
@@ -241,11 +267,19 @@ namespace DrbFramework.Resource
 
         public T LoadAssetFromAssetBundle<T>(string assetBundlePath, string assetName, LoadMode mode) where T : class
         {
+            if (string.IsNullOrEmpty(assetBundlePath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             return LoadAssetFromAssetBundle(assetBundlePath, assetName, mode) as T;
         }
 
         public object LoadAssetFromAssetBundle(string assetBundlePath, string assetName, LoadMode mode)
         {
+            if (string.IsNullOrEmpty(assetBundlePath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             string assetBundleAbsolutePath = GetAbsolutePath(assetBundlePath, mode);
             string internalAssetName = GetInternalAssetName(assetBundleAbsolutePath, assetName);
 
@@ -285,6 +319,10 @@ namespace DrbFramework.Resource
 
         public void LoadAssetFromAssetBundleAsync(string assetBundlePath, string assetName, LoadMode mode, LoadAssetCompleteEventHandler onComplete, object userData)
         {
+            if (string.IsNullOrEmpty(assetBundlePath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             string absolutePath = GetAbsolutePath(assetBundlePath, mode);
             string internalAssetName = GetInternalAssetName(absolutePath, assetName);
             if (m_Holder.HasAsset(internalAssetName))
@@ -303,44 +341,43 @@ namespace DrbFramework.Resource
             }
             else
             {
-                info = new LoadAssetInfo
+                info = new LoadAssetInfo()
                 {
-                    AssetBundlePath = absolutePath,
+                    AssetPath = absolutePath,
                     AssetName = assetName,
                     Mode = mode,
+                    IsAssetBundle = true,
                     Handler = onComplete,
                     UserData = userData
                 };
-                m_LoadingAssets.AddLast(info);
-                if (m_Holder.HasAssetBundle(absolutePath))
-                {
-                    if (m_LoadingAssets.Count == 1)
-                    {
-                        m_Loader.LoadAssetFromAssetBundleAsync(m_Holder.GetAssetBundle(absolutePath), assetName, mode);
-                    }
-                }
-                else
-                {
-                    LoadAssetBundleAsync(assetBundlePath, mode, OnLoadAssetBundleComplete, info);
-                }
-            }
-        }
 
-        private void OnLoadAssetBundleComplete(LoadAssetBundleCompleteEventArgs args)
-        {
-            LoadAssetInfo info = (LoadAssetInfo)args.UserData;
-            m_Loader.LoadAssetFromAssetBundleAsync(args.AssetBundle, info.AssetName, info.Mode);
+                if (!m_Holder.HasAssetBundle(absolutePath))
+                {
+                    LoadAssetBundleAsync(assetBundlePath, mode, null, info);
+                }
+                m_LoadingInfos.AddLast(info);
+                CheckLoad();
+            }
         }
 
         public T LoadAsset<T>(string assetPath, LoadMode mode) where T : class
         {
+            if (string.IsNullOrEmpty(assetPath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             return LoadAsset(assetPath, mode) as T;
         }
 
         public object LoadAsset(string assetPath, LoadMode mode)
         {
+            if (string.IsNullOrEmpty(assetPath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             string absolutePath = GetAbsolutePath(assetPath, mode);
             string assetName = Path.GetFileNameWithoutExtension(absolutePath);
+            string internalAssetName = GetInternalAssetName(absolutePath, assetName);
             while (true)
             {
                 LoadAssetInfo info = GetLoadingAssetInfo(absolutePath, assetName);
@@ -350,25 +387,30 @@ namespace DrbFramework.Resource
                 }
             }
 
-            if (m_Holder.HasAsset(absolutePath))
+            if (m_Holder.HasAsset(internalAssetName))
             {
-                return m_Holder.GetAsset(absolutePath);
+                return m_Holder.GetAsset(internalAssetName);
             }
 
             object asset = m_Loader.LoadAsset(absolutePath, mode);
-            m_Holder.AddAsset(absolutePath, asset);
+            m_Holder.AddAsset(internalAssetName, asset);
             return asset;
         }
 
         public void LoadAssetAsync(string assetPath, LoadMode mode, LoadAssetCompleteEventHandler onComplete, object userData)
         {
+            if (string.IsNullOrEmpty(assetPath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             string absolutePath = GetAbsolutePath(assetPath, mode);
             string assetName = Path.GetFileNameWithoutExtension(assetPath);
-            if (m_Holder.HasAsset(absolutePath))
+            string internalAssetName = GetInternalAssetName(absolutePath, assetName);
+            if (m_Holder.HasAsset(internalAssetName))
             {
                 if (onComplete != null)
                 {
-                    onComplete(new LoadAssetCompleteEventArgs(assetName, m_Holder.GetAsset(absolutePath), null, userData));
+                    onComplete(new LoadAssetCompleteEventArgs(assetName, m_Holder.GetAsset(internalAssetName), null, userData));
                 }
                 return;
             }
@@ -380,29 +422,38 @@ namespace DrbFramework.Resource
             }
             else
             {
-                info = new LoadAssetInfo
+                info = new LoadAssetInfo()
                 {
-                    AssetBundlePath = absolutePath,
+                    AssetPath = absolutePath,
                     AssetName = assetName,
+                    IsAssetBundle = false,
                     Mode = mode,
                     Handler = onComplete,
                     UserData = userData
                 };
-                m_LoadingAssets.AddLast(info);
-                if (m_LoadingAssets.Count == 1)
-                {
-                    m_Loader.LoadAssetAsync(absolutePath, mode);
-                }
+                m_LoadingInfos.AddLast(info);
+
+                CheckLoad();
             }
         }
 
         public bool HasAsset(string assetPath, LoadMode mode)
         {
-            return m_Holder.HasAsset(GetAbsolutePath(assetPath, mode));
+            if (string.IsNullOrEmpty(assetPath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
+            string absolutePath = GetAbsolutePath(assetPath, mode);
+            string assetName = Path.GetFileNameWithoutExtension(absolutePath);
+            return m_Holder.HasAsset(GetInternalAssetName(absolutePath, assetName));
         }
 
         public bool HasAsset(string assetBundlePath, string assetName, LoadMode mode)
         {
+            if (string.IsNullOrEmpty(assetBundlePath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             string absolutePath = GetAbsolutePath(assetBundlePath, mode);
             string internalAssetName = GetInternalAssetName(absolutePath, assetName);
             return m_Holder.HasAsset(internalAssetName);
@@ -410,24 +461,38 @@ namespace DrbFramework.Resource
 
         public bool HasAssetBundle(string assetBundlePath, LoadMode mode)
         {
+            if (string.IsNullOrEmpty(assetBundlePath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             return m_Holder.HasAssetBundle(GetAbsolutePath(assetBundlePath, mode));
         }
 
         public bool ReleaseAsset(string assetPath, LoadMode mode)
         {
+            if (string.IsNullOrEmpty(assetPath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             string absolutePath = GetAbsolutePath(assetPath, mode);
-            object asset = m_Holder.GetAsset(absolutePath);
+            string assetName = Path.GetFileNameWithoutExtension(absolutePath);
+            string internalAssetName = GetInternalAssetName(absolutePath, assetName);
+            object asset = m_Holder.GetAsset(internalAssetName);
             if (asset == null)
             {
                 return false;
             }
             m_Loader.ReleaseAsset(asset, mode);
-            m_Holder.RemoveAsset(absolutePath);
+            m_Holder.RemoveAsset(internalAssetName);
             return true;
         }
 
         public bool ReleaseAsset(string assetBundlePath, string assetName, LoadMode mode)
         {
+            if (string.IsNullOrEmpty(assetBundlePath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             string absolutePath = GetAbsolutePath(assetBundlePath, mode);
             string internalAssetName = GetInternalAssetName(absolutePath, assetName);
             object asset = m_Holder.GetAsset(internalAssetName);
@@ -442,6 +507,10 @@ namespace DrbFramework.Resource
 
         public bool ReleaseAssetBundle(string assetBundlePath, LoadMode mode)
         {
+            if (string.IsNullOrEmpty(assetBundlePath))
+            {
+                throw new ArgumentNullException("invalid path");
+            }
             string absolutePath = GetAbsolutePath(assetBundlePath, mode);
             object assetBundle = m_Holder.GetAssetBundle(absolutePath);
             if (assetBundle == null)
@@ -488,9 +557,10 @@ namespace DrbFramework.Resource
 
         private void OnResourceLoaderLoadAssetBundleBytesComplete(LoadAssetBundleBytesCompleteEventArgs args)
         {
-            LinkedListNode<LoadAssetBundleInfo> node = m_LoadingAssetBundles.First;
-            m_LoadingAssetBundles.RemoveFirst();
-            if (args.AssetBundlePath.Equals(node.Value.AssetBundlePath))
+            IsLoading = false;
+            LoadAssetBundleInfo info = (LoadAssetBundleInfo)m_LoadingInfos.First.Value;
+            m_LoadingInfos.RemoveFirst();
+            if (args.AssetBundlePath.Equals(info.AssetBundlePath))
             {
                 object assetBundle = m_Decoder.DecodeAssetBundle(args.Data);
                 if (assetBundle != null)
@@ -498,7 +568,6 @@ namespace DrbFramework.Resource
                     m_Holder.AddAssetBundle(args.AssetBundlePath, assetBundle);
                 }
 
-                LoadAssetBundleInfo info = node.Value;
                 LoadAssetBundleCompleteEventArgs completeEventArgs = new LoadAssetBundleCompleteEventArgs(args.AssetBundlePath, assetBundle, args.Error, info.UserData);
                 if (info.Handler != null)
                 {
@@ -514,26 +583,64 @@ namespace DrbFramework.Resource
                 throw new DrbException("internal error");
             }
 
-            if (m_LoadingAssetBundles.Count > 0)
+            CheckLoad();
+        }
+
+        private void CheckLoad()
+        {
+            if (IsLoading)
             {
-                LoadAssetBundleInfo info = m_LoadingAssetBundles.First.Value;
-                m_Loader.LoadAssetBundleBytesAsync(info.AssetBundlePath, info.Mode);
+                return;
+            }
+
+            if (m_LoadingInfos.Count == 0)
+            {
+                return;
+            }
+            IsLoading = true;
+            ILoadInfo info = m_LoadingInfos.First.Value;
+            if (info is LoadAssetBundleInfo)
+            {
+                LoadAssetBundleInfo loadAssetBundleInfo = (LoadAssetBundleInfo)info;
+                m_Loader.LoadAssetBundleBytesAsync(loadAssetBundleInfo.AssetBundlePath, loadAssetBundleInfo.Mode);
+            }
+            else if (info is LoadAssetInfo)
+            {
+                LoadAssetInfo loadAssetInfo = (LoadAssetInfo)info;
+                if (loadAssetInfo.IsAssetBundle)
+                {
+                    if (m_Holder.HasAssetBundle(loadAssetInfo.AssetPath))
+                    {
+                        m_Loader.LoadAssetFromAssetBundleAsync(m_Holder.GetAssetBundle(loadAssetInfo.AssetPath), loadAssetInfo.AssetName, loadAssetInfo.Mode);
+                    }
+                    else
+                    {
+                        //加载assetbundle失败
+                        OnResourceLoaderLoadAssetComplete(new LoadAssetCompleteEventArgs(loadAssetInfo.AssetName, null, string.Format("asset bundle '{0}' is not exists", loadAssetInfo.AssetPath), loadAssetInfo.UserData));
+                    }
+                }
+                else
+                {
+                    m_Loader.LoadAssetAsync(loadAssetInfo.AssetPath, loadAssetInfo.Mode);
+                }
             }
         }
 
         private void OnResourceLoaderLoadAssetComplete(LoadAssetCompleteEventArgs args)
         {
-            LinkedListNode<LoadAssetInfo> node = m_LoadingAssets.First;
-            if (args.AssetName.Equals(node.Value.AssetName) || args.AssetName.Equals(node.Value.AssetBundlePath))
+            IsLoading = false;
+            LoadAssetInfo info = (LoadAssetInfo)m_LoadingInfos.First.Value;
+            m_LoadingInfos.RemoveFirst();
+
+            if (args.AssetName.Equals(info.AssetName))
             {
-                string internalAssetName = GetInternalAssetName(node.Value.AssetBundlePath, node.Value.AssetName);
-                m_LoadingAssets.RemoveFirst();
+                string internalAssetName = GetInternalAssetName(info.AssetPath, info.AssetName);
+
                 if (args.Asset != null)
                 {
                     m_Holder.AddAsset(internalAssetName, args.Asset);
                 }
 
-                LoadAssetInfo info = node.Value;
                 LoadAssetCompleteEventArgs completeEventArgs = new LoadAssetCompleteEventArgs(args.AssetName, args.Asset, args.Error, info.UserData);
                 if (info.Handler != null)
                 {
@@ -549,21 +656,7 @@ namespace DrbFramework.Resource
                 throw new DrbException("internal error");
             }
 
-            if (m_LoadingAssets.Count > 0)
-            {
-                LoadAssetInfo info = m_LoadingAssets.First.Value;
-                if (!string.IsNullOrEmpty(info.AssetName))
-                {
-                    if (m_Holder.HasAssetBundle(info.AssetBundlePath))
-                    {
-                        m_Loader.LoadAssetFromAssetBundleAsync(info.AssetBundlePath, info.AssetName, info.Mode);
-                    }
-                }
-                else
-                {
-                    m_Loader.LoadAssetAsync(info.AssetBundlePath, info.Mode);
-                }
-            }
+            CheckLoad();
         }
     }
 }

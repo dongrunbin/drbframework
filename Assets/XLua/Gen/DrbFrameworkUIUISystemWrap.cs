@@ -21,10 +21,16 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(DrbFramework.UI.UISystem);
-			Utils.BeginObjectRegister(type, L, translator, 0, 9, 5, 1);
+			Utils.BeginObjectRegister(type, L, translator, 0, 15, 5, 1);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Shutdown", _m_Shutdown);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Update", _m_Update);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "AddGroup", _m_AddGroup);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "HasGroup", _m_HasGroup);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetGroup", _m_GetGroup);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetAllGroups", _m_GetAllGroups);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RemoveGroup", _m_RemoveGroup);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetForm", _m_GetForm);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "OpenForm", _m_OpenForm);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "CloseForm", _m_CloseForm);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "CloseAllForm", _m_CloseAllForm);
@@ -62,13 +68,12 @@ namespace XLua.CSObjectWrap
             
 			try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-				if(LuaAPI.lua_gettop(L) == 4 && LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 2) && translator.Assignable<DrbFramework.UI.IUICreater>(L, 3) && translator.Assignable<object>(L, 4))
+				if(LuaAPI.lua_gettop(L) == 3 && translator.Assignable<DrbFramework.UI.IUICreater>(L, 2) && translator.Assignable<object>(L, 3))
 				{
-					int _defaultDepth = LuaAPI.xlua_tointeger(L, 2);
-					DrbFramework.UI.IUICreater _creater = (DrbFramework.UI.IUICreater)translator.GetObject(L, 3, typeof(DrbFramework.UI.IUICreater));
-					object _uiRoot = translator.GetObject(L, 4, typeof(object));
+					DrbFramework.UI.IUICreater _creater = (DrbFramework.UI.IUICreater)translator.GetObject(L, 2, typeof(DrbFramework.UI.IUICreater));
+					object _uiRoot = translator.GetObject(L, 3, typeof(object));
 					
-					DrbFramework.UI.UISystem gen_ret = new DrbFramework.UI.UISystem(_defaultDepth, _creater, _uiRoot);
+					DrbFramework.UI.UISystem gen_ret = new DrbFramework.UI.UISystem(_creater, _uiRoot);
 					translator.Push(L, gen_ret);
                     
 					return 1;
@@ -146,7 +151,7 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_OpenForm(RealStatePtr L)
+        static int _m_AddGroup(RealStatePtr L)
         {
 		    try {
             
@@ -156,24 +161,69 @@ namespace XLua.CSObjectWrap
                 DrbFramework.UI.UISystem gen_to_be_invoked = (DrbFramework.UI.UISystem)translator.FastGetCSObj(L, 1);
             
             
-			    int gen_param_count = LuaAPI.lua_gettop(L);
-            
-                if(gen_param_count == 2&& translator.Assignable<DrbFramework.UI.IUIForm>(L, 2)) 
+                
                 {
-                    DrbFramework.UI.IUIForm _form = (DrbFramework.UI.IUIForm)translator.GetObject(L, 2, typeof(DrbFramework.UI.IUIForm));
+                    string _groupName = LuaAPI.lua_tostring(L, 2);
+                    int _depth = LuaAPI.xlua_tointeger(L, 3);
                     
-                    gen_to_be_invoked.OpenForm( _form );
+                    gen_to_be_invoked.AddGroup( _groupName, _depth );
                     
                     
                     
                     return 0;
                 }
-                if(gen_param_count == 3&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& translator.Assignable<object>(L, 3)) 
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_HasGroup(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                DrbFramework.UI.UISystem gen_to_be_invoked = (DrbFramework.UI.UISystem)translator.FastGetCSObj(L, 1);
+            
+            
+                
                 {
-                    string _formName = LuaAPI.lua_tostring(L, 2);
-                    object _formAsset = translator.GetObject(L, 3, typeof(object));
+                    string _groupName = LuaAPI.lua_tostring(L, 2);
                     
-                        DrbFramework.UI.IUIForm gen_ret = gen_to_be_invoked.OpenForm( _formName, _formAsset );
+                        bool gen_ret = gen_to_be_invoked.HasGroup( _groupName );
+                        LuaAPI.lua_pushboolean(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_GetGroup(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                DrbFramework.UI.UISystem gen_to_be_invoked = (DrbFramework.UI.UISystem)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    string _groupName = LuaAPI.lua_tostring(L, 2);
+                    
+                        DrbFramework.UI.IUIGroup gen_ret = gen_to_be_invoked.GetGroup( _groupName );
                         translator.PushAny(L, gen_ret);
                     
                     
@@ -185,7 +235,121 @@ namespace XLua.CSObjectWrap
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
             
-            return LuaAPI.luaL_error(L, "invalid arguments to DrbFramework.UI.UISystem.OpenForm!");
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_GetAllGroups(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                DrbFramework.UI.UISystem gen_to_be_invoked = (DrbFramework.UI.UISystem)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    
+                        DrbFramework.UI.IUIGroup[] gen_ret = gen_to_be_invoked.GetAllGroups(  );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_RemoveGroup(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                DrbFramework.UI.UISystem gen_to_be_invoked = (DrbFramework.UI.UISystem)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    string _groupName = LuaAPI.lua_tostring(L, 2);
+                    
+                    gen_to_be_invoked.RemoveGroup( _groupName );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_GetForm(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                DrbFramework.UI.UISystem gen_to_be_invoked = (DrbFramework.UI.UISystem)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    string _formName = LuaAPI.lua_tostring(L, 2);
+                    
+                        DrbFramework.UI.IUIForm gen_ret = gen_to_be_invoked.GetForm( _formName );
+                        translator.PushAny(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_OpenForm(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                DrbFramework.UI.UISystem gen_to_be_invoked = (DrbFramework.UI.UISystem)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    string _formName = LuaAPI.lua_tostring(L, 2);
+                    object _formAsset = translator.GetObject(L, 3, typeof(object));
+                    string _groupName = LuaAPI.lua_tostring(L, 4);
+                    
+                        DrbFramework.UI.IUIForm gen_ret = gen_to_be_invoked.OpenForm( _formName, _formAsset, _groupName );
+                        translator.PushAny(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
             
         }
         
@@ -313,8 +477,9 @@ namespace XLua.CSObjectWrap
                 
                 {
                     string _assetPath = LuaAPI.lua_tostring(L, 2);
+                    string _groupName = LuaAPI.lua_tostring(L, 3);
                     
-                        DrbFramework.UI.IUIForm gen_ret = gen_to_be_invoked.OpenInternalForm( _assetPath );
+                        DrbFramework.UI.IUIForm gen_ret = gen_to_be_invoked.OpenInternalForm( _assetPath, _groupName );
                         translator.PushAny(L, gen_ret);
                     
                     
@@ -342,9 +507,10 @@ namespace XLua.CSObjectWrap
                 
                 {
                     string _assetPath = LuaAPI.lua_tostring(L, 2);
-                    DrbFrameworkDemo.OpenFormComplete _callback = translator.GetDelegate<DrbFrameworkDemo.OpenFormComplete>(L, 3);
+                    string _groupName = LuaAPI.lua_tostring(L, 3);
+                    DrbFrameworkDemo.OpenFormComplete _callback = translator.GetDelegate<DrbFrameworkDemo.OpenFormComplete>(L, 4);
                     
-                    gen_to_be_invoked.OpenFormAsync( _assetPath, _callback );
+                    gen_to_be_invoked.OpenFormAsync( _assetPath, _groupName, _callback );
                     
                     
                     

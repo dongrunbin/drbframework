@@ -1,21 +1,105 @@
 <?xml version="1.0"?>
 <ArrayOfMenu xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Menu>
-    <Id>636797100591514231</Id>
-    <Name>Test</Name>
+    <Id>636797903842602628</Id>
+    <Name>Monster</Name>
     <isFoldout>true</isFoldout>
     <ProtocolInfos>
       <Protocol>
-        <Id>636797100651216429</Id>
-        <Code>1001</Code>
-        <EnName>Test</EnName>
-        <CnName>测试协议</CnName>
-        <Description>测试</Description>
+        <Id>636797903862909133</Id>
+        <Code>10001</Code>
+        <EnName>Reset</EnName>
+        <CnName>洗练</CnName>
+        <Description>重置属性</Description>
+        <FieldInfos>
+          <Field>
+            <Type>int</Type>
+            <EnName>MonsterId</EnName>
+            <CnName>召唤兽编号</CnName>
+            <IsLoop>false</IsLoop>
+            <AttachToResult>0</AttachToResult>
+          </Field>
+        </FieldInfos>
+      </Protocol>
+      <Protocol>
+        <Id>636797908844107185</Id>
+        <Code>10002</Code>
+        <EnName>Combine</EnName>
+        <CnName>合成</CnName>
+        <Description>两个召唤兽合成一个</Description>
+        <FieldInfos>
+          <Field>
+            <Type>int</Type>
+            <EnName>MonsterId1</EnName>
+            <IsLoop>false</IsLoop>
+            <AttachToResult>0</AttachToResult>
+          </Field>
+          <Field>
+            <Type>int</Type>
+            <EnName>MonsterId2</EnName>
+            <IsLoop>false</IsLoop>
+            <AttachToResult>0</AttachToResult>
+          </Field>
+        </FieldInfos>
+      </Protocol>
+      <Protocol>
+        <Id>636797909847635057</Id>
+        <Code>10003</Code>
+        <EnName>LearnSkill</EnName>
+        <CnName>打书</CnName>
+        <Description>学习技能</Description>
+        <FieldInfos>
+          <Field>
+            <Type>int</Type>
+            <EnName>MonsterId</EnName>
+            <IsLoop>false</IsLoop>
+            <AttachToResult>0</AttachToResult>
+          </Field>
+          <Field>
+            <Type>int</Type>
+            <EnName>MonsterSkillId</EnName>
+            <IsLoop>false</IsLoop>
+            <AttachToResult>0</AttachToResult>
+          </Field>
+        </FieldInfos>
+      </Protocol>
+      <Protocol>
+        <Id>636797910786888485</Id>
+        <Code>10004</Code>
+        <EnName>Free</EnName>
+        <CnName>放生</CnName>
+        <Description>扔掉一个召唤兽</Description>
+        <FieldInfos>
+          <Field>
+            <Type>int</Type>
+            <EnName>MonsterId</EnName>
+            <IsLoop>false</IsLoop>
+            <AttachToResult>0</AttachToResult>
+          </Field>
+        </FieldInfos>
+      </Protocol>
+      <Protocol>
+        <Id>636799625115274359</Id>
+        <Code>10005</Code>
+        <EnName>Info</EnName>
+        <CnName>信息</CnName>
+        <Description />
         <FieldInfos>
           <Field>
             <Type>int</Type>
             <EnName>Id</EnName>
-            <CnName>编号</CnName>
+            <IsLoop>false</IsLoop>
+            <AttachToResult>0</AttachToResult>
+          </Field>
+          <Field>
+            <Type>int</Type>
+            <EnName>ConfigId</EnName>
+            <IsLoop>false</IsLoop>
+            <AttachToResult>0</AttachToResult>
+          </Field>
+          <Field>
+            <Type>int</Type>
+            <EnName>Skills</EnName>
             <IsLoop>true</IsLoop>
             <AttachToResult>0</AttachToResult>
           </Field>

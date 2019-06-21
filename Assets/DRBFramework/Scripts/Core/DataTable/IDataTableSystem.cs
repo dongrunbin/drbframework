@@ -1,5 +1,5 @@
 ﻿
-using DrbFramework.Resource;
+using System;
 
 namespace DrbFramework.DataTable
 {
@@ -10,6 +10,10 @@ namespace DrbFramework.DataTable
         IDataTable<T> CreateDataTable<T>(byte[] data) where T : IDataEntity, new();
 
         IDataTable<T> GetDataTable<T>() where T : IDataEntity, new();
+
+        IDataTable GetDataTable(string typeName);
+
+        IDataTable GetDataTable(Type type);
 
         IDataTable<T> GetOrCreateDataTable<T>(byte[] data) where T : IDataEntity, new();
 

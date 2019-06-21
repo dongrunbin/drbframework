@@ -11,9 +11,19 @@ namespace DrbFramework.UI
 
         int ShowingFormCount { get; }
 
-        IUIForm OpenForm(string formName, object formAsset);
+        void AddGroup(string groupName, int depth);
 
-        void OpenForm(IUIForm form);
+        bool HasGroup(string groupName);
+
+        IUIGroup GetGroup(string groupName);
+
+        IUIGroup[] GetAllGroups();
+
+        void RemoveGroup(string groupName);
+
+        IUIForm OpenForm(string formName, object formAsset, string groupName);
+
+        IUIForm GetForm(string formName);
 
         void CloseForm(IUIForm form);
 

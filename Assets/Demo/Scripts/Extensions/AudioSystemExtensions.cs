@@ -8,9 +8,11 @@ namespace DrbFrameworkDemo
     [XLua.LuaCallCSharp]
     public static class AudioSystemExtensions
     {
-        public static void PlayBGM(this AudioSystem audioSystem, string assetBundlePath, string assetName, LoadMode mode)
+        public static void PlayBGM(this AudioSystem audioSystem, string assetBundlePath)
         {
-            DrbComponent.ResourceSystem.LoadAssetFromAssetBundleAsync(assetBundlePath, assetName, mode, (LoadAssetCompleteEventArgs args) =>
+            audioSystem.StopAudios("BGM");
+
+            DrbComponent.ResourceSystem.LoadAssetAsync(assetBundlePath, (LoadAssetCompleteEventArgs args) =>
               {
                   if (args.HasError) return;
                   AudioInfo info = new AudioInfo();

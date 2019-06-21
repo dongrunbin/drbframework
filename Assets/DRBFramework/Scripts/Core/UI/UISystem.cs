@@ -8,16 +8,12 @@ namespace DrbFramework.UI
     {
         private readonly LinkedList<IUIForm> m_Forms = new LinkedList<IUIForm>();
 
-        private int m_CurrentDepth;
-
-        private int m_DefaultDepth;
+        private readonly Dictionary<string, IUIGroup> m_Groups = new Dictionary<string, IUIGroup>();
 
         private IUICreater m_Creater;
 
-        public UISystem(int defaultDepth, IUICreater creater, object uiRoot)
+        public UISystem(IUICreater creater, object uiRoot)
         {
-            m_DefaultDepth = defaultDepth;
-            m_CurrentDepth = m_DefaultDepth;
             m_Creater = creater;
             UIRoot = uiRoot;
         }
@@ -80,12 +76,103 @@ namespace DrbFramework.UI
             }
         }
 
-        public IUIForm OpenForm(string formName, object formAsset)
+        public void AddGroup(string groupName, int depth)
+        {
+            if (string.IsNullOrEmpty(groupName))
+            {
+                throw new ArgumentException("invalid group name");
+            }
+
+            if (m_Groups.ContainsKey(groupName))
+            {
+                throw new ArgumentException(string.Format("already exists group '{0}'", groupName));
+            }
+
+            IUIGroup group = m_Creater.InstantiateGroup(groupName, UIRoot);
+            group.Name = groupName;
+            group.Depth = depth;
+
+            m_Groups.Add(groupName, group);
+        }
+
+        public bool HasGroup(string groupName)
+        {
+            return m_Groups.ContainsKey(groupName);
+        }
+
+        public IUIGroup GetGroup(string groupName)
+        {
+            IUIGroup group = null;
+            m_Groups.TryGetValue(groupName, out group);
+            return group;
+        }
+
+        public IUIGroup[] GetAllGroups()
+        {
+            IUIGroup[] ret = new IUIGroup[m_Groups.Count];
+            var enumerator = m_Groups.GetEnumerator();
+            int index = 0;
+            while (enumerator.MoveNext())
+            {
+                ret[index] = enumerator.Current.Value;
+                ++index;
+            }
+            return ret;
+        }
+
+        public void RemoveGroup(string groupName)
+        {
+            if (!m_Groups.ContainsKey(groupName)) return;
+
+            IUIGroup group = m_Groups[groupName];
+            IUIForm[] forms = group.GetAllForms();
+            for (int i = 0; i < forms.Length; ++i)
+            {
+                DestroyForm(forms[i]);
+            }
+
+            m_Creater.DestroyGroup(group);
+            m_Groups.Remove(groupName);
+        }
+
+        public IUIForm GetForm(string formName)
+        {
+            LinkedListNode<IUIForm> node = m_Forms.First;
+            while (node != null)
+            {
+                if (node.Value.FormName.Equals(formName))
+                {
+                    return node.Value;
+                }
+                node = node.Next;
+            }
+            return null;
+        }
+
+        public IUIForm OpenForm(string formName, object formAsset, string groupName)
         {
             if (formAsset == null)
             {
-                throw new ArgumentNullException("form asset is invalid");
+                throw new ArgumentNullException("invalid form asset");
             }
+
+            if (string.IsNullOrEmpty(formName))
+            {
+                throw new ArgumentException("invalid form name");
+            }
+
+            if (string.IsNullOrEmpty(groupName))
+            {
+                throw new ArgumentException("invalid group name");
+            }
+
+            if (!m_Groups.ContainsKey(groupName))
+            {
+                throw new ArgumentException(string.Format("not exists group '{0}'", groupName));
+            }
+
+            IUIGroup group = m_Groups[groupName];
+
             IUIForm form = null;
             LinkedListNode<IUIForm> node = m_Forms.First;
             while (node != null)
@@ -99,68 +186,36 @@ namespace DrbFramework.UI
             }
             if (form == null)
             {
-                form = m_Creater.InstantiateForm(formAsset, UIRoot);
+                form = m_Creater.InstantiateForm(formAsset);
+                form.Group = group;
+                group.AddForm(form);
                 m_Forms.AddLast(form);
                 form.FormName = formName;
                 form.OnInit();
             }
 
-            OpenForm(form);
+            if (form.Group != null && form.Group != group)
+            {
+                form.Group.RemoveForm(form);
+                form.Group = group;
+            }
+
+            group.OpenForm(form);
             return form;
-        }
-
-        public void OpenForm(IUIForm form)
-        {
-            if (!m_Forms.Contains(form))
-            {
-                throw new ArgumentException(string.Format("not exists form '{0}'", form.FormName));
-            }
-            if (!form.IsShow)
-            {
-                if (m_Forms.Last.Value != form)
-                {
-                    m_Forms.Remove(form);
-                    m_Forms.AddLast(form);
-                }
-                form.Depth = ++m_CurrentDepth;
-                form.OnOpen();
-
-                IUIForm prevForm = m_Forms.Last.Previous == null ? null : m_Forms.Last.Previous.Value;
-                if (prevForm != null && prevForm.IsShow)
-                {
-                    prevForm.OnCover();
-                }
-            }
         }
 
         public void CloseForm(IUIForm form)
         {
             if (form == null)
             {
-                throw new ArgumentNullException("form is invalid");
+                throw new ArgumentNullException("invalid form");
             }
             if (!m_Forms.Contains(form))
             {
                 throw new ArgumentException(string.Format("not exists form '{0}'", form.FormName));
             }
-            if (!form.IsShow) return;
-            if (form == m_Forms.Last.Value)
-            {
-                IUIForm prevForm = m_Forms.Last.Previous == null ? null : m_Forms.Last.Previous.Value;
-                if (prevForm != null && prevForm.IsShow)
-                {
-                    prevForm.OnFocus();
-                }
-                else
-                {
-                    m_CurrentDepth = m_DefaultDepth;
-                }
-            }
 
-            m_Forms.Remove(form);
-            m_Forms.AddFirst(form);
-
-            form.OnClose();
+            form.Group.CloseForm(form);
         }
 
         public void CloseAllForm()
@@ -170,7 +225,7 @@ namespace DrbFramework.UI
             {
                 if (node.Value.IsShow)
                 {
-                    node.Value.OnClose();
+                    node.Value.Group.CloseForm(node.Value);
                 }
                 node = node.Next;
             }

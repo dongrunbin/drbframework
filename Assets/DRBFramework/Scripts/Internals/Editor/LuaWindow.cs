@@ -26,12 +26,13 @@ namespace DrbFramework.Internal.Editor
         }
 
         private string m_OutputPath;
-
         private string m_ExtensionsName;
+
+        private const string OutputPathKey = "DrbFramework.LuaWindow.OutputKey";
 
         private void OnEnable()
         {
-            m_OutputPath = Application.dataPath + "/../EmmyApi/";
+            m_OutputPath = PlayerPrefs.GetString(OutputPathKey, Application.dataPath + "/../EmmyApi/");
             m_ExtensionsName = "Extensions";
         }
 
@@ -49,6 +50,7 @@ namespace DrbFramework.Internal.Editor
                         if (!string.IsNullOrEmpty(directory))
                         {
                             m_OutputPath = directory;
+                            PlayerPrefs.SetString(OutputPathKey, m_OutputPath);
                         }
                     }
                 }

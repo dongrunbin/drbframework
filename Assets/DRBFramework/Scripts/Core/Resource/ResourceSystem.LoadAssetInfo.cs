@@ -3,11 +3,13 @@ namespace DrbFramework.Resource
 {
     public partial class ResourceSystem : IResourceSystem
     {
-        private class LoadAssetInfo
+        private class LoadAssetInfo : ILoadInfo
         {
-            public string AssetBundlePath { get; set; }
+            public string AssetPath { get; set; }
 
             public string AssetName { get; set; }
+
+            public bool IsAssetBundle { get; set; }
 
             public LoadMode Mode { get; set; }
 

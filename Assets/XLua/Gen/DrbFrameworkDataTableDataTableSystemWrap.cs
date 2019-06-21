@@ -21,8 +21,9 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(DrbFramework.DataTable.DataTableSystem);
-			Utils.BeginObjectRegister(type, L, translator, 0, 2, 1, 0);
+			Utils.BeginObjectRegister(type, L, translator, 0, 3, 1, 0);
 			
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetDataTable", _m_GetDataTable);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Shutdown", _m_Shutdown);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Update", _m_Update);
 			
@@ -74,6 +75,50 @@ namespace XLua.CSObjectWrap
         
         
         
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_GetDataTable(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                DrbFramework.DataTable.DataTableSystem gen_to_be_invoked = (DrbFramework.DataTable.DataTableSystem)translator.FastGetCSObj(L, 1);
+            
+            
+			    int gen_param_count = LuaAPI.lua_gettop(L);
+            
+                if(gen_param_count == 2&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)) 
+                {
+                    string _typeName = LuaAPI.lua_tostring(L, 2);
+                    
+                        DrbFramework.DataTable.IDataTable gen_ret = gen_to_be_invoked.GetDataTable( _typeName );
+                        translator.PushAny(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                if(gen_param_count == 2&& translator.Assignable<System.Type>(L, 2)) 
+                {
+                    System.Type _type = (System.Type)translator.GetObject(L, 2, typeof(System.Type));
+                    
+                        DrbFramework.DataTable.IDataTable gen_ret = gen_to_be_invoked.GetDataTable( _type );
+                        translator.PushAny(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+            return LuaAPI.luaL_error(L, "invalid arguments to DrbFramework.DataTable.DataTableSystem.GetDataTable!");
+            
+        }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _m_Shutdown(RealStatePtr L)

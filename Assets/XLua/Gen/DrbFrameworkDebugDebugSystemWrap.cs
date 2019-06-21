@@ -21,12 +21,13 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(DrbFramework.Debug.DebugSystem);
-			Utils.BeginObjectRegister(type, L, translator, 0, 8, 2, 0);
+			Utils.BeginObjectRegister(type, L, translator, 0, 9, 2, 0);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetDebugForm", _m_GetDebugForm);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetAllDebugForms", _m_GetAllDebugForms);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetAllDebugFormNames", _m_GetAllDebugFormNames);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "OpenDebugForm", _m_OpenDebugForm);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "CloseCurrentForm", _m_CloseCurrentForm);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RegisterDebugForm", _m_RegisterDebugForm);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Shutdown", _m_Shutdown);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Update", _m_Update);
@@ -220,6 +221,33 @@ namespace XLua.CSObjectWrap
             }
             
             return LuaAPI.luaL_error(L, "invalid arguments to DrbFramework.Debug.DebugSystem.OpenDebugForm!");
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_CloseCurrentForm(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                DrbFramework.Debug.DebugSystem gen_to_be_invoked = (DrbFramework.Debug.DebugSystem)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    
+                    gen_to_be_invoked.CloseCurrentForm(  );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
             
         }
         

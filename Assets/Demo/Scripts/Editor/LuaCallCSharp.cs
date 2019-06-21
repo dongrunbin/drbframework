@@ -29,6 +29,7 @@ namespace DrbFrameworkDemo
             typeof(DrbFramework.Entity.EntitySystem),
             typeof(DrbFramework.Scene.SceneSystem),
             typeof(DrbFramework.Event.EventSystem<int>),
+            typeof(DrbFrameworkDemo.MonsterSystem),
         };
 
         [BlackList]

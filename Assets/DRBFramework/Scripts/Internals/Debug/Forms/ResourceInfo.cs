@@ -26,10 +26,10 @@ namespace DrbFramework.Internal.Debug.Forms
             {
                 if (ResourceSystem != null)
                 {
-                    Label("Loading AssetBundle Count", ResourceSystem.LoadingAssetBundleCount.ToString());
-                    Label("Loading Asset Count", ResourceSystem.LoadingAssetCount.ToString());
-                    Label("AssetBundle Count", ResourceSystem.AssetBundleCount.ToString());
-                    Label("Asset Count", ResourceSystem.AssetCount.ToString());
+                    Label(GetString("Loading AssetBundle Count"), ResourceSystem.LoadingAssetBundleCount.ToString());
+                    Label(GetString("Loading Asset Count"), ResourceSystem.LoadingAssetCount.ToString());
+                    Label(GetString("AssetBundle Count"), ResourceSystem.AssetBundleCount.ToString());
+                    Label(GetString("Asset Count"), ResourceSystem.AssetCount.ToString());
                 }
             }
             GUILayout.EndScrollView();

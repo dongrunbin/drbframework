@@ -5,6 +5,8 @@ namespace DrbFramework.UI
     {
         string FormName { get; set; }
 
+        IUIGroup Group { get; set; }
+
         int Depth { get; set; }
 
         bool IsShow { get; }

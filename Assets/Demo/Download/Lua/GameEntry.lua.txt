@@ -1,8 +1,13 @@
 require "Procedure/MenuProcedure"
+require "Procedure/GameProcedure"
 require "UI/MenuForm"
+require "UI/MonsterForm"
 require "Define"
 require "LuaSystem"
-require "UI/MonsterForm"
+
+require "DataTable/MonsterSkillDataTable"
+require "DataTable/MonsterSkillDataEntity"
+
 
 GameEntry = {}
 

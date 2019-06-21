@@ -10,7 +10,7 @@ using LuaCSFunction = XLua.LuaDLL.lua_CSFunction;
 
 using XLua;
 using System.Collections.Generic;
-
+using DrbFrameworkDemo;
 
 namespace XLua.CSObjectWrap
 {
@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(DrbFramework.Resource.ResourceSystem);
-			Utils.BeginObjectRegister(type, L, translator, 0, 15, 9, 4);
+			Utils.BeginObjectRegister(type, L, translator, 0, 18, 10, 4);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Shutdown", _m_Shutdown);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Update", _m_Update);
@@ -38,13 +38,17 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "HasAssetBundle", _m_HasAssetBundle);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ReleaseAsset", _m_ReleaseAsset);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ReleaseAssetBundle", _m_ReleaseAssetBundle);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadSprite", _m_LoadSprite);
 			
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "OnAssetBundleLoaded", _e_OnAssetBundleLoaded);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "OnAssetLoaded", _e_OnAssetLoaded);
 			
 			Utils.RegisterFunc(L, Utils.GETTER_IDX, "Priority", _g_get_Priority);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "ReadOnlyPath", _g_get_ReadOnlyPath);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "PersistentPath", _g_get_PersistentPath);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "InternalPath", _g_get_InternalPath);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "EditorPath", _g_get_EditorPath);
+            Utils.RegisterFunc(L, Utils.GETTER_IDX, "IsLoading", _g_get_IsLoading);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "LoadingAssetBundleCount", _g_get_LoadingAssetBundleCount);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "LoadingAssetCount", _g_get_LoadingAssetCount);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "AssetCount", _g_get_AssetCount);
@@ -412,7 +416,21 @@ namespace XLua.CSObjectWrap
                 DrbFramework.Resource.ResourceSystem gen_to_be_invoked = (DrbFramework.Resource.ResourceSystem)translator.FastGetCSObj(L, 1);
             
             
-                
+			    int gen_param_count = LuaAPI.lua_gettop(L);
+            
+                if(gen_param_count == 4&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& translator.Assignable<DrbFramework.Resource.LoadAssetCompleteEventHandler>(L, 3)&& translator.Assignable<object>(L, 4)) 
+                {
+                    string _assetPath = LuaAPI.lua_tostring(L, 2);
+                    DrbFramework.Resource.LoadAssetCompleteEventHandler _onComplete = translator.GetDelegate<DrbFramework.Resource.LoadAssetCompleteEventHandler>(L, 3);
+                    object _userData = translator.GetObject(L, 4, typeof(object));
+                    
+                    gen_to_be_invoked.LoadAssetAsync( _assetPath, _onComplete, _userData );
+                    
+                    
+                    
+                    return 0;
+                }
+                if(gen_param_count == 5&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& translator.Assignable<DrbFramework.Resource.LoadMode>(L, 3)&& translator.Assignable<DrbFramework.Resource.LoadAssetCompleteEventHandler>(L, 4)&& translator.Assignable<object>(L, 5)) 
                 {
                     string _assetPath = LuaAPI.lua_tostring(L, 2);
                     DrbFramework.Resource.LoadMode _mode;translator.Get(L, 3, out _mode);
@@ -429,6 +447,8 @@ namespace XLua.CSObjectWrap
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
+            
+            return LuaAPI.luaL_error(L, "invalid arguments to DrbFramework.Resource.ResourceSystem.LoadAssetAsync!");
             
         }
         
@@ -586,6 +606,35 @@ namespace XLua.CSObjectWrap
             
         }
         
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_LoadSprite(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                DrbFramework.Resource.ResourceSystem gen_to_be_invoked = (DrbFramework.Resource.ResourceSystem)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    string _spritePath = LuaAPI.lua_tostring(L, 2);
+                    
+                        UnityEngine.Sprite gen_ret = gen_to_be_invoked.LoadSprite( _spritePath );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
         
         
         
@@ -653,6 +702,20 @@ namespace XLua.CSObjectWrap
 			
                 DrbFramework.Resource.ResourceSystem gen_to_be_invoked = (DrbFramework.Resource.ResourceSystem)translator.FastGetCSObj(L, 1);
                 LuaAPI.lua_pushstring(L, gen_to_be_invoked.EditorPath);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_IsLoading(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                DrbFramework.Resource.ResourceSystem gen_to_be_invoked = (DrbFramework.Resource.ResourceSystem)translator.FastGetCSObj(L, 1);
+                LuaAPI.lua_pushboolean(L, gen_to_be_invoked.IsLoading);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -779,6 +842,74 @@ namespace XLua.CSObjectWrap
         
 		
 		
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _e_OnAssetBundleLoaded(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			    int gen_param_count = LuaAPI.lua_gettop(L);
+			DrbFramework.Resource.ResourceSystem gen_to_be_invoked = (DrbFramework.Resource.ResourceSystem)translator.FastGetCSObj(L, 1);
+                DrbFramework.Resource.LoadAssetBundleCompleteEventHandler gen_delegate = translator.GetDelegate<DrbFramework.Resource.LoadAssetBundleCompleteEventHandler>(L, 3);
+                if (gen_delegate == null) {
+                    return LuaAPI.luaL_error(L, "#3 need DrbFramework.Resource.LoadAssetBundleCompleteEventHandler!");
+                }
+				
+				if (gen_param_count == 3)
+				{
+					
+					if (LuaAPI.xlua_is_eq_str(L, 2, "+")) {
+						gen_to_be_invoked.OnAssetBundleLoaded += gen_delegate;
+						return 0;
+					} 
+					
+					
+					if (LuaAPI.xlua_is_eq_str(L, 2, "-")) {
+						gen_to_be_invoked.OnAssetBundleLoaded -= gen_delegate;
+						return 0;
+					} 
+					
+				}
+			} catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+			LuaAPI.luaL_error(L, "invalid arguments to DrbFramework.Resource.ResourceSystem.OnAssetBundleLoaded!");
+            return 0;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _e_OnAssetLoaded(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			    int gen_param_count = LuaAPI.lua_gettop(L);
+			DrbFramework.Resource.ResourceSystem gen_to_be_invoked = (DrbFramework.Resource.ResourceSystem)translator.FastGetCSObj(L, 1);
+                DrbFramework.Resource.LoadAssetCompleteEventHandler gen_delegate = translator.GetDelegate<DrbFramework.Resource.LoadAssetCompleteEventHandler>(L, 3);
+                if (gen_delegate == null) {
+                    return LuaAPI.luaL_error(L, "#3 need DrbFramework.Resource.LoadAssetCompleteEventHandler!");
+                }
+				
+				if (gen_param_count == 3)
+				{
+					
+					if (LuaAPI.xlua_is_eq_str(L, 2, "+")) {
+						gen_to_be_invoked.OnAssetLoaded += gen_delegate;
+						return 0;
+					} 
+					
+					
+					if (LuaAPI.xlua_is_eq_str(L, 2, "-")) {
+						gen_to_be_invoked.OnAssetLoaded -= gen_delegate;
+						return 0;
+					} 
+					
+				}
+			} catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+			LuaAPI.luaL_error(L, "invalid arguments to DrbFramework.Resource.ResourceSystem.OnAssetLoaded!");
+            return 0;
+        }
+        
 		
 		
     }

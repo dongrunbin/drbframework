@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(DrbFramework.Logger.LogSystem);
-			Utils.BeginObjectRegister(type, L, translator, 0, 3, 2, 1);
+			Utils.BeginObjectRegister(type, L, translator, 0, 3, 7, 6);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Update", _m_Update);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Shutdown", _m_Shutdown);
@@ -29,9 +29,19 @@ namespace XLua.CSObjectWrap
 			
 			
 			Utils.RegisterFunc(L, Utils.GETTER_IDX, "LogLevel", _g_get_LogLevel);
+            Utils.RegisterFunc(L, Utils.GETTER_IDX, "TraceColor", _g_get_TraceColor);
+            Utils.RegisterFunc(L, Utils.GETTER_IDX, "DebugColor", _g_get_DebugColor);
+            Utils.RegisterFunc(L, Utils.GETTER_IDX, "InfoColor", _g_get_InfoColor);
+            Utils.RegisterFunc(L, Utils.GETTER_IDX, "WarnColor", _g_get_WarnColor);
+            Utils.RegisterFunc(L, Utils.GETTER_IDX, "ErrorColor", _g_get_ErrorColor);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "Priority", _g_get_Priority);
             
 			Utils.RegisterFunc(L, Utils.SETTER_IDX, "LogLevel", _s_set_LogLevel);
+            Utils.RegisterFunc(L, Utils.SETTER_IDX, "TraceColor", _s_set_TraceColor);
+            Utils.RegisterFunc(L, Utils.SETTER_IDX, "DebugColor", _s_set_DebugColor);
+            Utils.RegisterFunc(L, Utils.SETTER_IDX, "InfoColor", _s_set_InfoColor);
+            Utils.RegisterFunc(L, Utils.SETTER_IDX, "WarnColor", _s_set_WarnColor);
+            Utils.RegisterFunc(L, Utils.SETTER_IDX, "ErrorColor", _s_set_ErrorColor);
             
 			
 			Utils.EndObjectRegister(type, L, translator, null, null,
@@ -180,6 +190,76 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_TraceColor(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                DrbFramework.Logger.LogSystem gen_to_be_invoked = (DrbFramework.Logger.LogSystem)translator.FastGetCSObj(L, 1);
+                LuaAPI.lua_pushstring(L, gen_to_be_invoked.TraceColor);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_DebugColor(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                DrbFramework.Logger.LogSystem gen_to_be_invoked = (DrbFramework.Logger.LogSystem)translator.FastGetCSObj(L, 1);
+                LuaAPI.lua_pushstring(L, gen_to_be_invoked.DebugColor);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_InfoColor(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                DrbFramework.Logger.LogSystem gen_to_be_invoked = (DrbFramework.Logger.LogSystem)translator.FastGetCSObj(L, 1);
+                LuaAPI.lua_pushstring(L, gen_to_be_invoked.InfoColor);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_WarnColor(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                DrbFramework.Logger.LogSystem gen_to_be_invoked = (DrbFramework.Logger.LogSystem)translator.FastGetCSObj(L, 1);
+                LuaAPI.lua_pushstring(L, gen_to_be_invoked.WarnColor);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_ErrorColor(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                DrbFramework.Logger.LogSystem gen_to_be_invoked = (DrbFramework.Logger.LogSystem)translator.FastGetCSObj(L, 1);
+                LuaAPI.lua_pushstring(L, gen_to_be_invoked.ErrorColor);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _g_get_Priority(RealStatePtr L)
         {
 		    try {
@@ -204,6 +284,81 @@ namespace XLua.CSObjectWrap
                 DrbFramework.Logger.LogSystem gen_to_be_invoked = (DrbFramework.Logger.LogSystem)translator.FastGetCSObj(L, 1);
                 DrbFramework.Logger.LogLevel gen_value;translator.Get(L, 2, out gen_value);
 				gen_to_be_invoked.LogLevel = gen_value;
+            
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 0;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _s_set_TraceColor(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                DrbFramework.Logger.LogSystem gen_to_be_invoked = (DrbFramework.Logger.LogSystem)translator.FastGetCSObj(L, 1);
+                gen_to_be_invoked.TraceColor = LuaAPI.lua_tostring(L, 2);
+            
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 0;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _s_set_DebugColor(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                DrbFramework.Logger.LogSystem gen_to_be_invoked = (DrbFramework.Logger.LogSystem)translator.FastGetCSObj(L, 1);
+                gen_to_be_invoked.DebugColor = LuaAPI.lua_tostring(L, 2);
+            
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 0;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _s_set_InfoColor(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                DrbFramework.Logger.LogSystem gen_to_be_invoked = (DrbFramework.Logger.LogSystem)translator.FastGetCSObj(L, 1);
+                gen_to_be_invoked.InfoColor = LuaAPI.lua_tostring(L, 2);
+            
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 0;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _s_set_WarnColor(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                DrbFramework.Logger.LogSystem gen_to_be_invoked = (DrbFramework.Logger.LogSystem)translator.FastGetCSObj(L, 1);
+                gen_to_be_invoked.WarnColor = LuaAPI.lua_tostring(L, 2);
+            
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 0;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _s_set_ErrorColor(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                DrbFramework.Logger.LogSystem gen_to_be_invoked = (DrbFramework.Logger.LogSystem)translator.FastGetCSObj(L, 1);
+                gen_to_be_invoked.ErrorColor = LuaAPI.lua_tostring(L, 2);
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);

@@ -106,7 +106,7 @@ namespace DrbFramework.Internal.Debug
             GUILayout.EndHorizontal();
         }
 
-        protected virtual string GetString(string key, string defaultValue)
+        protected virtual string GetString(string key)
         {
             string ret = string.Empty;
             if (LocalizationSystem != null)
@@ -115,7 +115,7 @@ namespace DrbFramework.Internal.Debug
             }
             if (string.IsNullOrEmpty(ret))
             {
-                ret = defaultValue;
+                ret = key;
             }
             return ret;
         }

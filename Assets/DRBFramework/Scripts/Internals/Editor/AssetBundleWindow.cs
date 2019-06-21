@@ -25,7 +25,7 @@ namespace DrbFramework.Internal.Editor
             win.minSize = win.maxSize = new Vector2(560f, 450f);
             win.Show();
         }
-        
+
         private string m_AssetPath;
         private string m_OutputPath;
         private IResourceEncoder m_Encoder;
@@ -35,10 +35,13 @@ namespace DrbFramework.Internal.Editor
         private List<BuildTarget> m_PlatformSelected;
         private BuildAssetBundleOptions m_BuildAssetBundleOptions;
 
+        private const string AssetPathKey = "DrbFramework.AssetBundleWindow.AssetPath";
+        private const string OutputPathKey = "DrbFramework.AssetBundleWindow.OutputPath";
+
         void OnEnable()
         {
-            m_AssetPath = Application.dataPath;
-            m_OutputPath = Application.dataPath + "/../assetbundles/";
+            m_AssetPath = PlayerPrefs.GetString(AssetPathKey, Application.dataPath);
+            m_OutputPath = PlayerPrefs.GetString(OutputPathKey, Application.dataPath + "/../assetbundles/");
 
             m_PlatformSelected = new List<BuildTarget>();
             m_BuildAssetBundleOptions = BuildAssetBundleOptions.None;
@@ -123,6 +126,7 @@ namespace DrbFramework.Internal.Editor
                         if (!string.IsNullOrEmpty(directory))
                         {
                             m_AssetPath = directory;
+                            PlayerPrefs.SetString(AssetPathKey, m_AssetPath);
                         }
                     }
                 }
@@ -138,6 +142,7 @@ namespace DrbFramework.Internal.Editor
                         if (!string.IsNullOrEmpty(directory))
                         {
                             m_OutputPath = directory;
+                            PlayerPrefs.SetString(OutputPathKey, m_OutputPath);
                         }
                     }
                 }

@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 224376822610237188}
   - component: {fileID: 223651587787680676}
   - component: {fileID: 114640471739382680}
-  - component: {fileID: 114261002475037520}
+  - component: {fileID: 114670949455623944}
   m_Layer: 5
   m_Name: MenuForm
   m_TagString: Untagged
@@ -192,18 +192,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114261002475037520
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1606634484303582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a4ce93e3d248194daf42ed4fb086d01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FormName: MenuForm
 --- !u!114 &114640471739382680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -220,6 +208,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114670949455623944
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1606634484303582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50961df79feccfd4f88c44a73ad23c30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_isLua: 1
+  m_FormName: MenuForm
 --- !u!114 &114700024051618104
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -3,7 +3,11 @@ namespace DrbFramework.UI
 {
     public interface IUICreater
     {
-        IUIForm InstantiateForm(object asset, object uiRoot);
+        IUIGroup InstantiateGroup(string groupName, object uiRoot);
+
+        void DestroyGroup(IUIGroup group);
+
+        IUIForm InstantiateForm(object asset);
 
         void DestroyForm(IUIForm form);
     }

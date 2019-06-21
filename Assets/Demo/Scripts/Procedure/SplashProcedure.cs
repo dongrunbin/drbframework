@@ -13,7 +13,7 @@ namespace DrbFrameworkDemo
         {
             base.OnEnter(userData);
 
-            m_SplashForm = DrbComponent.UISystem.OpenInternalForm("UI/Forms/SplashForm");
+            m_SplashForm = DrbComponent.UISystem.OpenInternalForm("UI/Forms/SplashForm", "BackGround");
         }
 
 

@@ -11,26 +11,26 @@ namespace DrbFramework.Internal.Debug.Forms
         {
             m_ScrollPos = GUILayout.BeginScrollView(m_ScrollPos);
             {
-                Label("Current Resolution", string.Format("{0} x {1}", Screen.currentResolution.width, Screen.currentResolution.height));
-                Label("Current Refresh Rate(Hz)", Screen.currentResolution.refreshRate.ToString());
-                Label("Screen Width(px)", Screen.width.ToString());
-                Label("Screen Height(px)", Screen.height.ToString());
-                Label("Screen Width(in)", (Screen.width / Screen.dpi).ToString());
-                Label("Screen Height(in)", (Screen.height / Screen.dpi).ToString());
-                Label("Screen Width(cm)", (INCHES_TO_CENTIMETERS * Screen.width / Screen.dpi).ToString("F2"));
-                Label("Screen Height(cm)", (INCHES_TO_CENTIMETERS * Screen.height / Screen.dpi).ToString("F2"));
-                Label("Screen DPI", Screen.dpi.ToString("F2"));
-                Label("Screen Orientation", Screen.orientation.ToString());
-                Label("Is Full Screen", Screen.fullScreen.ToString());
-                Label("Full Screen Mode", Screen.fullScreenMode.ToString());
-                Label("Sleep Timeout", GetSleepTimeoutDescription(Screen.sleepTimeout));
-                Label("Cursor Visible", Cursor.visible.ToString());
-                Label("Cursor Lock State", Cursor.lockState.ToString());
-                Label("Auto Landscape Left", Screen.autorotateToLandscapeLeft.ToString());
-                Label("Auto Landscape Right", Screen.autorotateToLandscapeRight.ToString());
-                Label("Auto Portrait", Screen.autorotateToPortrait.ToString());
-                Label("Auto Portrait Upside Down", Screen.autorotateToPortraitUpsideDown.ToString());
-                Label("Safe Area", Screen.safeArea.ToString());
+                Label(GetString("Current Resolution"), string.Format("{0} x {1}", Screen.currentResolution.width, Screen.currentResolution.height));
+                Label(GetString("Current Refresh Rate(Hz)"), Screen.currentResolution.refreshRate.ToString());
+                Label(GetString("Screen Width(px)"), Screen.width.ToString());
+                Label(GetString("Screen Height(px)"), Screen.height.ToString());
+                Label(GetString("Screen Width(in)"), (Screen.width / Screen.dpi).ToString());
+                Label(GetString("Screen Height(in)"), (Screen.height / Screen.dpi).ToString());
+                Label(GetString("Screen Width(cm)"), (INCHES_TO_CENTIMETERS * Screen.width / Screen.dpi).ToString("F2"));
+                Label(GetString("Screen Height(cm)"), (INCHES_TO_CENTIMETERS * Screen.height / Screen.dpi).ToString("F2"));
+                Label(GetString("Screen DPI"), Screen.dpi.ToString("F2"));
+                Label(GetString("Screen Orientation"), Screen.orientation.ToString());
+                Label(GetString("Is Full Screen"), Screen.fullScreen.ToString());
+                Label(GetString("Full Screen Mode"), Screen.fullScreenMode.ToString());
+                Label(GetString("Sleep Timeout"), GetSleepTimeoutDescription(Screen.sleepTimeout));
+                Label(GetString("Cursor Visible"), Cursor.visible.ToString());
+                Label(GetString("Cursor Lock State"), Cursor.lockState.ToString());
+                Label(GetString("Auto Landscape Left"), Screen.autorotateToLandscapeLeft.ToString());
+                Label(GetString("Auto Landscape Right"), Screen.autorotateToLandscapeRight.ToString());
+                Label(GetString("Auto Portrait"), Screen.autorotateToPortrait.ToString());
+                Label(GetString("Auto Portrait Upside Down"), Screen.autorotateToPortraitUpsideDown.ToString());
+                Label(GetString("Safe Area"), Screen.safeArea.ToString());
                 string[] resolutionStrings = new string[Screen.resolutions.Length];
                 for (int i = 0; i < Screen.resolutions.Length; i++)
                 {
@@ -38,7 +38,7 @@ namespace DrbFramework.Internal.Debug.Forms
                 }
 
                 string resolutionsString = string.Join("; ", resolutionStrings);
-                Label("Support Resolutions", resolutionsString);
+                Label(GetString("Support Resolutions"), resolutionsString);
             }
             GUILayout.EndScrollView();
         }

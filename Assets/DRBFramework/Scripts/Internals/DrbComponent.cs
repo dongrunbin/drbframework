@@ -29,7 +29,7 @@ using DrbFramework.Entity;
 namespace DrbFramework.Internal
 {
     [AddComponentMenu("DrbFramework/DrbComponent")]
-    public class DrbComponent : MonoBehaviour
+    public partial class DrbComponent : MonoBehaviour
     {
         public static DrbComponent Instance { get; private set; }
         [SerializeField]
@@ -67,12 +67,15 @@ namespace DrbFramework.Internal
         private string m_EventKeyTypeName;
 
         [SerializeField]
-        private int m_UIDefaultDepth = 50;
-        [SerializeField]
         private string m_UICreaterTypeName;
         [SerializeField]
         private Transform m_UIRoot;
 
+        [SerializeField]
+        private UIGroupInfo[] m_UIDefaultGroups;
+
+        [SerializeField]
+        private string m_LocalizationLanguage;
         [SerializeField]
         private string m_LocalizationParserTypeName;
 
@@ -251,7 +254,14 @@ namespace DrbFramework.Internal
             {
                 Type type = Type.GetType(m_UICreaterTypeName);
                 IUICreater creater = (IUICreater)Activator.CreateInstance(type);
-                UISystem = SystemManager.RegisterSystem(new UISystem(m_UIDefaultDepth, creater, m_UIRoot));
+                UISystem = SystemManager.RegisterSystem(new UISystem(creater, m_UIRoot));
+                if (m_UIDefaultGroups != null)
+                {
+                    for (int i = 0; i < m_UIDefaultGroups.Length; ++i)
+                    {
+                        UISystem.AddGroup(m_UIDefaultGroups[i].Name, m_UIDefaultGroups[i].Depth);
+                    }
+                }
             }
 
             if (m_DownloaderComponent != null)
@@ -286,6 +296,7 @@ namespace DrbFramework.Internal
                 Type parserType = Type.GetType(m_LocalizationParserTypeName);
                 ILocalizationParser parser = (ILocalizationParser)Activator.CreateInstance(parserType);
                 LocalizationSystem = SystemManager.RegisterSystem(new LocalizationSystem(parser));
+                LocalizationSystem.Language = m_LocalizationLanguage;
             }
 
             if (m_EnabledProcedureTypeNames != null && m_EnabledProcedureTypeNames.Length > 0 && !string.IsNullOrEmpty(m_StartProcedureTypeName))
@@ -365,7 +376,6 @@ namespace DrbFramework.Internal
             string[] split = path.Split('+');
             if (split != null && split.Length == 2)
             {
-
                 switch (split[0])
                 {
                     case "Application.dataPath":

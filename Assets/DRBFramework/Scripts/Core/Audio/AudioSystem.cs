@@ -117,7 +117,20 @@ namespace DrbFramework.Audio
             }
         }
 
-        public void StopAllAudio()
+        public void StopAudios(string tag)
+        {
+            LinkedListNode<ISounder> node = m_Sounders.First;
+            while (node != null)
+            {
+                if (node.Value.Tag.Equals(tag))
+                {
+                    node.Value.Stop();
+                }
+                node = node.Next;
+            }
+        }
+
+        public void StopAllAudios()
         {
             LinkedListNode<ISounder> node = m_Sounders.First;
             while (node != null)

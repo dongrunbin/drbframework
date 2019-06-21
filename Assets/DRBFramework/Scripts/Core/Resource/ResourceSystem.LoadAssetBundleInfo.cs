@@ -3,7 +3,7 @@ namespace DrbFramework.Resource
 {
     public partial class ResourceSystem : IResourceSystem
     {
-        private class LoadAssetBundleInfo
+        private class LoadAssetBundleInfo : ILoadInfo
         {
             public string AssetBundlePath { get; set; }
 

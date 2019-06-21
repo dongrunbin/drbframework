@@ -11,9 +11,6 @@ namespace DrbFrameworkDemo
         {
             base.OnEnter(userData);
 
-            string language = SystemManager.GetSystem<ISettingSystem>().GetString("Language");
-            SystemManager.GetSystem<ILocalizationSystem>().Language = language;
-
             ChangeState<SplashProcedure>();
         }
     }

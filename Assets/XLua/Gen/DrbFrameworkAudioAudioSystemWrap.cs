@@ -21,14 +21,15 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(DrbFramework.Audio.AudioSystem);
-			Utils.BeginObjectRegister(type, L, translator, 0, 9, 3, 2);
+			Utils.BeginObjectRegister(type, L, translator, 0, 10, 3, 2);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "PlayAudio", _m_PlayAudio);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetAllSounders", _m_GetAllSounders);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "PauseAudio", _m_PauseAudio);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ResumeAudio", _m_ResumeAudio);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "StopAudio", _m_StopAudio);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "StopAllAudio", _m_StopAllAudio);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "StopAudios", _m_StopAudios);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "StopAllAudios", _m_StopAllAudios);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Update", _m_Update);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Shutdown", _m_Shutdown);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "PlayBGM", _m_PlayBGM);
@@ -228,7 +229,35 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_StopAllAudio(RealStatePtr L)
+        static int _m_StopAudios(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                DrbFramework.Audio.AudioSystem gen_to_be_invoked = (DrbFramework.Audio.AudioSystem)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    string _tag = LuaAPI.lua_tostring(L, 2);
+                    
+                    gen_to_be_invoked.StopAudios( _tag );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_StopAllAudios(RealStatePtr L)
         {
 		    try {
             
@@ -241,7 +270,7 @@ namespace XLua.CSObjectWrap
                 
                 {
                     
-                    gen_to_be_invoked.StopAllAudio(  );
+                    gen_to_be_invoked.StopAllAudios(  );
                     
                     
                     
@@ -324,10 +353,8 @@ namespace XLua.CSObjectWrap
                 
                 {
                     string _assetBundlePath = LuaAPI.lua_tostring(L, 2);
-                    string _assetName = LuaAPI.lua_tostring(L, 3);
-                    DrbFramework.Resource.LoadMode _mode;translator.Get(L, 4, out _mode);
                     
-                    gen_to_be_invoked.PlayBGM( _assetBundlePath, _assetName, _mode );
+                    gen_to_be_invoked.PlayBGM( _assetBundlePath );
                     
                     
                     

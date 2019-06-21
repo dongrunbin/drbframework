@@ -76,6 +76,10 @@ namespace DrbFramework
 
         public static ISystem GetSystem(Type type)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type is invalid");
+            }
             for (LinkedListNode<ISystem> node = s_SystemList.First; node != null; node = node.Next)
             {
                 Type tempType = node.Value.GetType();

@@ -17,6 +17,24 @@ namespace DrbFramework.DataTable
             }
         }
 
+        ICollection<IDataEntity> IDataTable.GetEntities()
+        {
+            List<IDataEntity> ret = new List<IDataEntity>();
+            var enumerator = m_DataDic.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                ret.Add(enumerator.Current.Value);
+            }
+            return ret;
+        }
+
+        IDataEntity IDataTable.GetEntity(int id)
+        {
+            T entity = default(T);
+            m_DataDic.TryGetValue(id, out entity);
+            return entity;
+        }
+
         public ICollection<T> GetEntities()
         {
             return m_DataDic.Values;

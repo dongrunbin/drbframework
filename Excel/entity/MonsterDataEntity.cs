@@ -1,7 +1,7 @@
 
 //===================================================
 //Author：Drb
-//CreateTime：2018/12/3 0:32:43
+//CreateTime：2018/12/7 15:21:12
 //Remark：This code is generated for the tool
 //===================================================
 
@@ -35,6 +35,11 @@ public partial class MonsterDataEntity : IDataEntity
     public string Image { get; private set; }
 
     /// <summary>
+    /// 技能信息,技能Id_概率
+    /// </summary>
+    public string SkillInfo { get; private set; }
+
+    /// <summary>
     /// 行数据
     /// </summary>
     public IDataRow DataRow { get; private set; }
@@ -45,6 +50,7 @@ public partial class MonsterDataEntity : IDataEntity
         Name = row.GetFieldValue("Name");
         Avatar = row.GetFieldValue("Avatar");
         Image = row.GetFieldValue("Image");
+        SkillInfo = row.GetFieldValue("SkillInfo");
         DataRow = row;
     }
 }

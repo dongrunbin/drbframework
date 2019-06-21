@@ -11,18 +11,18 @@ namespace DrbFramework.Internal.Debug.Forms
             m_ScrollPos = GUILayout.BeginScrollView(m_ScrollPos);
             {
 #if !UNITY_2017_2_OR_NEWER
-                    DrawItem("Is Web Player:", Application.isWebPlayer.ToString());
+                    Label(GetString("Is Web Player"), Application.isWebPlayer.ToString());
 #endif
-                Label("Absolute URL:", Application.absoluteURL);
+                Label(GetString("Absolute URL"), Application.absoluteURL);
 #if !UNITY_2017_2_OR_NEWER
-                    DrawItem("Source Value:", Application.srcValue);
+                    Label(GetString("Source Value"), Application.srcValue);
 #endif
 #if !UNITY_2018_2_OR_NEWER
-                    DrawItem("Streamed Bytes:", Application.streamedBytes.ToString());
+                    Label(GetString("Streamed Bytes"), Application.streamedBytes.ToString());
 #endif
 #if UNITY_5_3 || UNITY_5_4
-                    DrawItem("Web Security Enabled:", Application.webSecurityEnabled.ToString());
-                    DrawItem("Web Security Host URL:", Application.webSecurityHostUrl.ToString());
+                    Label(GetString("Web Security Enabled"), Application.webSecurityEnabled.ToString());
+                    Label(GetString("Web Security Host URL"), Application.webSecurityHostUrl.ToString());
 #endif
             }
             GUILayout.EndScrollView();

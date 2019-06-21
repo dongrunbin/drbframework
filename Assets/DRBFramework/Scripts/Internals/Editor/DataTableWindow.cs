@@ -30,16 +30,19 @@ namespace DrbFramework.Internal.Editor
         private List<string> m_DataTableCreaterTypeNames;
         private int m_DataTableCreaterTypeNamesIndex;
 
+        private const string DataSourceSearchPartternKey = "DrbFramework.DataTableWindow.DataSourceSearchParttern";
+        private const string DataSourcePathKey = "DrbFramework.DataTableWindow.DataSourcePath";
+        private const string OutputPathKey = "DrbFramework.DataDataTableWindowTable.OutputPath";
 
         private void OnEnable()
         {
-            m_DataSourceSearchParttern = "*.xls?";
-            m_DataSourcePath = Application.dataPath + "/../Excel/";
+            m_DataSourceSearchParttern = PlayerPrefs.GetString(DataSourceSearchPartternKey, "*.xls?");
+            m_DataSourcePath = PlayerPrefs.GetString(DataSourcePathKey, Application.dataPath + "/../Excel/");
             if (Directory.Exists(m_DataSourcePath))
             {
                 m_DataSources = Directory.GetFiles(m_DataSourcePath, "*.xls?", SearchOption.AllDirectories);
             }
-            m_OutputPath = m_DataSourcePath;
+            m_OutputPath = PlayerPrefs.GetString(OutputPathKey, m_DataSourcePath);
 
             m_DataTableCreaterTypeNames = new List<string>();
             m_DataTableCreaterTypeNames.Add("None");
@@ -57,6 +60,7 @@ namespace DrbFramework.Internal.Editor
                     if (!string.IsNullOrEmpty(dataSourceSearchParttern) && !dataSourceSearchParttern.Equals(m_DataSourceSearchParttern))
                     {
                         m_DataSourceSearchParttern = dataSourceSearchParttern;
+                        PlayerPrefs.SetString(DataSourceSearchPartternKey, m_DataSourceSearchParttern);
                         if (Directory.Exists(m_DataSourcePath))
                         {
                             m_DataSources = Directory.GetFiles(m_DataSourcePath, m_DataSourceSearchParttern, SearchOption.AllDirectories);
@@ -78,6 +82,7 @@ namespace DrbFramework.Internal.Editor
                             if (Directory.Exists(m_DataSourcePath))
                             {
                                 m_DataSources = Directory.GetFiles(m_DataSourcePath, m_DataSourceSearchParttern, SearchOption.AllDirectories);
+                                PlayerPrefs.SetString(DataSourcePathKey, m_DataSourcePath);
                             }
                         }
                     }
@@ -109,6 +114,7 @@ namespace DrbFramework.Internal.Editor
                         if (!string.IsNullOrEmpty(directory))
                         {
                             m_OutputPath = directory;
+                            PlayerPrefs.SetString(OutputPathKey, m_OutputPath);
                         }
                     }
                 }
