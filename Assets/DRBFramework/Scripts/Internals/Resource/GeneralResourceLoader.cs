@@ -63,7 +63,7 @@ namespace DrbFramework.Internal.Resource
             asset = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
             if (OnLoadAssetComplete != null)
             {
-                OnLoadAssetComplete(new LoadAssetCompleteEventArgs(Path.GetFileNameWithoutExtension(assetPath), asset, asset == null ? string.Format("asset '{0}' is not exists", assetPath) : null, null));
+                OnLoadAssetComplete(new LoadAssetCompleteEventArgs(Path.GetFileNameWithoutExtension(assetPath), asset, asset == null ? string.Format("asset '{0}' not exists", assetPath) : null, null));
             }
 #else
             if (OnLoadAssetComplete != null)
@@ -81,7 +81,7 @@ namespace DrbFramework.Internal.Resource
             {
                 if (OnLoadAssetComplete != null)
                 {
-                    OnLoadAssetComplete(new LoadAssetCompleteEventArgs(Path.GetFileNameWithoutExtension(assetPath), request.asset, request.asset == null ? string.Format("asset '{0}' is not exists", assetPath) : null, null));
+                    OnLoadAssetComplete(new LoadAssetCompleteEventArgs(Path.GetFileNameWithoutExtension(assetPath), request.asset, request.asset == null ? string.Format("asset '{0}' not exists", assetPath) : null, null));
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace DrbFramework.Internal.Resource
             {
                 if (OnLoadAssetComplete != null)
                 {
-                    OnLoadAssetComplete(new LoadAssetCompleteEventArgs(assetName, request.asset, request.asset == null ? string.Format("asset '{0}' is not exists", assetName) : null, null));
+                    OnLoadAssetComplete(new LoadAssetCompleteEventArgs(assetName, request.asset, request.asset == null ? string.Format("asset '{0}' not exists", assetName) : null, null));
                 }
             }
         }

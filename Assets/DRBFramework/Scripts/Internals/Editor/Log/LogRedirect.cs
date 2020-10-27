@@ -36,7 +36,7 @@ namespace DrbFramework.Internal.Editor.Log
                 return false;
             }
 
-            match = match.NextMatch();
+            match = match.NextMatch().NextMatch();
             if (!match.Success)
             {
                 return false;

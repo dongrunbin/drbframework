@@ -82,7 +82,7 @@ namespace DrbFramework.Entity
 
             if (!m_Entities.Contains(entity))
             {
-                throw new DrbException("entity is not exists");
+                throw new DrbException("entity not exists");
             }
 
             entity.OnDestroy();

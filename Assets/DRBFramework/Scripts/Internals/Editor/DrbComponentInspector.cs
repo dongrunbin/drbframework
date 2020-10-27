@@ -110,6 +110,10 @@ namespace DrbFramework.Internal.Editor
         private SerializedProperty m_InfoLogColor;
         private SerializedProperty m_WarnLogColor;
         private SerializedProperty m_ErrorLogColor;
+        private SerializedProperty m_FatalLogColor;
+        private SerializedProperty m_LoggerTypeName;
+        private string[] m_LoggerTypeNames;
+        private int m_LoggerTypeNamesIndex;
 
         protected override void OnEnable()
         {
@@ -150,6 +154,8 @@ namespace DrbFramework.Internal.Editor
             m_InfoLogColor = serializedObject.FindProperty("m_InfoLogColor");
             m_WarnLogColor = serializedObject.FindProperty("m_WarnLogColor");
             m_ErrorLogColor = serializedObject.FindProperty("m_ErrorLogColor");
+            m_FatalLogColor = serializedObject.FindProperty("m_FatalLogColor");
+            m_LoggerTypeName = serializedObject.FindProperty("m_LoggerTypeName");
 
             List<string> paths = new List<string>();
             paths.Add("None+");
@@ -206,6 +212,7 @@ namespace DrbFramework.Internal.Editor
             m_DebugFormTypeNamesArr = InitTypeNames(m_DebugFormTypeNames, typeof(IDebugForm), ref m_DebugFormTypeNamesIndexes);
             m_AudioCreaterTypeNames = InitTypeName(m_AudioCreaterTypeName, typeof(ISounderCreater), ref m_AudioCreaterTypeNamesIndex);
             m_SceneLoaderTypeNames = InitTypeName(m_SceneLoaderTypeName, typeof(ISceneLoader), ref m_SceneLoaderTypeNamesIndex);
+            m_LoggerTypeNames = InitTypeName(m_LoggerTypeName, typeof(DrbFramework.Logger.ILogger), ref m_LoggerTypeNamesIndex);
         }
 
         private string[] InitTypeNames(SerializedProperty property, Type interfaceType, ref List<int> indexes)
@@ -322,12 +329,15 @@ namespace DrbFramework.Internal.Editor
         private void DrawLogSystem()
         {
             BeginModule("Log System");
-            m_LogLevel.intValue = (int)(Logger.LogLevel)EditorGUILayout.EnumFlagsField("Log Level", (Logger.LogLevel)m_LogLevel.intValue);
+            m_LogLevel.intValue = (int)(DrbFramework.Logger.LogLevel)EditorGUILayout.EnumFlagsField("Log Level", (DrbFramework.Logger.LogLevel)m_LogLevel.intValue);
             m_TraceLogColor.colorValue = EditorGUILayout.ColorField("Trace Log Color", m_TraceLogColor.colorValue);
             m_DebugLogColor.colorValue = EditorGUILayout.ColorField("Debug Log Color", m_DebugLogColor.colorValue);
             m_InfoLogColor.colorValue = EditorGUILayout.ColorField("Info Log Color", m_InfoLogColor.colorValue);
             m_WarnLogColor.colorValue = EditorGUILayout.ColorField("Warn Log Color", m_WarnLogColor.colorValue);
             m_ErrorLogColor.colorValue = EditorGUILayout.ColorField("Error Log Color", m_ErrorLogColor.colorValue);
+            m_FatalLogColor.colorValue = EditorGUILayout.ColorField("Fatal Log Color", m_FatalLogColor.colorValue);
+
+            TypePopup("Logger", ref m_LoggerTypeNamesIndex, m_LoggerTypeNames, m_LoggerTypeName);
             EndModule();
         }
 

@@ -1,2 +1,2 @@
 ﻿Menu.StartGame:Start Game
-Menu.ExitGame:Exit Game
+Menu.ExitGame:Switch Language

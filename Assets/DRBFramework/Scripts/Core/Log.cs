@@ -11,14 +11,21 @@ namespace DrbFramework
             get
             {
                 if (s_LogSystem == null)
+                {
                     s_LogSystem = SystemManager.GetSystem<ILogSystem>();
+                    if (s_LogSystem == null)
+                    {
+                        throw new DrbException("not exists log system, please check the configuration of log system");
+                    }
+                }
+
                 return s_LogSystem;
             }
         }
 
         public static void Trace(string format, params object[] args)
         {
-            LogSystem.Log(LogLevel.Trace, string.Format(format, args));
+            LogSystem.Log(LogLevel.Trace, format == null ? format : string.Format(format, args));
         }
 
         public static void Trace(object obj)
@@ -28,7 +35,7 @@ namespace DrbFramework
 
         public static void Debug(string format, params object[] args)
         {
-            LogSystem.Log(LogLevel.Debug, string.Format(format, args));
+            LogSystem.Log(LogLevel.Debug, format == null ? format : string.Format(format, args));
         }
 
         public static void Debug(object obj)
@@ -38,7 +45,7 @@ namespace DrbFramework
 
         public static void Info(string format, params object[] args)
         {
-            LogSystem.Log(LogLevel.Info, string.Format(format, args));
+            LogSystem.Log(LogLevel.Info, format == null ? format : string.Format(format, args));
         }
 
         public static void Info(object obj)
@@ -48,7 +55,7 @@ namespace DrbFramework
 
         public static void Warn(string format, params object[] args)
         {
-            LogSystem.Log(LogLevel.Warn, string.Format(format, args));
+            LogSystem.Log(LogLevel.Warn, format == null ? format : string.Format(format, args));
         }
 
         public static void Warn(object obj)
@@ -58,7 +65,7 @@ namespace DrbFramework
 
         public static void Error(string format, params object[] args)
         {
-            LogSystem.Log(LogLevel.Error, string.Format(format, args));
+            LogSystem.Log(LogLevel.Error, format == null ? format : string.Format(format, args));
         }
 
         public static void Error(object obj)
@@ -68,7 +75,7 @@ namespace DrbFramework
 
         public static void Fatal(string format, params object[] args)
         {
-            LogSystem.Log(LogLevel.Fatal, string.Format(format, args));
+            LogSystem.Log(LogLevel.Fatal, format == null ? format : string.Format(format, args));
         }
 
         public static void Fatal(object obj)

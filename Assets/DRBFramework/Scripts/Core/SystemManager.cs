@@ -35,7 +35,7 @@ namespace DrbFramework
         {
             if (s_SystemList.Contains(system))
             {
-                throw new DrbException("已经存在系统{0}", system.GetType().FullName);
+                throw new DrbException("already exists the system '{0}'", system.GetType().FullName);
             }
 
             LinkedListNode<ISystem> node = s_SystemList.First;

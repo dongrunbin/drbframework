@@ -25,6 +25,7 @@ using DrbFramework.Internal.Download;
 using DrbFramework.Internal.Resource;
 using DrbFramework.Internal.Http;
 using DrbFramework.Entity;
+using ILogger = DrbFramework.Logger.ILogger;
 
 namespace DrbFramework.Internal
 {
@@ -120,6 +121,10 @@ namespace DrbFramework.Internal
         private Color m_WarnLogColor = Color.yellow;
         [SerializeField]
         private Color m_ErrorLogColor = Color.red;
+        [SerializeField]
+        private Color m_FatalLogColor = Color.red;
+        [SerializeField]
+        private string m_LoggerTypeName;
 
 
 
@@ -208,13 +213,21 @@ namespace DrbFramework.Internal
             RunInBackground = m_RunInBackground;
             SleepTimeout = m_SleepTimeout;
 
-            LogSystem = SystemManager.RegisterSystem(new LogSystem());
-            LogSystem.LogLevel = m_LogLevel;
-            LogSystem.TraceColor = ColorUtility.ToHtmlStringRGBA(m_TraceLogColor);
-            LogSystem.DebugColor = ColorUtility.ToHtmlStringRGBA(m_DebugLogColor);
-            LogSystem.InfoColor = ColorUtility.ToHtmlStringRGBA(m_InfoLogColor);
-            LogSystem.WarnColor = ColorUtility.ToHtmlStringRGBA(m_WarnLogColor);
-            LogSystem.ErrorColor = ColorUtility.ToHtmlStringRGBA(m_ErrorLogColor);
+
+            if (!string.IsNullOrEmpty(m_LoggerTypeName))
+            {
+                Type loggerType = Type.GetType(m_LoggerTypeName);
+                ILogger logger = (ILogger)Activator.CreateInstance(loggerType);
+                LogSystem = SystemManager.RegisterSystem(new LogSystem(logger));
+                LogSystem.LogLevel = m_LogLevel;
+                LogSystem.TraceColor = ColorUtility.ToHtmlStringRGBA(m_TraceLogColor);
+                LogSystem.DebugColor = ColorUtility.ToHtmlStringRGBA(m_DebugLogColor);
+                LogSystem.InfoColor = ColorUtility.ToHtmlStringRGBA(m_InfoLogColor);
+                LogSystem.WarnColor = ColorUtility.ToHtmlStringRGBA(m_WarnLogColor);
+                LogSystem.ErrorColor = ColorUtility.ToHtmlStringRGBA(m_ErrorLogColor);
+                LogSystem.FatalColor = ColorUtility.ToHtmlStringRGBA(m_FatalLogColor);
+            }
+            
 
             if (m_LuaPackagePaths != null)
             {
@@ -222,18 +235,6 @@ namespace DrbFramework.Internal
                 {
                     m_LuaPackagePaths[i] = GetPath(m_LuaPackagePaths[i]);
                 }
-            }
-            LuaSystem = SystemManager.RegisterSystem(new LuaSystem(m_LuaPackagePaths));
-            FsmSystem = SystemManager.RegisterSystem(new FsmSystem());
-            TimerSystem = SystemManager.RegisterSystem(new TimerSystem());
-
-            if (!string.IsNullOrEmpty(m_EventKeyTypeName))
-            {
-                Type eventSystemType = typeof(EventSystem<>);
-                Type eventKeyType = Type.GetType(m_EventKeyTypeName);
-                eventSystemType = eventSystemType.MakeGenericType(eventKeyType);
-                ISystem eventSystem = (ISystem)Activator.CreateInstance(eventSystemType);
-                EventSystem = SystemManager.RegisterSystem(eventSystem);
             }
 
             if (!string.IsNullOrEmpty(m_ResourceHolderTypeName) && !string.IsNullOrEmpty(m_ResourceDecoderTypeName))
@@ -249,6 +250,18 @@ namespace DrbFramework.Internal
                 ResourceSystem.PersistentPath = GetPath(m_PersistentPath);
             }
 
+            LuaSystem = SystemManager.RegisterSystem(new LuaSystem(m_LuaPackagePaths));
+            FsmSystem = SystemManager.RegisterSystem(new FsmSystem());
+            TimerSystem = SystemManager.RegisterSystem(new TimerSystem());
+
+            if (!string.IsNullOrEmpty(m_EventKeyTypeName))
+            {
+                Type eventSystemType = typeof(EventSystem<>);
+                Type eventKeyType = Type.GetType(m_EventKeyTypeName);
+                eventSystemType = eventSystemType.MakeGenericType(eventKeyType);
+                ISystem eventSystem = (ISystem)Activator.CreateInstance(eventSystemType);
+                EventSystem = SystemManager.RegisterSystem(eventSystem);
+            }
 
             if (!string.IsNullOrEmpty(m_UICreaterTypeName))
             {

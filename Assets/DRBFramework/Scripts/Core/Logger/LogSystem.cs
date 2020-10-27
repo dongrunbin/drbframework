@@ -1,7 +1,6 @@
 ﻿
 namespace DrbFramework.Logger
 {
-
     public class LogSystem : ILogSystem
     {
         public LogLevel LogLevel { get; set; }
@@ -16,6 +15,10 @@ namespace DrbFramework.Logger
 
         public string ErrorColor { get; set; }
 
+        public string FatalColor { get; set; }
+
+        public ILogger Logger;
+
         public int Priority
         {
             get
@@ -24,9 +27,9 @@ namespace DrbFramework.Logger
             }
         }
 
-        public LogSystem()
+        public LogSystem(ILogger logger)
         {
-
+            Logger = logger;
         }
 
         public void Update(float elapseSeconds, float realElapseSeconds)
@@ -48,23 +51,23 @@ namespace DrbFramework.Logger
             switch (level)
             {
                 case LogLevel.Trace:
-                    UnityEngine.Debug.LogFormat("<color=#{0}>[TRACE] {1}</color>", TraceColor, message);
+                    Logger.Trace(TraceColor, message);
                     break;
                 case LogLevel.Debug:
-                    UnityEngine.Debug.LogFormat("<color=#{0}>[DEBUG] {1}</color>", DebugColor, message);
+                    Logger.Debug(DebugColor, message);
                     break;
                 case LogLevel.Info:
-                    UnityEngine.Debug.Log(InfoColor);
-                    UnityEngine.Debug.LogFormat("<color=#{0}>[INFO] {1}</color>", InfoColor, message);
+                    Logger.Info(InfoColor, message);
                     break;
                 case LogLevel.Warn:
-                    UnityEngine.Debug.LogWarningFormat("<color=#{0}>[WARN] {1}</color>", WarnColor, message);
+                    Logger.Warn(WarnColor, message);
                     break;
                 case LogLevel.Error:
-                    UnityEngine.Debug.LogErrorFormat("<color=#{0}>[ERROR] {1}</color>", ErrorColor, message);
+                    Logger.Error(ErrorColor, message);
                     break;
                 case LogLevel.Fatal:
-                    throw new DrbException("[FATAL] {0}", message.ToString());
+                    Logger.Fatal(FatalColor, message);
+                    break;
                 default:
                     throw new DrbException("log level '{0}' is invalid", level);
             }

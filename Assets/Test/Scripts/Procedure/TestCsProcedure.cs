@@ -1,6 +1,9 @@
 ﻿
+using DrbFramework.Debug;
 using DrbFramework.Fsm;
+using DrbFramework.Logger;
 using DrbFramework.Lua;
+using DrbFramework.Resource;
 using UnityEngine;
 
 namespace DrbFramework.Test.Procedure
@@ -12,8 +15,8 @@ namespace DrbFramework.Test.Procedure
         public override void OnInit(IFsm fsm)
         {
             base.OnInit(fsm);
-
-            SystemManager.GetSystem<ILuaSystem>().DoString(string.Format("package.path = '{0}/?.lua'", Application.dataPath + "/Download/Lua"));
+            
+            SystemManager.GetSystem<ILuaSystem>().DoString(string.Format("package.path = '{0}/?.lua'", SystemManager.GetSystem<IResourceSystem>().EditorPath + "Lua"));
             SystemManager.GetSystem<ILuaSystem>().DoString(string.Format("require '{0}'", "main"));
         }
 

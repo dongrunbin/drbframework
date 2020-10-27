@@ -463,6 +463,8 @@ MonoBehaviour:
   m_InfoLogColor: {r: 0, g: 1, b: 0, a: 1}
   m_WarnLogColor: {r: 1, g: 1, b: 0, a: 1}
   m_ErrorLogColor: {r: 1, g: 0, b: 0, a: 1}
+  m_FatalLogColor: {r: 1, g: 0, b: 0, a: 1}
+  m_LoggerTypeName: DrbFramework.Internal.Logger.DefaultLogger
 --- !u!114 &114817258300039166
 MonoBehaviour:
   m_ObjectHideFlags: 1

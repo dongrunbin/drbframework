@@ -616,7 +616,7 @@ namespace DrbFramework.Resource
                     else
                     {
                         //加载assetbundle失败
-                        OnResourceLoaderLoadAssetComplete(new LoadAssetCompleteEventArgs(loadAssetInfo.AssetName, null, string.Format("asset bundle '{0}' is not exists", loadAssetInfo.AssetPath), loadAssetInfo.UserData));
+                        OnResourceLoaderLoadAssetComplete(new LoadAssetCompleteEventArgs(loadAssetInfo.AssetName, null, string.Format("asset bundle '{0}' not exists", loadAssetInfo.AssetPath), loadAssetInfo.UserData));
                     }
                 }
                 else

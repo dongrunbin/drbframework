@@ -155,7 +155,7 @@ Prefab:
     - target: {fileID: 114670301303842616, guid: e5787b37e8f1ca94d832cd9725b51d4b,
         type: 2}
       propertyPath: m_LocalizationLanguage
-      value: 
+      value: English
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5787b37e8f1ca94d832cd9725b51d4b, type: 2}
