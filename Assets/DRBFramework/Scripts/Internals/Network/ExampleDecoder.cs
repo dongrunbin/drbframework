@@ -19,6 +19,7 @@ namespace DrbFramework.Internal.Network
             byte[] l = System.BitConverter.GetBytes(length);
             System.Array.Reverse(l);
             length = System.BitConverter.ToInt32(l, 0);
+            Log.Info(length);
             int fullLength = length + DATA_HEAD_LENGTH;
             if (inData.Length >= fullLength)
             {

@@ -69,7 +69,12 @@ namespace DrbFramework.Localization
                 for (int i = 0; i < localizers.Length; ++i)
                 {
                     ILocalizer localizer = localizers[i];
-                    localizer.Value = m_Dic[localizer.Key];
+                    string value;
+                    m_Dic.TryGetValue(localizer.Key, out value);
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        localizer.Value = value;
+                    }
                 }
             }
         }
@@ -86,6 +91,10 @@ namespace DrbFramework.Localization
             if (args != null && !string.IsNullOrEmpty(ret))
             {
                 ret = m_Parser.ParseString(ret, args);
+            }
+            if (string.IsNullOrEmpty(ret))
+            {
+                ret = key;
             }
             return ret;
         }

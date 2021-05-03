@@ -25,7 +25,7 @@ namespace DrbFramework
 
         public static void Trace(string format, params object[] args)
         {
-            LogSystem.Log(LogLevel.Trace, format == null ? format : string.Format(format, args));
+            LogSystem.Log(LogLevel.Trace, (args == null || args.Length == 0) ? format : string.Format(format, args));
         }
 
         public static void Trace(object obj)
@@ -35,7 +35,7 @@ namespace DrbFramework
 
         public static void Debug(string format, params object[] args)
         {
-            LogSystem.Log(LogLevel.Debug, format == null ? format : string.Format(format, args));
+            LogSystem.Log(LogLevel.Debug, (args == null || args.Length == 0) ? format : string.Format(format, args));
         }
 
         public static void Debug(object obj)
@@ -45,7 +45,7 @@ namespace DrbFramework
 
         public static void Info(string format, params object[] args)
         {
-            LogSystem.Log(LogLevel.Info, format == null ? format : string.Format(format, args));
+            LogSystem.Log(LogLevel.Info, (args == null || args.Length == 0) ? format : string.Format(format, args));
         }
 
         public static void Info(object obj)
@@ -55,7 +55,7 @@ namespace DrbFramework
 
         public static void Warn(string format, params object[] args)
         {
-            LogSystem.Log(LogLevel.Warn, format == null ? format : string.Format(format, args));
+            LogSystem.Log(LogLevel.Warn, (args == null || args.Length == 0) ? format : string.Format(format, args));
         }
 
         public static void Warn(object obj)
@@ -65,7 +65,7 @@ namespace DrbFramework
 
         public static void Error(string format, params object[] args)
         {
-            LogSystem.Log(LogLevel.Error, format == null ? format : string.Format(format, args));
+            LogSystem.Log(LogLevel.Error, (args == null || args.Length == 0) ? format : string.Format(format, args));
         }
 
         public static void Error(object obj)
@@ -75,7 +75,7 @@ namespace DrbFramework
 
         public static void Fatal(string format, params object[] args)
         {
-            LogSystem.Log(LogLevel.Fatal, format == null ? format : string.Format(format, args));
+            LogSystem.Log(LogLevel.Fatal, (args == null || args.Length == 0) ? format : string.Format(format, args));
         }
 
         public static void Fatal(object obj)

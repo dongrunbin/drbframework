@@ -52,7 +52,7 @@ namespace DrbFramework.Procedure
             private set;
         }
 
-        public IProcedure GetProcedure<T>() where T : IProcedure
+        public T GetProcedure<T>() where T : IProcedure
         {
             return Fsm.GetState<T>();
         }

@@ -1,4 +1,9 @@
-﻿
+//===================================================
+//Author      : DRB
+//CreateTime  ：2021/4/5 20:28:04
+//Description ：
+//===================================================
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +12,7 @@ using System.Text;
 
 namespace DrbFramework.Internal.Editor
 {
-    public class DefaultProtocolCreater : IProtocolCreater
+    public class CSharpProtocolCreater : IProtocolCreater
     {
         public void CreateProtocol(Menu menu, Protocol protocol, string outputPath)
         {
@@ -75,9 +80,10 @@ namespace DrbFramework.Internal.Editor
                         }
                     }
 
-                    //生成ToArray
+                    sbr.Append(CreateConstructor(item.Type, 2));
+
                     sbr.Append(CreateToArrayFunction(list, true, 2));
-                    //生成GetProto
+
                     sbr.Append(CreateGetProtoFunction(list, item.Type, 2));
 
                     sbr.AppendFormat("    }}\r\n");
@@ -86,7 +92,8 @@ namespace DrbFramework.Internal.Editor
                     existsCustom.Add(item.Type);
                 }
             }
-
+            
+            sbr.Append(CreateConstructor(protoName));
 
             sbr.Append(CreateToArrayFunction(baseList));
 
@@ -191,6 +198,29 @@ namespace DrbFramework.Internal.Editor
             return sbr;
         }
 
+        private static StringBuilder CreateConstructor(string protoName, int deep = 1)
+        {
+            StringBuilder sbr = new StringBuilder();
+            AppendSpace(sbr, deep);
+            sbr.AppendFormat("public {0}()\r\n", protoName);
+            AppendSpace(sbr, deep);
+            sbr.AppendFormat("{{\r\n");
+            AppendSpace(sbr, deep);
+            sbr.AppendFormat("}}\r\n");
+            sbr.Append("\r\n");
+
+            AppendSpace(sbr, deep);
+            sbr.AppendFormat("public {0}(byte[] bytes)\r\n", protoName);
+            AppendSpace(sbr, deep);
+            sbr.AppendFormat("{{\r\n");
+            AppendSpace(sbr, deep + 1);
+            sbr.AppendFormat("Deserialize(bytes);\r\n");
+            AppendSpace(sbr, deep);
+            sbr.AppendFormat("}}\r\n");
+            sbr.Append("\r\n");
+            return sbr;
+        }
+
         private static StringBuilder CreateToArrayFunction(List<Field> lst, bool isCus = false, int deep = 1)
         {
             StringBuilder sbr = new StringBuilder();
@@ -214,8 +244,7 @@ namespace DrbFramework.Internal.Editor
                 {
                     sbr.Append(CreateVariableToArray(item, deep + 2));
                 }
-
-                if (item.Type == "bool")
+                else if (item.Type.Equals("bool"))
                 {
                     bool isFather = false;
                     foreach (var i in lst)
@@ -267,7 +296,7 @@ namespace DrbFramework.Internal.Editor
                         sbr.Append("}\r\n");
                     }
                 }
-                if (item.Type.Equals("byte"))
+                else if (item.Type.Equals("byte"))
                 {
                     Dictionary<int, List<Field>> dic = GetDicByToByteName(lst, item.EnName);
                     int count = 0;
@@ -321,8 +350,7 @@ namespace DrbFramework.Internal.Editor
                 {
                     sbr.Append(CreateVariableGetProto(item, deep + 2));
                 }
-
-                if (item.Type == "bool")
+                else if (item.Type.Equals("bool"))
                 {
                     bool isFather = false;
                     foreach (var i in lst)
@@ -376,7 +404,7 @@ namespace DrbFramework.Internal.Editor
                         sbr.Append("}\r\n");
                     }
                 }
-                if (item.Type.Equals("byte"))
+                else if (item.Type.Equals("byte"))
                 {
                     Dictionary<int, List<Field>> dic = GetDicByToByteName(lst, item.EnName);
                     int count = 0;
@@ -410,6 +438,7 @@ namespace DrbFramework.Internal.Editor
 
         private static void CreateFile(string menuName, StringBuilder sbr, Protocol protocol, string path)
         {
+            path += "/csharp/";
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -457,7 +486,7 @@ namespace DrbFramework.Internal.Editor
                     AppendSpace(sbr, deep + 2);
                     sbr.Append("{\n");
                     AppendSpace(sbr, deep + 3);
-                    sbr.AppendFormat("ms.WriteBytes({0}List[i].ToArray());\r\n", item.EnName);
+                    sbr.AppendFormat("ms.WriteBytes({0}List[i].Serialize());\r\n", item.EnName);
                     AppendSpace(sbr, deep + 2);
                     sbr.Append("}\n");
                     AppendSpace(sbr, deep + 2);
@@ -488,7 +517,7 @@ namespace DrbFramework.Internal.Editor
                     AppendSpace(sbr, deep);
                     sbr.Append("{\n");
                     AppendSpace(sbr, deep + 1);
-                    sbr.AppendFormat("ms.WriteBytes({0}.ToArray());\r\n", item.EnName);
+                    sbr.AppendFormat("ms.WriteBytes({0}.Serialize());\r\n", item.EnName);
                     AppendSpace(sbr, deep);
                     sbr.Append("}\n");
                     AppendSpace(sbr, deep);
@@ -520,11 +549,13 @@ namespace DrbFramework.Internal.Editor
                 AppendSpace(sbr, deep + 1);
                 if (IsCommonType(item.Type))
                 {
-                    sbr.AppendFormat("{0}List.Add(ms.Read{1}());\r\n", item.EnName, ChangeTypeName(item.Type));
+                    sbr.AppendFormat("{0}List.Add({1}ms.Read{2}());\r\n", item.EnName, item.Type.Equals("byte") ? "(byte)" : "", ChangeTypeName(item.Type));
                 }
                 else
                 {
-                    sbr.AppendFormat("{0}List.Add({1}.GetProto(ms.ReadBytes()));\r\n", item.EnName, item.Type);
+                    sbr.AppendFormat("byte[] {0}Bytes = ms.ReadBytes();\r\n", item.EnName);
+                    AppendSpace(sbr, deep + 1);
+                    sbr.AppendFormat("if({0}Bytes != null) {0}List.Add(new {1}({0}Bytes));\r\n", item.EnName, item.Type);
                 }
                 AppendSpace(sbr, deep);
                 sbr.Append("}\r\n");
@@ -534,17 +565,19 @@ namespace DrbFramework.Internal.Editor
                 AppendSpace(sbr, deep);
                 if (IsCommonType(item.Type))
                 {
-                    sbr.AppendFormat("{0} = ms.Read{1}();\r\n", item.EnName, ChangeTypeName(item.Type));
+                    sbr.AppendFormat("{0} = {1}ms.Read{2}();\r\n", item.EnName, item.Type.Equals("byte") ? "(byte)" : "", ChangeTypeName(item.Type));
                 }
                 else
                 {
-                    sbr.AppendFormat("{0} = {1}.GetProto(ms.ReadBytes());\r\n", item.EnName, item.Type);
+                    sbr.AppendFormat("byte[] {0}Bytes = ms.ReadBytes();\r\n", item.EnName);
+                    AppendSpace(sbr, deep);
+                    sbr.AppendFormat("if({0}Bytes != null) {0} = new {1}({0}Bytes);\r\n", item.EnName, item.Type);
                 }
             }
             return sbr;
         }
 
-        public static void CreateCodeDef(List<Menu> menus, string path)
+        public void CreateCodeDef(List<Menu> menus, string path)
         {
             StringBuilder sbr = new StringBuilder();
 
@@ -604,7 +637,8 @@ namespace DrbFramework.Internal.Editor
             sbr.Append("    }\r\n");
 
             sbr.AppendFormat("}}\r\n");
-            
+
+            path += "/csharp/";
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);

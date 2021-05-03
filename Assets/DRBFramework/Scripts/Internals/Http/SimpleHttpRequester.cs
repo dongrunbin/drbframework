@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace DrbFramework.Internal.Http
 {
-    [AddComponentMenu("DrbFramework/Http/HttpRequester")]
+    [AddComponentMenu("DrbFramework/Http/SimpleHttpRequester")]
     public class SimpleHttpRequester : HttpRequesterComponent, IHttpRequester
     {
         public override void Request(string url, IDictionary<string, object> data, Encoding encoding, int timeout, HttpRequestCompleteEventHandler onRequestComplete)

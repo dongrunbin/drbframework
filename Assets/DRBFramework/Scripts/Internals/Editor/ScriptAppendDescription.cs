@@ -12,6 +12,7 @@ namespace DrbFramework.Internal.Editor
     {
         private static void OnWillCreateAsset(string path)
         {
+            if (!path.Contains("DRBFramework")) return;
             path = path.Replace(".meta", "");
             if (path.EndsWith(".cs"))
             {

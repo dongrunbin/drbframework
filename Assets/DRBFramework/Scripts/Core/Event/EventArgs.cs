@@ -5,6 +5,6 @@ namespace DrbFramework.Event
     {
         public EventArgs() { }
 
-        public abstract T Key { get; }
+        public abstract T Key { get; protected set; }
     }
 }

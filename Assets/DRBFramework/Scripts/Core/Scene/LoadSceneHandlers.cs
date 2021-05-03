@@ -7,4 +7,6 @@ namespace DrbFramework.Scene
     public delegate void SceneLoadedHandler(string sceneName, LoadSceneMode mode);
     [CSharpCallLua]
     public delegate void SceneUnloadedHandler(string sceneName);
+
+    //public delegate void SceneLoadingHandler(string sceneName);
 }

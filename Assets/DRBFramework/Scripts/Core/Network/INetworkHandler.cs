@@ -5,7 +5,7 @@ namespace DrbFramework.Network
 {
     public interface INetworkHandler
     {
-        void OnConnected(INetworkChannel channel);
+        void OnConnected(INetworkChannel channel, bool isSuccess);
 
         void OnClosed(INetworkChannel channel);
 

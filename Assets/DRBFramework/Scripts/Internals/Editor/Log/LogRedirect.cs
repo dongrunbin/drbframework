@@ -36,10 +36,19 @@ namespace DrbFramework.Internal.Editor.Log
                 return false;
             }
 
-            match = match.NextMatch().NextMatch();
+            match = match.NextMatch();
             if (!match.Success)
             {
                 return false;
+            }
+
+            if (match.Groups[1].Value.Contains("LogSystem.cs"))
+            {
+                match = match.NextMatch();
+                if (!match.Success)
+                {
+                    return false;
+                }
             }
 
             if (match.Groups[1].Value.Contains("Log.cs"))
@@ -51,7 +60,7 @@ namespace DrbFramework.Internal.Editor.Log
                 }
             }
 
-            InternalEditorUtility.OpenFileAtLineExternal(Application.dataPath + "/" + match.Groups[1].Value.Substring(7), int.Parse(match.Groups[2].Value));
+            InternalEditorUtility.OpenFileAtLineExternal(Application.dataPath + "/" + match.Groups[1].Value.Substring(7), int.Parse(match.Groups[2].Value), 0);
             return true;
         }
 

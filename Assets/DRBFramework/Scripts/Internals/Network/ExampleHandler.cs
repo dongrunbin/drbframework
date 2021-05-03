@@ -24,7 +24,7 @@ namespace DrbFramework.Internal.Network
             Log.Info(channel.Name + "断开连接");
         }
 
-        public void OnConnected(INetworkChannel channel)
+        public void OnConnected(INetworkChannel channel, bool isSuccess)
         {
             Log.Info(channel.Name + "连接成功");
 

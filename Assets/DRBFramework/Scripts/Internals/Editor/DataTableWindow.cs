@@ -14,10 +14,10 @@ namespace DrbFramework.Internal.Editor
     public class DataTableWindow : EditorWindow
     {
         [MenuItem("DrbFramework/Data Table Tool")]
-        private static void OpenLuaWindow()
+        private static void OpenDataTableWindow()
         {
             DataTableWindow win = GetWindow<DataTableWindow>(true, "Data Table Tool", true);
-            win.minSize = win.maxSize = new Vector2(560f, 240f);
+            win.minSize = win.maxSize = new Vector2(560f, 250f);
             win.Show();
         }
 

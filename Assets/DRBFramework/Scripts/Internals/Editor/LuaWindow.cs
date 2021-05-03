@@ -74,8 +74,15 @@ namespace DrbFramework.Internal.Editor
             List<Type> types = new List<Type>();
             for (int i = 0; i < assemblys.Length; ++i)
             {
-                Type[] ts = assemblys[i].GetTypes();
-                types.AddRange(ts);
+                try
+                {
+                    Type[] ts = assemblys[i].GetTypes();
+                    types.AddRange(ts);
+                }
+                catch
+                {
+                    
+                }
             }
 
             List<Type> extTypes = new List<Type>();

@@ -59,7 +59,7 @@ namespace DrbFramework.Internal.Debug.Forms
                 Label(GetString("Supports Texture Wrap Mirror Once"), SystemInfo.supportsTextureWrapMirrorOnce.ToString());
 #endif
 #if UNITY_2017_3_OR_NEWER
-                Label(GetString("Supports GPU Fence"), SystemInfo.supportsGPUFence.ToString());
+                Label(GetString("Supports GPU Fence"), SystemInfo.supportsGraphicsFence.ToString());
                 Label(GetString("Supports Async Compute"), SystemInfo.supportsAsyncCompute.ToString());
                 Label(GetString("Supports Multisampled Textures"), SystemInfo.supportsMultisampledTextures.ToString());
 #endif

@@ -77,6 +77,7 @@ namespace DrbFramework.Internal.UI
         public virtual void OnOpen()
         {
             gameObject.SetActive(true);
+            IsShow = true;
 
             if (m_isLua)
             {
@@ -101,6 +102,7 @@ namespace DrbFramework.Internal.UI
         public virtual void OnClose()
         {
             gameObject.SetActive(false);
+            IsShow = false;
 
             if (m_isLua)
             {

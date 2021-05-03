@@ -3,13 +3,13 @@ namespace DrbFramework.Internal.Editor
 {
     public class Field
     {
-        public string Type;
-        public string EnName;
-        public string CnName;
+        public string Type = "";
+        public string EnName = "";
+        public string CnName = "";
         public bool IsLoop;
-        public string AttachToCondition;
+        public string AttachToCondition = "";
         public int AttachToResult;
-        public string AttachToCustom;
+        public string AttachToCustom = "";
 
         public Field() { }
 

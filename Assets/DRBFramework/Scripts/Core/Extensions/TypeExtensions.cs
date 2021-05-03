@@ -17,14 +17,21 @@ namespace DrbFramework.Extensions
             Assembly[] assemblys = AppDomain.CurrentDomain.GetAssemblies();
             for (int i = 0; i < assemblys.Length; ++i)
             {
-                Type[] types = assemblys[i].GetTypes();
-                for (int j = 0; j < types.Length; ++j)
+                try
                 {
-                    Type t = types[j];
-                    if (t.IsClass && !t.IsAbstract && type.IsAssignableFrom(t))
+                    Type[] types = assemblys[i].GetTypes();
+                    for (int j = 0; j < types.Length; ++j)
                     {
-                        typeNames.Add(t.FullName);
+                        Type t = types[j];
+                        if (t.IsClass && !t.IsAbstract && type.IsAssignableFrom(t))
+                        {
+                            typeNames.Add(t.FullName);
+                        }
                     }
+                }
+                catch
+                {
+                    
                 }
             }
             typeNames.Sort();
@@ -41,14 +48,21 @@ namespace DrbFramework.Extensions
             Assembly[] assemblys = AppDomain.CurrentDomain.GetAssemblies();
             for (int i = 0; i < assemblys.Length; ++i)
             {
-                Type[] types = assemblys[i].GetTypes();
-                for (int j = 0; j < types.Length; ++j)
+                try
                 {
-                    Type t = types[j];
-                    if (t.IsClass && !t.IsAbstract && type.IsAssignableFrom(t))
+                    Type[] types = assemblys[i].GetTypes();
+                    for (int j = 0; j < types.Length; ++j)
                     {
-                        typeNames.Add(t);
+                        Type t = types[j];
+                        if (t.IsClass && !t.IsAbstract && type.IsAssignableFrom(t))
+                        {
+                            typeNames.Add(t);
+                        }
                     }
+                }
+                catch
+                {
+                    
                 }
             }
             return typeNames.ToArray();

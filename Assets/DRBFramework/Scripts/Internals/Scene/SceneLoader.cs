@@ -1,14 +1,20 @@
 ﻿
 using DrbFramework.Scene;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace DrbFramework.Internal.Scene
 {
     public class SceneLoader : ISceneLoader
     {
+
+        private AsyncOperation m_Async = null;
+
         public SceneLoadedHandler OnSceneLoaded { private get; set; }
 
         public SceneUnloadedHandler OnSceneUnloaded { private get; set; }
+
+        //public SceneLoadingHandler OnSceneLoading { private get; set; }
 
         public SceneLoader()
         {

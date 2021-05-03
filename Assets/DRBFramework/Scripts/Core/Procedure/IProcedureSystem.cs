@@ -20,6 +20,6 @@ namespace DrbFramework.Procedure
 
         void ChangeProcedure<T>(object userData = null) where T : IProcedure;
 
-        IProcedure GetProcedure<T>() where T : IProcedure;
+        T GetProcedure<T>() where T : IProcedure;
     }
 }

@@ -86,7 +86,6 @@ namespace DrbFramework.Internal.UI
 
             m_Forms.Remove(form);
             m_Forms.AddFirst(form);
-
             form.OnClose();
         }
 

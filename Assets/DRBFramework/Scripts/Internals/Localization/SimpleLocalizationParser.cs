@@ -9,7 +9,7 @@ namespace DrbFramework.Internal.Localization
     {
         public ILocalizer[] GetAllLocalizer()
         {
-            return (LocalizerComponent[])UnityEngine.Object.FindObjectsOfType(typeof(LocalizerComponent));
+            return (LocalizerComponent[])UnityEngine.Object.FindObjectsOfTypeAll(typeof(LocalizerComponent));
         }
 
         public string GetSystemLanguage()

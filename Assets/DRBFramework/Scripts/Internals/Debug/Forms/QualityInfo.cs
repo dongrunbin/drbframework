@@ -66,7 +66,7 @@ namespace DrbFramework.Internal.Debug.Forms
                 GUILayout.Label("<b>Other Information</b>");
                 GUILayout.BeginVertical("box");
                 {
-                    Label(GetString("Blend Weights"), QualitySettings.blendWeights.ToString());
+                    Label(GetString("Blend Weights"), QualitySettings.skinWeights.ToString());
                     Label(GetString("VSync Count"), QualitySettings.vSyncCount.ToString());
                     Label(GetString("LOD Bias"), QualitySettings.lodBias.ToString());
                     Label(GetString("Maximum LOD Level"), QualitySettings.maximumLODLevel.ToString());
