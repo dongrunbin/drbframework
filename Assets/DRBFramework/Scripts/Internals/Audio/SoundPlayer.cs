@@ -140,7 +140,7 @@ namespace DrbFramework.Internal.Audio
 
         private void Awake()
         {
-            m_AudioSource = gameObject.GetOrCreatComponent<AudioSource>();
+            m_AudioSource = gameObject.GetOrAddComponent<AudioSource>();
         }
 
         public override void Follow()

@@ -1,5 +1,6 @@
 ﻿
 using DrbFramework.Resource;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DrbFramework.Internal.Debug.Forms
@@ -30,6 +31,18 @@ namespace DrbFramework.Internal.Debug.Forms
                     Label(GetString("Loading Asset Count"), ResourceSystem.LoadingAssetCount.ToString());
                     Label(GetString("AssetBundle Count"), ResourceSystem.AssetBundleCount.ToString());
                     Label(GetString("Asset Count"), ResourceSystem.AssetCount.ToString());
+
+                    ICollection<string> assetbundleName = ResourceSystem.GetAllAssetBundleName();
+                    foreach (string name in assetbundleName)
+                    {
+                        Label("AssetbundleName", name);
+                    }
+
+                    ICollection<string> assetName = ResourceSystem.GetAllAssetName();
+                    foreach (string name in assetName)
+                    {
+                        Label("AssetName", name);
+                    }
                 }
             }
             GUILayout.EndScrollView();

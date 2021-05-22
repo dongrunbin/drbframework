@@ -11,7 +11,7 @@ namespace DrbFramework.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static T GetOrCreatComponent<T>(this GameObject obj) where T : Component
+        public static T GetOrAddComponent<T>(this GameObject obj) where T : Component
         {
             T t = obj.GetComponent<T>();
             if (t == null)

@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace DrbFramework.Resource
 {
     public interface IResourceHolder
@@ -22,5 +24,9 @@ namespace DrbFramework.Resource
         void AddAssetBundle(string assetBundlePath, object assetBundle);
 
         void RemoveAssetBundle(string assetBundlePath);
+
+        ICollection<string> GetAllAssetBundleName();
+
+        ICollection<string> GetAllAssetName();
     }
 }

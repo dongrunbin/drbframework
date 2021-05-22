@@ -10,7 +10,7 @@ namespace DrbFramework.Internal.Localization
     public class UGuiTextLocalizer : LocalizerComponent
     {
         [SerializeField]
-        private string m_Key;
+        private string m_Key = string.Empty;
 
         private Text m_Text;
 

@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace DrbFramework.Resource
 {
     public interface IResourceSystem : ISystem
@@ -24,6 +26,8 @@ namespace DrbFramework.Resource
         int AssetBundleCount { get; }
 
         byte[] LoadFile(string filePath, LoadMode mode);
+
+        void LoadManifestFile();
 
         object LoadAssetFromAssetBundle(string assetBundlePath, string assetName, LoadMode mode);
 
@@ -52,5 +56,9 @@ namespace DrbFramework.Resource
         bool ReleaseAsset(string assetBundlePath, string assetName, LoadMode mode);
 
         bool ReleaseAssetBundle(string assetBundlePath, LoadMode mode);
+
+        ICollection<string> GetAllAssetBundleName();
+
+        ICollection<string> GetAllAssetName();
     }
 }

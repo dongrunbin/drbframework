@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -25,7 +26,29 @@ namespace DrbFramework.Utility
             strResult = strResult.Replace("-", "");
             return strResult;
         }
-        
+
+        public static string GetFileMD5(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+            {
+                return null;
+            }
+            try
+            {
+                FileStream fs = new FileStream(filePath, FileMode.Open);
+                MD5 md5 = new MD5CryptoServiceProvider();
+                byte[] byteResult = md5.ComputeHash(fs);
+                string strResult = System.BitConverter.ToString(byteResult);
+                strResult = strResult.Replace("-", "");
+                fs.Close();
+                return strResult;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// RSA生成密钥对 
         /// </summary>

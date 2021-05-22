@@ -1,4 +1,9 @@
-﻿
+//===================================================
+//Author      : DRB
+//CreateTime  ：2021/5/7 1:44:51
+//Description ：
+//===================================================
+
 using DrbFramework.Utility;
 using System;
 using System.Collections.Generic;
@@ -22,13 +27,14 @@ namespace DrbFramework.Resource
 
         public event LoadAssetCompleteEventHandler OnAssetLoaded;
 
-        public ResourceSystem(IResourceLoader loader, IResourceHolder holder, IResourceDecoder decoder)
+        public ResourceSystem(IResourceLoader loader, IResourceHolder holder, IResourceDecoder decoder, IDependencyManifest dependencyManifest)
         {
             m_Loader = loader;
             m_Loader.OnLoadAssetBundleBytesComplete = OnResourceLoaderLoadAssetBundleBytesComplete;
             m_Loader.OnLoadAssetComplete = OnResourceLoaderLoadAssetComplete;
             m_Holder = holder;
             m_Decoder = decoder;
+            m_DependencyManifest = dependencyManifest;
         }
 
         public int Priority
@@ -109,6 +115,14 @@ namespace DrbFramework.Resource
             return m_Loader.LoadFile(filePath, mode);
         }
 
+        public void LoadManifestFile()
+        {
+            if (m_DependencyManifest != null)
+            {
+                m_DependencyManifest.LoadManifestFile();
+            }
+        }
+
         public object LoadAssetBundle(string assetBundlePath, LoadMode mode)
         {
             if (string.IsNullOrEmpty(assetBundlePath))
@@ -182,6 +196,7 @@ namespace DrbFramework.Resource
                 if (m_DependencyManifest != null)
                 {
                     string[] dependencies = m_DependencyManifest.GetAllDependencies(assetBundlePath);
+
                     if (dependencies != null && dependencies.Length > 0)
                     {
                         for (int i = 0; i < dependencies.Length; ++i)
@@ -304,7 +319,7 @@ namespace DrbFramework.Resource
             }
             else
             {
-                assetBundle = LoadAssetBundle(assetBundleAbsolutePath, mode);
+                assetBundle = LoadAssetBundle(assetBundlePath, mode);
             }
 
             if (assetBundle == null)
@@ -520,6 +535,16 @@ namespace DrbFramework.Resource
             m_Loader.ReleaseAssetBundle(assetBundle, mode);
             m_Holder.RemoveAssetBundle(absolutePath);
             return true;
+        }
+
+        public ICollection<string> GetAllAssetBundleName()
+        {
+            return m_Holder.GetAllAssetBundleName();
+        }
+
+        public ICollection<string> GetAllAssetName()
+        {
+            return m_Holder.GetAllAssetName();
         }
 
         private string GetAbsolutePath(string relativePath, LoadMode mode)

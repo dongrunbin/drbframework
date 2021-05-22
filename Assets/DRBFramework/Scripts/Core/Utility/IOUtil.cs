@@ -52,7 +52,7 @@ namespace DrbFramework.Utility
         /// <param name="content">文本内容</param>
         public static void CreateTextFile(string filePath, string content)
         {
-            using (FileStream fs = new FileStream(filePath, FileMode.CreateNew, FileAccess.Write))
+            using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {

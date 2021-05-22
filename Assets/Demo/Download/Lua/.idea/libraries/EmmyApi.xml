@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="EmmyApi" type="Lua">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../../../EmmyApi.zip!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

@@ -2,26 +2,9 @@
 
 1、打开该特性
 
-方案一：
 添加HOTFIX_ENABLE宏，（在Unity3D的File->Build Setting->Scripting Define Symbols下添加）。编辑器、各手机平台这个宏要分别设置！如果是自动化打包，要注意在代码里头用API设置的宏是不生效的，需要在编辑器设置。
 
 （建议平时开发业务代码不打开HOTFIX_ENABLE，只在build手机版本或者要在编译器下开发补丁时打开HOTFIX_ENABLE）
-
-方案二：
-
-不需要设置宏，直接修改源码为永远开启
-
-打开Hotfix.cs，找到
-
-~~~csharp
-#if HOTFIX_ENABLE
-~~~
-
-改为
-
-~~~csharp
-#if true
-~~~
 
 2、执行XLua/Generate Code菜单。
 
@@ -70,7 +53,11 @@ util.hotfix_ex(class, method_name, fix)
 
 方式一：直接在类里头打Hotfix标签（不建议，示例只是为了方便演示采取这种方式）；
 
+！！注意，方式一在高版本unity不支持
+
 方式二：在一个static类的static字段或者属性里头配置一个列表。属性可以用于实现的比较复杂的配置，比如根据Namespace做白名单。
+
+！！注意，高版本Unity需要把配置文件放Editor目录下
 
 ~~~csharp
 //如果涉及到Assembly-CSharp.dll之外的其它dll，如下代码需要放到Editor目录

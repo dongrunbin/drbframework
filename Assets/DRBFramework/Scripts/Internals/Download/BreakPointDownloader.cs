@@ -1,5 +1,6 @@
 ﻿
 using DrbFramework.Download;
+using DrbFramework.Utility;
 using System.Collections;
 using System.IO;
 using UnityEngine;
@@ -23,6 +24,10 @@ namespace DrbFramework.Internal.Download
             if (!string.IsNullOrEmpty(savePath))
             {
                 tempPath = string.Format("{0}.download", savePath);
+                if (!IOUtil.DirectoryExists(IOUtil.GetDirectoryName(savePath)))
+                {
+                    IOUtil.CreateDirectory(IOUtil.GetDirectoryName(savePath));
+                }
                 fs = File.Open(tempPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                 startPos = fs.Seek(0, SeekOrigin.End);
             }
@@ -81,7 +86,7 @@ namespace DrbFramework.Internal.Download
                     }
                     File.Move(tempPath, savePath);
                 }
-                Log.Info("下载完成{0}", downloadUri);
+                Log.Info("Download completed: {0}", downloadUri);
 
                 if (OnDownloadSuccess != null)
                 {
@@ -90,7 +95,7 @@ namespace DrbFramework.Internal.Download
             }
             else
             {
-                Log.Warn("下载失败{0},error:{1}", downloadUri, request.error);
+                Log.Warn("Download fail: {0},error: {1}", downloadUri, request.error);
 
                 if (OnDownloadFailure != null)
                 {

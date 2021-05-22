@@ -1,8 +1,0 @@
-DrbComponent = CS.DrbFramework.Internal.DrbComponent;
-Encoding = CS.System.Text.Encoding;
-Dictionary = CS.System.Collections.Generic.Dictionary;
-LoadMode = CS.DrbFramework.Resource.LoadMode;
-
-Vector3 = CS.UnityEngine.Vector3;
-
-SystemManager = CS.DrbFramework.SystemManager;

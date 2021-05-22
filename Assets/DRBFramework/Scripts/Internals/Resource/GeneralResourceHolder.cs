@@ -102,5 +102,15 @@ namespace DrbFramework.Internal.Resource
                 }
             }
         }
+
+        public ICollection<string> GetAllAssetBundleName()
+        {
+            return m_AssetBundleDic.Keys;
+        }
+
+        public ICollection<string> GetAllAssetName()
+        {
+            return m_AssetDic.Keys;
+        }
     }
 }

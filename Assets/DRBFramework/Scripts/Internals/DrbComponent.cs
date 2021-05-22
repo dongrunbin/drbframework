@@ -91,6 +91,8 @@ namespace DrbFramework.Internal
         [SerializeField]
         private ResourceLoaderComponent m_ResourceLoaderComponent;
         [SerializeField]
+        private string m_ResourceDependencyManifestTypeName;
+        [SerializeField]
         private string m_ResourceHolderTypeName;
         [SerializeField]
         private string m_ResourceDecoderTypeName;
@@ -227,7 +229,7 @@ namespace DrbFramework.Internal
                 LogSystem.ErrorColor = ColorUtility.ToHtmlStringRGBA(m_ErrorLogColor);
                 LogSystem.FatalColor = ColorUtility.ToHtmlStringRGBA(m_FatalLogColor);
             }
-            
+
 
             if (m_LuaPackagePaths != null)
             {
@@ -243,7 +245,9 @@ namespace DrbFramework.Internal
                 IResourceHolder holder = (IResourceHolder)Activator.CreateInstance(holderType);
                 Type decoderType = Type.GetType(m_ResourceDecoderTypeName);
                 IResourceDecoder decoder = (IResourceDecoder)Activator.CreateInstance(decoderType);
-                ResourceSystem = SystemManager.RegisterSystem(new ResourceSystem(m_ResourceLoaderComponent, holder, decoder));
+                Type dependencyType = Type.GetType(m_ResourceDependencyManifestTypeName);
+                IDependencyManifest dependencyManifest = (IDependencyManifest)Activator.CreateInstance(dependencyType);
+                ResourceSystem = SystemManager.RegisterSystem(new ResourceSystem(m_ResourceLoaderComponent, holder, decoder, dependencyManifest));
                 ResourceSystem.EditorPath = GetPath(m_EditorPath);
                 ResourceSystem.InternalPath = GetPath(m_InternalPath);
                 ResourceSystem.ReadOnlyPath = GetPath(m_ReadOnlyPath);
